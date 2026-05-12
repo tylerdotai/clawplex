@@ -145,6 +145,20 @@ export async function POST(req: NextRequest) {
     const { error: pingErr } = await supabase.from("agents").select("id").limit(1);
     if (pingErr) Logger.error("[register] Supabase ping", String(pingErr));
 
+    // Name uniqueness check (case-insensitive)
+    const { data: existingAgent } = await supabase
+      .from("agents")
+      .select("id, name")
+      .eq("name", name.trim())
+      .single();
+
+    if (existingAgent) {
+      return NextResponse.json(
+        { error: `An agent named "${name.trim()}" already exists. Choose a different name.` },
+        { status: 409 }
+      );
+    }
+
     const result = await createAgent({
       name: name.trim(),
       description: description?.trim() ?? "",
