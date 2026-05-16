@@ -6,7 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 
 interface FeedPost {
   id: string;
@@ -356,9 +355,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
               </div>
             )}
           </div>
-        </main>
-
-<Footer />
+</main>
       </div>
     </>
   );

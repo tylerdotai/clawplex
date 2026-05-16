@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Sponsor",
@@ -351,7 +350,6 @@ export function SponsorsClient() {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

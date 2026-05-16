@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
 import { SkillCard, type Skill, type SkillCategory } from "@/components/skill-card";
 
 const CATEGORIES: Array<SkillCategory | "All"> = [
@@ -456,7 +455,6 @@ export function SkillsClient() {
           </div>
         </section>
       </main>
-      <Footer />
 
       <SubmitModal open={showModal} onClose={() => setShowModal(false)} />
     </div>
