@@ -5,7 +5,6 @@ import {
   getLocaleFromPathname,
   isLocale,
   localeCookieName,
-  stripLocaleFromPathname,
   withLocale,
 } from "@/lib/i18n/config";
 
@@ -20,19 +19,12 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const pathnameLocale = getLocaleFromPathname(pathname);
 
+  // If already has locale prefix, just pass through
   if (pathnameLocale) {
-    const requestHeaders = new Headers(request.headers);
-    requestHeaders.set("x-claw-locale", pathnameLocale);
-    requestHeaders.set("x-claw-pathname", pathname);
-
-    const url = request.nextUrl.clone();
-    url.pathname = stripLocaleFromPathname(pathname);
-
-    return NextResponse.rewrite(url, {
-      request: { headers: requestHeaders },
-    });
+    return NextResponse.next();
   }
 
+  // No locale - redirect to preferred locale
   const locale = getPreferredLocale(request) || defaultLocale;
   const url = request.nextUrl.clone();
   url.pathname = withLocale(pathname, locale);
