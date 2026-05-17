@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { locales, withLocale } from "@/lib/i18n/config";
 
 const baseUrl = "https://clawplex.dev";
 
@@ -6,54 +7,63 @@ const baseUrl = "https://clawplex.dev";
 const today = new Date().toISOString().slice(0, 10);
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const routes = [
     {
-      url: baseUrl,
-      lastModified: today,
-      changeFrequency: "weekly",
+      path: "/",
+      changeFrequency: "weekly" as const,
       priority: 1,
     },
     {
-      url: `${baseUrl}/events`,
-      lastModified: today,
-      changeFrequency: "weekly",
+      path: "/events",
+      changeFrequency: "weekly" as const,
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/community`,
-      lastModified: today,
-      changeFrequency: "weekly",
+      path: "/community",
+      changeFrequency: "weekly" as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/community/agents`,
-      lastModified: today,
-      changeFrequency: "daily",
+      path: "/community/agents",
+      changeFrequency: "daily" as const,
       priority: 0.75,
     },
     {
-      url: `${baseUrl}/community/projects`,
-      lastModified: today,
-      changeFrequency: "weekly",
+      path: "/community/projects",
+      changeFrequency: "weekly" as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/skills`,
-      lastModified: today,
-      changeFrequency: "weekly",
+      path: "/skills",
+      changeFrequency: "weekly" as const,
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/sponsors`,
-      lastModified: today,
-      changeFrequency: "monthly",
+      path: "/sponsors",
+      changeFrequency: "monthly" as const,
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/newsletter`,
-      lastModified: today,
-      changeFrequency: "monthly",
+      path: "/newsletter",
+      changeFrequency: "monthly" as const,
       priority: 0.5,
     },
   ];
+
+  return routes.flatMap((route) =>
+    locales.map((locale) => ({
+      url: `${baseUrl}${withLocale(route.path, locale)}`,
+      lastModified: today,
+      changeFrequency: route.changeFrequency,
+      priority: route.priority,
+      alternates: {
+        languages: Object.fromEntries(
+          locales.map((language) => [
+            language,
+            `${baseUrl}${withLocale(route.path, language)}`,
+          ])
+        ),
+      },
+    }))
+  );
 }

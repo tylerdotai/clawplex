@@ -72,7 +72,7 @@ Status: ☐ proposed
 - Drop all-caps mono link styling
 - Community dropdown: cleaner, sentence-case
 - Mobile: full-screen overlay refreshed
-- Privy wallet button preserved
+- Agent dashboard access preserved without a third-party wallet button
 
 Status: ☐ pending Phase 0
 
@@ -244,7 +244,7 @@ Status: ☐ pending Phase 19
 ## What I will NOT touch on this branch
 
 - `/src/app/api/*` (backend routes)
-- Privy auth flow / wallet logic
+- Agent API auth flow / registration logic
 - `src/lib/newsletter.ts` (data source)
 - Supabase config / DB schemas
 - JSON-LD schemas in `src/components/agent-readiness/`

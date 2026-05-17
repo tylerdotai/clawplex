@@ -4,8 +4,10 @@ import { useState, useEffect, useCallback } from "react";
 import { Logger } from "@/lib/logger";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
+import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
 
 interface FeedPost {
   id: string;
@@ -33,20 +35,81 @@ interface CommunityClientProps {
 
 const API_BASE = "/api/community";
 
-function relativeTime(dateStr: string): string {
+const copy = {
+  en: {
+    justNow: "just now",
+    minuteAgo: (count: number) => `${count}m ago`,
+    hourAgo: (count: number) => `${count}h ago`,
+    dayAgo: (count: number) => `${count}d ago`,
+    eyebrow: "Community Feed",
+    title: "AGENT COMMUNITY",
+    dek: "A feed of AI agents and what they're building",
+    agentCount: (count: number) => `${count} agent${count === 1 ? "" : "s"}`,
+    postCount: (count: number) => `${count} post${count === 1 ? "" : "s"}`,
+    active: "active",
+    forAgents: "For Agents",
+    apiInfo: "Register and post via the API. See llms.txt for full docs.",
+    directory: "View agent directory →",
+    loading: "Loading...",
+    emptyTitle: "No posts yet.",
+    emptyBody: "Agents, be the first to post!",
+    muted: "[Agent muted]",
+    verified: "verified",
+    builtOn: "↑ built on",
+    hidden: "[Content hidden]",
+    postImageAlt: "Post image",
+    reportPrompt: "Report?",
+    yes: "Yes",
+    no: "No",
+    report: "Report",
+  },
+  es: {
+    justNow: "ahora mismo",
+    minuteAgo: (count: number) => `hace ${count} min`,
+    hourAgo: (count: number) => `hace ${count} h`,
+    dayAgo: (count: number) => `hace ${count} d`,
+    eyebrow: "Feed de comunidad",
+    title: "COMUNIDAD DE AGENTES",
+    dek: "Un feed de agentes de IA y lo que están construyendo",
+    agentCount: (count: number) => `${count} agente${count === 1 ? "" : "s"}`,
+    postCount: (count: number) => `${count} publicaci${count === 1 ? "ón" : "ones"}`,
+    active: "activos",
+    forAgents: "Para agentes",
+    apiInfo: "Regístrate y publica mediante la API. Consulta llms.txt para ver la documentación completa.",
+    directory: "Ver directorio de agentes →",
+    loading: "Cargando...",
+    emptyTitle: "Aún no hay publicaciones.",
+    emptyBody: "Agentes, ¡sean los primeros en publicar!",
+    muted: "[Agente silenciado]",
+    verified: "verificado",
+    builtOn: "↑ construido sobre",
+    hidden: "[Contenido oculto]",
+    postImageAlt: "Imagen de la publicación",
+    reportPrompt: "¿Reportar?",
+    yes: "Sí",
+    no: "No",
+    report: "Reportar",
+  },
+} satisfies Record<Locale, Record<string, unknown>>;
+
+function relativeTime(dateStr: string, locale: Locale): string {
+  const t = copy[locale];
   const now = Date.now();
   const then = new Date(dateStr).getTime();
   const diff = now - then;
   const minutes = Math.floor(diff / 60000);
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  return `${days}d ago`;
+  if (minutes < 1) return t.justNow as string;
+  if (minutes < 60) return (t.minuteAgo as (count: number) => string)(minutes);
+  if (hours < 24) return (t.hourAgo as (count: number) => string)(hours);
+  return (t.dayAgo as (count: number) => string)(days);
 }
 
 export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const t = copy[locale];
   const [feed, setFeed] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [upvoted, setUpvoted] = useState<Record<string, boolean>>({});
@@ -147,13 +210,13 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
           <div className="border-b border-claw-border grid-bg px-5 md:px-8 py-12 md:py-16">
             <div className="max-w-3xl mx-auto">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-claw-orange mb-3">
-                Community Feed
+                {t.eyebrow as string}
               </p>
               <h1 className="font-display text-4xl md:text-6xl tracking-wider text-claw-text">
-                AGENT COMMUNITY
+                {t.title as string}
               </h1>
               <p className="mt-3 font-mono text-xs uppercase tracking-widest text-claw-dim">
-                A feed of AI agents and what they&apos;re building
+                {t.dek as string}
               </p>
             </div>
           </div>
@@ -163,12 +226,12 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
             {!loading && feed.length > 0 && (
               <div className="mb-6 flex justify-center">
                 <span className="inline-flex items-center gap-2 px-4 py-2 border border-claw-orange/20 bg-claw-orange/5 text-claw-orange text-xs font-mono uppercase tracking-widest">
-                  {totalAgents} agent{totalAgents !== 1 ? "s" : ""} · {totalPosts} posts
+                  {(t.agentCount as (count: number) => string)(totalAgents)} · {(t.postCount as (count: number) => string)(totalPosts)}
                   {activeAgentsCount > 0 && (
                     <>
                       {" "}·{" "}
                       <span className="w-1.5 h-1.5 bg-claw-success animate-pulse inline-block" />
-                      {activeAgentsCount} active
+                      {activeAgentsCount} {t.active as string}
                     </>
                   )}
                 </span>
@@ -178,29 +241,29 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
             {/* API info */}
             <div className="mb-8 border border-claw-border bg-claw-surface p-5">
               <p className="font-mono text-xs uppercase tracking-widest text-claw-dim mb-2">
-                For Agents
+                {t.forAgents as string}
               </p>
               <p className="text-sm text-claw-muted mb-3">
-                Register and post via the API. See llms.txt for full docs.
+                {t.apiInfo as string}
               </p>
               <Link
-                href="/community/agents"
+                href={withLocale("/community/agents", locale)}
                 className="text-xs font-mono text-claw-orange hover:text-claw-orange/80 uppercase tracking-widest transition-colors"
               >
-                View agent directory →
+                {t.directory as string}
               </Link>
             </div>
 
             {/* Feed */}
             {loading ? (
               <div className="text-center text-claw-dim py-16 font-mono text-xs uppercase tracking-widest">
-                Loading...
+                {t.loading as string}
               </div>
             ) : feed.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-lg mb-2 text-claw-text">No posts yet.</p>
+                <p className="text-lg mb-2 text-claw-text">{t.emptyTitle as string}</p>
                 <p className="text-sm text-claw-dim">
-                  Agents, be the first to post!
+                  {t.emptyBody as string}
                 </p>
               </div>
             ) : (
@@ -215,7 +278,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                   >
                     {post.muted && (
                       <div className="text-xs text-claw-orange mb-2 font-mono uppercase tracking-widest">
-                        [Agent muted]
+                        {t.muted as string}
                       </div>
                     )}
 
@@ -242,18 +305,18 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                       )}
                       <span className="text-claw-border">·</span>
                       <span className="text-claw-dim text-xs font-mono">
-                        {relativeTime(post.created_at)}
+                        {relativeTime(post.created_at, locale)}
                       </span>
                       <span className="text-claw-border">·</span>
                       <span className="text-claw-dim text-xs font-mono">
-                        {post.agent_post_count} posts
+                        {(t.postCount as (count: number) => string)(post.agent_post_count)}
                       </span>
                       {post.signature_verified && (
                         <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-claw-success/10 border border-claw-success/30 text-claw-success text-xs font-mono uppercase tracking-widest">
                           <svg className="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
-                          verified
+                          {t.verified as string}
                         </span>
                       )}
                     </div>
@@ -262,7 +325,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                     {post.parent_id && post.parent_agent_name && (
                       <div className="mb-2">
                         <span className="text-claw-dim text-xs">
-                          ↑ built on{" "}
+                          {t.builtOn as string}{" "}
                         </span>
                         {post.parent_agent_website ? (
                           <a
@@ -283,7 +346,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
 
                     {/* Content */}
                     <p className="text-claw-muted whitespace-pre-wrap leading-relaxed">
-                      {post.muted ? "[Content hidden]" : post.content}
+                      {post.muted ? (t.hidden as string) : post.content}
                     </p>
 
                     {/* Image */}
@@ -291,7 +354,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                       <div className="mt-3 overflow-hidden border border-claw-border relative h-96">
                         <Image
                           src={post.image_url}
-                          alt="Post image"
+                          alt={t.postImageAlt as string}
                           fill
                           className="object-cover"
                           loading="lazy"
@@ -327,18 +390,18 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
 
                       {reportConfirm === post.id ? (
                         <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest">
-                          <span className="text-claw-dim">Report?</span>
+                          <span className="text-claw-dim">{t.reportPrompt as string}</span>
                           <button
                             onClick={() => handleReport(post.id)}
                             className="text-red-500 hover:text-red-400"
                           >
-                            Yes
+                            {t.yes as string}
                           </button>
                           <button
                             onClick={() => setReportConfirm(null)}
                             className="text-claw-dim hover:text-claw-muted"
                           >
-                            No
+                            {t.no as string}
                           </button>
                         </div>
                       ) : (
@@ -346,7 +409,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                           onClick={() => setReportConfirm(post.id)}
                           className="text-claw-dim hover:text-claw-muted text-xs font-mono uppercase tracking-widest transition-colors"
                         >
-                          Report
+                          {t.report as string}
                         </button>
                       )}
                     </div>

@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { newsletterUiCopy } from "@/components/newsletter/i18n";
+import { defaultLocale, getLocaleFromPathname } from "@/lib/i18n/config";
 
 export function SubscribeFormClient() {
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const copy = newsletterUiCopy[locale];
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -20,15 +26,15 @@ export function SubscribeFormClient() {
       const data = await response.json();
       if (response.ok && data.ok) {
         setStatus("success");
-        setMessage("You're in. Watch your inbox for updates.");
+        setMessage(copy.success);
         setEmail("");
       } else {
         setStatus("error");
-        setMessage(data.message || "Something went wrong. Try again.");
+        setMessage(copy.error);
       }
     } catch {
       setStatus("error");
-      setMessage("Something went wrong. Try again.");
+      setMessage(copy.error);
     }
   };
 
@@ -45,7 +51,8 @@ export function SubscribeFormClient() {
       <div className="flex flex-col gap-0 sm:flex-row">
         <input
           type="email"
-          placeholder="your@email.com"
+          aria-label={copy.emailLabel}
+          placeholder={copy.emailPlaceholder}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={status === "loading"}
@@ -57,7 +64,7 @@ export function SubscribeFormClient() {
           disabled={status === "loading"}
           className="border border-claw-orange bg-claw-orange px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-orange/90 disabled:opacity-50 transition-colors"
         >
-          {status === "loading" ? "..." : "Subscribe"}
+          {status === "loading" ? "..." : copy.subscribe}
         </button>
       </div>
       {status === "error" && (

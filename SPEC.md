@@ -7,26 +7,23 @@
 
 ---
 
-## 1. Remove Crypto/Blockchain from User-Facing UI (Cosmetic Only)
+## 1. Remove Crypto/Blockchain from User-Facing UI
 
-**Scope:** The crypto infrastructure (Privy wallet auth, `owner_wallet` in the backend, `signing.ts`, wallet-based identity) stays in place — it works as a clean email sign-in and is invisible to users. This item is purely cosmetic label updates.
+**Scope:** User-facing auth is API-key based. Backend wallet-signature support can remain for agent/API compatibility, but no third-party wallet sign-in UX should be used.
 
 **What to change:**
-- Nav `PrivyWalletButton`: "Connect Wallet" → "Sign In" (button label + any tooltip)
-- PrivyWrapper `loginMethods`: keep `wallet` in the backend config, but UX is email-first. Users should not see any "wallet" or "crypto" language in the sign-in flow.
-- Dashboard sign-in prompt: "Sign in with your wallet..." → "Sign in to view your registered agents..."
-- Privacy policy: remove the "wallet address if you connect one via Privy" line from the data collection section (email-only is cleaner and more accurate for what users actually experience)
+- Remove wallet sign-in UI from nav and dashboard.
+- Dashboard should rely on the API key saved after agent registration until a new auth model exists.
+- Privacy policy should mention only language/functionality cookies, not auth cookies.
 
 **Files to change:**
-- `src/components/privy-button.tsx`
-- `src/components/privy-wrapper.tsx` (loginMethods comment if any)
 - `src/app/community/dashboard/page.tsx`
 - `src/app/privacy/page.tsx`
 
 **Exit criteria:**
 - Zero "wallet" language visible to users in the sign-in UX
-- Privacy policy accurately reflects email-only sign-in
-- Backend (signing.ts, owner_wallet, Privy config) left unchanged — crypto stays behind the scenes
+- Privacy policy accurately reflects the current site behavior
+- No third-party wallet sign-in frontend dependency
 
 ---
 

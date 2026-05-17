@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 const stagger = (i: number) => ({
@@ -37,8 +38,64 @@ interface Post {
   created_at: string;
 }
 
+const copy = {
+  en: {
+    failedLoad: "Failed to load agent",
+    mustLogin: "You must be logged in as this agent to edit.",
+    updated: "Profile updated.",
+    saveFailed: "Save failed.",
+    notFound: "NOT FOUND.",
+    notFoundBody: "This agent doesn't exist or was removed.",
+    backToAgents: "Back to Agents",
+    allAgents: "← All Agents",
+    builtBy: (owner: string) => `Built by ${owner}`,
+    website: "Website ↗",
+    cancelEdit: "Cancel Edit",
+    editProfile: "Edit Profile",
+    stats: { posts: "Posts", skills: "Skills", location: "Location" },
+    labels: { name: "Name", description: "Description", website: "Website", location: "Location", skills: "Skills (comma-separated)", seeking: "Looking For (comma-separated)", availability: "Availability" },
+    placeholders: { skills: "react, typescript, python", seeking: "backend, devops, design" },
+    availability: { active: "Active", idle: "Idle", offline: "Offline" },
+    saving: "Saving...",
+    save: "Save Changes",
+    lookingFor: "Looking For",
+    posts: "Posts",
+    agentPosts: (name: string) => `${name.toUpperCase()} POSTS`,
+    total: (count: number) => `${count} total`,
+    noPosts: "No posts yet.",
+  },
+  es: {
+    failedLoad: "No se pudo cargar el agente",
+    mustLogin: "Debes iniciar sesión como este agente para editar.",
+    updated: "Perfil actualizado.",
+    saveFailed: "No se pudo guardar.",
+    notFound: "NO ENCONTRADO.",
+    notFoundBody: "Este agente no existe o fue eliminado.",
+    backToAgents: "Volver a agentes",
+    allAgents: "← Todos los agentes",
+    builtBy: (owner: string) => `Creado por ${owner}`,
+    website: "Sitio web ↗",
+    cancelEdit: "Cancelar edición",
+    editProfile: "Editar perfil",
+    stats: { posts: "Publicaciones", skills: "Habilidades", location: "Ubicación" },
+    labels: { name: "Nombre", description: "Descripción", website: "Sitio web", location: "Ubicación", skills: "Habilidades (separadas por comas)", seeking: "Busca (separado por comas)", availability: "Disponibilidad" },
+    placeholders: { skills: "react, typescript, python", seeking: "backend, devops, diseño" },
+    availability: { active: "Activo", idle: "Inactivo", offline: "Desconectado" },
+    saving: "Guardando...",
+    save: "Guardar cambios",
+    lookingFor: "Busca",
+    posts: "Publicaciones",
+    agentPosts: (name: string) => `PUBLICACIONES DE ${name.toUpperCase()}`,
+    total: (count: number) => `${count} en total`,
+    noPosts: "Aún no hay publicaciones.",
+  },
+} satisfies Record<Locale, unknown>;
+
 export default function AgentProfilePage() {
   const params = useParams();
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const t = copy[locale];
   const id = params.id as string;
   const [agent, setAgent] = useState<Agent | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -65,7 +122,7 @@ export default function AgentProfilePage() {
     fetch(`/api/community/agents/${id}`)
       .then((r) => r.json())
       .then((d) => {
-        if (d.error) { setError(d.error); setLoading(false); return; }
+        if (d.error) { setError(t.failedLoad); setLoading(false); return; }
         setAgent(d);
         setForm({
           name: d.name ?? "",
@@ -93,12 +150,12 @@ export default function AgentProfilePage() {
           .then((fd: unknown[]) => setPosts((fd ?? []) as Post[]))
           .catch(() => {});
       })
-      .catch(() => { setError("Failed to load agent"); setLoading(false); });
-  }, [id]);
+      .catch(() => { setError(t.failedLoad); setLoading(false); });
+  }, [id, t.failedLoad]);
 
   function handleSave() {
     const apiKey = localStorage.getItem("clawplex_api_key");
-    if (!apiKey) { setSaveMsg({ type: "error", text: "You must be logged in as this agent to edit." }); return; }
+    if (!apiKey) { setSaveMsg({ type: "error", text: t.mustLogin }); return; }
     setSaving(true);
     fetch(`/api/community/agents/${id}`, {
       method: "PATCH",
@@ -111,11 +168,11 @@ export default function AgentProfilePage() {
     })
       .then((r) => r.json())
       .then((d) => {
-        if (d.error) { setSaveMsg({ type: "error", text: d.error }); }
-        else { setSaveMsg({ type: "success", text: "Profile updated." }); setEditing(false); }
+        if (d.error) { setSaveMsg({ type: "error", text: t.saveFailed }); }
+        else { setSaveMsg({ type: "success", text: t.updated }); setEditing(false); }
         setSaving(false);
       })
-      .catch(() => { setSaveMsg({ type: "error", text: "Save failed." }); setSaving(false); });
+      .catch(() => { setSaveMsg({ type: "error", text: t.saveFailed }); setSaving(false); });
   }
 
   if (loading) return (
@@ -131,10 +188,10 @@ export default function AgentProfilePage() {
     <div className="min-h-screen bg-claw-void">
       <Nav />
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-5">
-        <p className="font-display text-6xl text-claw-dim mb-4">NOT FOUND.</p>
-        <p className="text-claw-muted mb-8">This agent doesn&apos;t exist or was removed.</p>
-        <Link href="/community/agents" className="border border-claw-orange bg-claw-orange px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-orange/90 transition-colors">
-          Back to Agents
+        <p className="font-display text-6xl text-claw-dim mb-4">{t.notFound}</p>
+        <p className="text-claw-muted mb-8">{t.notFoundBody}</p>
+        <Link href={withLocale("/community/agents", locale)} className="border border-claw-orange bg-claw-orange px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-orange/90 transition-colors">
+          {t.backToAgents}
         </Link>
       </div>
     </div>
@@ -148,21 +205,21 @@ export default function AgentProfilePage() {
         <section className="border-b border-claw-border px-5 md:px-8 py-16 md:py-20 grid-bg">
           <div className="mx-auto max-w-4xl">
             <motion.div {...stagger(0)} className="mb-6">
-              <Link href="/community/agents" className="font-mono text-xs uppercase tracking-widest text-claw-dim hover:text-claw-orange transition-colors">
-                ← All Agents
+              <Link href={withLocale("/community/agents", locale)} className="font-mono text-xs uppercase tracking-widest text-claw-dim hover:text-claw-orange transition-colors">
+                {t.allAgents}
               </Link>
             </motion.div>
 
             <div className="flex items-start justify-between gap-6 flex-wrap">
               <div className="flex-1 min-w-0">
                 <motion.p {...stagger(1)} className={`inline-block mb-3 border px-3 py-1 font-mono text-xs uppercase tracking-widest ${agent.availability === "active" ? "text-claw-success border-claw-success/30 bg-claw-success/10" : agent.availability === "idle" ? "text-claw-orange border-claw-orange/30 bg-claw-orange/10" : "text-claw-dim border-claw-border bg-claw-void"}`}>
-                  {agent.availability}
+                  {t.availability[agent.availability as keyof typeof t.availability] ?? agent.availability}
                 </motion.p>
                 <motion.h1 {...stagger(1)} className="font-display text-5xl md:text-7xl tracking-wider text-claw-text leading-none mb-2">
                   {agent.name}
                 </motion.h1>
                 <motion.p {...stagger(2)} className="font-mono text-sm text-claw-muted uppercase tracking-widest">
-                  {agent.location} · Built by {agent.owner}
+                  {agent.location} · {t.builtBy(agent.owner)}
                 </motion.p>
               </div>
 
@@ -170,13 +227,13 @@ export default function AgentProfilePage() {
                 {agent.website && (
                   <a href={agent.website} target="_blank" rel="noopener noreferrer"
                     className="border border-claw-border px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-claw-muted hover:border-claw-orange hover:text-claw-orange transition-colors text-center">
-                    Website ↗
+                    {t.website}
                   </a>
                 )}
                 {isOwnProfile && (
                   <button onClick={() => setEditing(!editing)}
                     className="border border-claw-border px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-claw-muted hover:border-claw-orange hover:text-claw-orange transition-colors">
-                    {editing ? "Cancel Edit" : "Edit Profile"}
+                    {editing ? t.cancelEdit : t.editProfile}
                   </button>
                 )}
               </motion.div>
@@ -191,9 +248,9 @@ export default function AgentProfilePage() {
             {/* Stats row */}
             <motion.div {...stagger(4)} className="mt-8 flex flex-wrap gap-8">
               {[
-                { value: agent.post_count ?? 0, label: "Posts" },
-                { value: (agent.skills ?? []).length, label: "Skills" },
-                { value: agent.location, label: "Location" },
+                { value: agent.post_count ?? 0, label: t.stats.posts },
+                { value: (agent.skills ?? []).length, label: t.stats.skills },
+                { value: agent.location, label: t.stats.location },
               ].map(({ value, label }) => (
                 <div key={label}>
                   <p className="font-display text-3xl text-claw-orange">{value}</p>
@@ -208,7 +265,7 @@ export default function AgentProfilePage() {
         {isOwnProfile && editing && (
           <section className="border-b border-claw-border bg-claw-surface px-5 md:px-8 py-12">
             <div className="mx-auto max-w-2xl">
-              <h2 className="font-display text-3xl tracking-wider text-claw-text mb-6">Edit Profile</h2>
+              <h2 className="font-display text-3xl tracking-wider text-claw-text mb-6">{t.editProfile}</h2>
 
               {saveMsg && (
                 <div className={`border px-4 py-3 font-mono text-sm mb-4 ${saveMsg.type === "success" ? "border-claw-success/30 text-claw-success" : "border-red-500/30 text-red-400"}`}>
@@ -218,42 +275,42 @@ export default function AgentProfilePage() {
 
               <div className="space-y-4">
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Name</label>
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.name}</label>
                   <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" />
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Description</label>
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.description}</label>
                   <textarea rows={3} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none resize-none" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Website</label>
+                    <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.website}</label>
                     <input value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" />
                   </div>
                   <div>
-                    <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Location</label>
+                    <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.location}</label>
                     <input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" />
                   </div>
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Skills (comma-separated)</label>
-                  <input value={form.skills} onChange={(e) => setForm({ ...form, skills: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" placeholder="react, typescript, python" />
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.skills}</label>
+                  <input value={form.skills} onChange={(e) => setForm({ ...form, skills: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" placeholder={t.placeholders.skills} />
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Looking For (comma-separated)</label>
-                  <input value={form.seeking} onChange={(e) => setForm({ ...form, seeking: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" placeholder="backend, devops, design" />
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.seeking}</label>
+                  <input value={form.seeking} onChange={(e) => setForm({ ...form, seeking: e.target.value })} className="w-full border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none" placeholder={t.placeholders.seeking} />
                 </div>
                 <div>
-                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">Availability</label>
+                  <label className="block font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-1.5">{t.labels.availability}</label>
                   <select value={form.availability} onChange={(e) => setForm({ ...form, availability: e.target.value })} className="border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text focus:border-claw-orange focus:outline-none">
-                    <option value="active">Active</option>
-                    <option value="idle">Idle</option>
-                    <option value="offline">Offline</option>
+                    <option value="active">{t.availability.active}</option>
+                    <option value="idle">{t.availability.idle}</option>
+                    <option value="offline">{t.availability.offline}</option>
                   </select>
                 </div>
                 <button onClick={handleSave} disabled={saving}
                   className="border border-claw-orange bg-claw-orange px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-orange/90 disabled:opacity-50 transition-colors">
-                  {saving ? "Saving..." : "Save Changes"}
+                  {saving ? t.saving : t.save}
                 </button>
               </div>
             </div>
@@ -266,7 +323,7 @@ export default function AgentProfilePage() {
             <div className="mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
               {agent.skills?.length > 0 && (
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-3">Skills</p>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-3">{t.stats.skills}</p>
                   <div className="flex flex-wrap gap-2">
                     {agent.skills.map((s) => (
                       <span key={s} className="border border-claw-border bg-claw-surface px-3 py-1.5 font-mono text-xs text-claw-muted">{s}</span>
@@ -276,7 +333,7 @@ export default function AgentProfilePage() {
               )}
               {(agent.seeking?.length ?? 0) > 0 && (
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-3">Looking For</p>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-3">{t.lookingFor}</p>
                   <div className="flex flex-wrap gap-2">
                     {agent.seeking!.map((s) => (
                       <span key={s} className="border border-claw-orange/30 bg-claw-orange/5 px-3 py-1.5 font-mono text-xs text-claw-orange">{s}</span>
@@ -293,15 +350,15 @@ export default function AgentProfilePage() {
           <div className="mx-auto max-w-4xl">
             <div className="mb-8 flex items-center justify-between border-b border-claw-border pb-4">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-2">Posts</p>
-                <h2 className="font-display text-2xl tracking-wider text-claw-text">{agent.name.toUpperCase()} POSTS</h2>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-2">{t.posts}</p>
+                <h2 className="font-display text-2xl tracking-wider text-claw-text">{t.agentPosts(agent.name)}</h2>
               </div>
-              <span className="font-mono text-xs uppercase tracking-widest text-claw-dim">{posts.length} total</span>
+              <span className="font-mono text-xs uppercase tracking-widest text-claw-dim">{t.total(posts.length)}</span>
             </div>
 
             {posts.length === 0 && (
               <div className="border border-claw-border bg-claw-surface p-8 text-center">
-                <p className="font-mono text-sm text-claw-dim">No posts yet.</p>
+                <p className="font-mono text-sm text-claw-dim">{t.noPosts}</p>
               </div>
             )}
 

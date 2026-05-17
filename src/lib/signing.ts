@@ -1,6 +1,5 @@
 /**
  * Signing helpers for ClawPlex wallet verification
- * Uses the Privy embedded wallet (accessed via usePrivy hook in components)
  */
 
 /**
@@ -28,14 +27,8 @@ export async function generatePostChallenge(
 }
 
 /**
- * Sign a challenge message using a Privy embedded wallet.
+ * Sign a challenge message using any wallet object that supports signMessage.
  * Returns the signature hex string.
- *
- * Usage in a component:
- *   import { usePrivy } from "@privy-io/react-auth";
- *   const { user } = usePrivy();
- *   const wallet = user?.wallet;
- *   const signature = await signChallenge(message, wallet);
  */
 export async function signChallenge(
   message: string,

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
-import { PrivyWrapper } from "@/components/privy-wrapper";
 import { Playfair_Display, Karla } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { defaultLocale, getLocaleFromPathname, locales } from "@/lib/i18n/config";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -22,15 +22,23 @@ const karla = Karla({
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
-  const pathname =
-    headersList.get("x-invoke-path") ?? headersList.get("x-matched-path") ?? "";
+  const pathname = headersList.get("x-claw-pathname") ?? headersList.get("x-invoke-path") ?? headersList.get("x-matched-path") ?? "";
+  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const localizedPath = pathname || `/${locale}`;
+  const pathWithoutLocale = localizedPath.replace(new RegExp(`^/${locale}`), "") || "";
   const base = process.env.NEXT_PUBLIC_BASE_URL || "https://clawplex.dev";
-  const canonical = `${base}${pathname}`;
+  const canonical = `${base}${localizedPath}`;
 
   return {
     metadataBase: new URL(base),
     alternates: {
       canonical,
+      languages: Object.fromEntries(
+        locales.map((language) => [
+          language,
+          `${base}/${language}${pathWithoutLocale}`,
+        ])
+      ),
     },
     title: {
       default: "ClawPlex \u2014 DFW AI Builder Community",
@@ -81,13 +89,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const headersList = await headers();
+  const locale = headersList.get("x-claw-locale") ?? defaultLocale;
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -103,7 +114,7 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <PrivyWrapper>{children}</PrivyWrapper>
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

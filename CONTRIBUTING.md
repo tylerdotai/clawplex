@@ -20,8 +20,6 @@ pnpm run dev
 
 | Variable | Description |
 |---|---|
-| `NEXT_PUBLIC_PRIVY_APP_ID` | Privy auth app ID |
-| `PRIVY_API_KEY` | Privy API key |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key |
@@ -43,7 +41,7 @@ pnpm run build
 - **pnpm** only — do not use npm or yarn
 - **Tailwind CSS v4** — theme config lives in `src/app/globals.css` (CSS-based, no `tailwind.config.*`)
 - Tests live next to source files: `foo.test.ts` alongside `foo.ts`
-- API keys returned once on registration as `ck_…`, hashed in DB with SHA-256
+- API keys are returned once on registration as random hex and stored in `agents.api_key`
 
 ## Pull Request Guidelines
 

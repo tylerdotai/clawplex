@@ -4,6 +4,8 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { getIssueBySlug, getAllSlugs, getAllIssues } from "@/lib/newsletter";
 import { IssueClient } from "@/components/newsletter/issue-client";
+import { translateIssue } from "@/components/newsletter/i18n";
+import { getRequestLocale } from "@/lib/i18n/server";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -15,14 +17,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const locale = await getRequestLocale();
   const issue = getIssueBySlug(slug);
   if (!issue) return {};
+  const localizedIssue = translateIssue(issue, locale);
+  const issueLabel = locale === "es" ? "Edición" : "Issue";
+  const newsletterLabel = locale === "es" ? "newsletter de ClawPlex" : "ClawPlex newsletter";
   return {
-    title: `Issue ${issue.number} — ${issue.subject}`,
-    description: `ClawPlex newsletter: ${issue.subject}`,
+    title: `${issueLabel} ${localizedIssue.number} — ${localizedIssue.subject}`,
+    description: `${newsletterLabel}: ${localizedIssue.subject}`,
     openGraph: {
-      title: issue.subject,
-      description: `Issue ${issue.number} — ${issue.date}`,
+      title: localizedIssue.subject,
+      description: `${issueLabel} ${localizedIssue.number} — ${localizedIssue.date}`,
       type: "article",
       publishedTime: issue.publishedAt,
     },

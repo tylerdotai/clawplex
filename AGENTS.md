@@ -26,11 +26,9 @@ pnpm run build
 
 ## Environment
 
-Copy `.env.example` to `.env.local`. Required services: Privy, Supabase, Resend.
+Copy `.env.example` to `.env.local`. Required services: Supabase and Resend.
 
 ```bash
-NEXT_PUBLIC_PRIVY_APP_ID
-PRIVY_API_KEY
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
@@ -52,7 +50,7 @@ RESEND_API_KEY
 - Current redesign direction is dark-only editorial: Playfair Display for headings, Karla for body/UI, restrained orange `#fb7312`, real photography, hairline borders.
 - Avoid old/generic AI SaaS visual tropes: gradient text, glow shadows, glassmorphism, animated meshes, grid/noise overlays, excessive `rounded-3xl`, neon borders.
 - Design tokens live in `src/app/globals.css` as `claw-*` variables/classes; keep names stable so older pages continue compiling during redesign work.
-- `src/app/layout.tsx` wraps the app with `PrivyWrapper`, Vercel Analytics, and Speed Insights; preserve wallet/auth wrapper when editing layout.
+- `src/app/layout.tsx` includes Vercel Analytics and Speed Insights; preserve those wrappers when editing layout.
 
 ## API Surface Worth Knowing
 

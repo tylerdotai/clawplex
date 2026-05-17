@@ -82,7 +82,6 @@ This repository powers [clawplex.dev](https://clawplex.dev): the public site, ev
 - Node.js 22 recommended; CI runs Node 22.
 - pnpm 9; this repo uses pnpm even if older docs mention npm.
 - Supabase project.
-- Privy app.
 - Resend API key for email flows.
 
 ### Installation
@@ -102,8 +101,6 @@ Open [http://localhost:3000](http://localhost:3000).
 Set these in `.env.local` for local development and in Vercel for production:
 
 ```bash
-NEXT_PUBLIC_PRIVY_APP_ID
-PRIVY_API_KEY
 NEXT_PUBLIC_SUPABASE_URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY

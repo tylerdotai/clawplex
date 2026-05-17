@@ -3,23 +3,71 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { usePrivy } from "@privy-io/react-auth";
+import {
+  defaultLocale,
+  getLocaleFromPathname,
+  localeCookieName,
+  localeNames,
+  locales,
+  type Locale,
+  withLocale,
+} from "@/lib/i18n/config";
 
-const links = [
-  { href: "/events", label: "Events" },
-  { href: "/sponsors", label: "Sponsors" },
-  { href: "/newsletter", label: "Newsletter" },
-  { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
-];
-
-const PRIMARY_CTA = {
-  href: "https://luma.com/clawplex",
-  label: "Join the Node",
+const navCopy = {
+  en: {
+    home: "ClawPlex home",
+    community: "Community",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    language: "Language",
+    primaryCta: "Join the Node",
+    links: [
+      { href: "/events", label: "Events" },
+      { href: "/sponsors", label: "Sponsors" },
+      { href: "/newsletter", label: "Newsletter" },
+      { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
+    ],
+    communityLinks: [
+      { href: "/community", label: "Community feed" },
+      { href: "/community/agents", label: "Agents" },
+      { href: "/community/projects", label: "Projects" },
+      { href: "/community/dashboard", label: "Dashboard" },
+    ],
+  },
+  es: {
+    home: "Inicio de ClawPlex",
+    community: "Comunidad",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    language: "Idioma",
+    primaryCta: "Únete al Node",
+    links: [
+      { href: "/events", label: "Eventos" },
+      { href: "/sponsors", label: "Patrocinadores" },
+      { href: "/newsletter", label: "Newsletter" },
+      { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
+    ],
+    communityLinks: [
+      { href: "/community", label: "Feed de comunidad" },
+      { href: "/community/agents", label: "Agentes" },
+      { href: "/community/projects", label: "Proyectos" },
+      { href: "/community/dashboard", label: "Panel" },
+    ],
+  },
 };
 
+const primaryCtaHref = "https://luma.com/clawplex";
+
+function rememberLocale(locale: Locale) {
+  document.cookie = `${localeCookieName}=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+}
+
 export function Nav() {
-  const { authenticated } = usePrivy();
+  const pathname = usePathname();
+  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  const copy = navCopy[locale];
   const [open, setOpen] = useState(false);
   const [communityHover, setCommunityHover] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -34,11 +82,13 @@ export function Nav() {
   }, []);
 
   const navCommunityLinks = [
-    { href: "/community", label: "Community feed" },
-    { href: "/community/agents", label: "Agents" },
-    { href: "/community/projects", label: "Projects" },
-    ...(authenticated ? [{ href: "/community/dashboard", label: "Dashboard" }] : []),
-  ];
+    ...copy.communityLinks,
+  ].map((link) => ({ ...link, href: withLocale(link.href, locale) }));
+
+  const localizedLinks = copy.links.map((link) => ({
+    ...link,
+    href: link.external ? link.href : withLocale(link.href, locale),
+  }));
 
   return (
     <>
@@ -52,9 +102,9 @@ export function Nav() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8 md:py-5">
           {/* Wordmark */}
           <Link
-            href="/"
+            href={withLocale("/", locale)}
             className="flex items-center gap-2.5 group"
-            aria-label="ClawPlex home"
+            aria-label={copy.home}
           >
             <Image
               src="/clawplex-logo.png"
@@ -82,7 +132,7 @@ export function Nav() {
                 aria-haspopup="menu"
                 aria-expanded={communityHover}
               >
-                Community
+                {copy.community}
                 <svg
                   width="10"
                   height="10"
@@ -129,7 +179,7 @@ export function Nav() {
               </AnimatePresence>
             </div>
 
-            {links.map((link) => (
+            {localizedLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -144,12 +194,12 @@ export function Nav() {
 
             {/* Primary CTA */}
             <a
-              href={PRIMARY_CTA.href}
+              href={primaryCtaHref}
               target="_blank"
               rel="noopener noreferrer"
               className="ml-2 lg:ml-3 inline-flex items-center gap-1.5 rounded-full bg-claw-orange px-5 py-2 text-sm font-medium text-claw-void hover:bg-[#ff8a3d] transition-colors"
             >
-              {PRIMARY_CTA.label}
+              {copy.primaryCta}
               <svg
                 width="12"
                 height="12"
@@ -166,13 +216,33 @@ export function Nav() {
                 />
               </svg>
             </a>
+
+            <div className="ml-2 flex items-center rounded-full border border-claw-border bg-claw-surface/80 p-1" aria-label={copy.language}>
+              <span className="px-2 text-claw-dim" aria-hidden="true">◎</span>
+              {locales.map((language) => (
+                <Link
+                  key={language}
+                  href={withLocale(pathname, language)}
+                  onClick={() => rememberLocale(language)}
+                  hrefLang={language}
+                  aria-current={language === locale ? "true" : undefined}
+                  className={`rounded-full px-2.5 py-1 text-xs transition-colors ${
+                    language === locale
+                      ? "bg-claw-orange text-claw-void"
+                      : "text-claw-muted hover:text-claw-text"
+                  }`}
+                >
+                  {localeNames[language]}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Mobile hamburger */}
           <button
             onClick={() => setOpen(!open)}
             className="md:hidden relative z-50 flex flex-col justify-center gap-1.5 p-2 -mr-2"
-            aria-label={open ? "Close menu" : "Open menu"}
+            aria-label={open ? copy.closeMenu : copy.openMenu}
             aria-expanded={open}
           >
             <motion.span
@@ -212,7 +282,7 @@ export function Nav() {
               <nav className="flex flex-col gap-1">
                 {[
                   ...navCommunityLinks.map((l) => ({ ...l, external: false })),
-                  ...links.map((l) => ({ ...l, external: l.external || false })),
+                  ...localizedLinks.map((l) => ({ ...l, external: l.external || false })),
                 ].map((link, i) => (
                   <motion.a
                     key={link.href}
@@ -238,19 +308,41 @@ export function Nav() {
                 exit={{ opacity: 0, y: 12 }}
                 transition={{
                   duration: 0.3,
-                  delay: (navCommunityLinks.length + links.length) * 0.04 + 0.05,
+                  delay: (navCommunityLinks.length + localizedLinks.length) * 0.04 + 0.05,
                 }}
                 className="mt-10"
               >
                 <a
-                  href={PRIMARY_CTA.href}
+                  href={primaryCtaHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
                   className="block w-full rounded-full bg-claw-orange py-4 text-center text-base font-medium text-claw-void hover:bg-[#ff8a3d] transition-colors"
                 >
-                  {PRIMARY_CTA.label}
+                  {copy.primaryCta}
                 </a>
+
+                <div className="mt-6 flex items-center justify-center gap-2" aria-label={copy.language}>
+                  {locales.map((language) => (
+                    <Link
+                      key={language}
+                      href={withLocale(pathname, language)}
+                      onClick={() => {
+                        rememberLocale(language);
+                        setOpen(false);
+                      }}
+                      hrefLang={language}
+                      aria-current={language === locale ? "true" : undefined}
+                      className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                        language === locale
+                          ? "border-claw-orange bg-claw-orange text-claw-void"
+                          : "border-claw-border text-claw-muted hover:text-claw-text"
+                      }`}
+                    >
+                      {localeNames[language]}
+                    </Link>
+                  ))}
+                </div>
               </motion.div>
             </div>
           </motion.div>
