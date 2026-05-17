@@ -118,17 +118,6 @@ export function Footer() {
                 </Link>
               ))}
             </span>
-            <span className="text-claw-dim hidden sm:inline">
-              {copy.builtOn}{" "}
-              <a
-                href="https://openclaw.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-claw-orange hover:text-[#ff8a3d] transition-colors"
-              >
-                OpenClaw
-              </a>
-            </span>
           </div>
         </div>
       </div>
