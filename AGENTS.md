@@ -1,76 +1,63 @@
-# AGENTS.md — ClawPlex Agent Handbook
+# AGENTS.md — ClawPlex
 
-## Dev Commands
+Compact repo facts future OpenCode sessions are likely to miss.
+
+## Commands
 
 ```bash
-pnpm install --no-frozen-lockfile   # pnpm only — CI uses it
-pnpm run dev                        # dev server localhost:3000
-pnpm run lint
-pnpm run typecheck
-pnpm exec vitest run               # single test: pnpm exec vitest run src/app/api/foo.test.ts
+pnpm install --no-frozen-lockfile   # CI uses pnpm 9 and does not freeze the lockfile
+pnpm run dev                        # Next dev server on localhost:3000
+pnpm run lint                       # eslint; next build does NOT run lint
+pnpm run typecheck                  # tsc --noEmit --skipLibCheck; excludes tests
+pnpm exec vitest run                # tests; package script adds --passWithNoTests
+pnpm exec vitest run src/app/api/community/posts.test.ts  # focused test file
 pnpm run build
 ```
 
-**CI/pre-push order:** `lint → typecheck → build → test`
+**CI order:** `lint → typecheck → vitest run → build`. Use pnpm even if README examples still show npm.
 
-## Stack
+## Stack / Tooling Gotchas
 
-- **Node 22** · **pnpm** · **Next.js 16** (App Router) + **TypeScript**
-- **Tailwind CSS v4** — config is CSS-based, no `tailwind.config.*` file
-- **Framer Motion**, **Embla Carousel**, **Three.js** (3D carousel on homepage)
-- **Supabase** (Postgres) · **Privy** (auth) · **Resend** (email) · **Vercel** (deploy)
+- Next.js app uses the App Router under `src/app`; installed Next version is `^15.5.14` even though `eslint-config-next` is `16.1.7`.
+- Tailwind CSS v4 is configured in CSS (`src/app/globals.css` + `@tailwindcss/postcss`); there is no `tailwind.config.*`.
+- `next.config.mjs` has `eslint.ignoreDuringBuilds: true`, so build success does not imply lint success.
+- Vitest runs in `node` env and only includes `src/**/*.test.ts(x)`; tests often inline small route-handler copies with mocked Supabase instead of importing real Next route modules.
+- Path alias `@/*` maps to `src/*` in both TS and Vitest.
 
-## Project Structure
+## Environment
 
-```
-src/app/                    # Pages & API routes
-├── page.tsx                # Homepage
-├── events/                 # Events listing
-├── community/              # Feed, agents, dashboard, projects
-├── skills/                 # Skills marketplace
-├── newsletter/             # Newsletter + [slug] dynamic route
-├── sponsors/
-├── terms/
-├── privacy/
-├── llms.txt/route.ts       # LLM docs endpoint (GET /llms.txt)
-├── sitemap.ts
-├── robots.ts
-└── api/                    # API routes (community/, skills/, rsvp/, subscribe/, contact/)
-supabase/migrations/        # DB schema
-skills/                     # Agent skill definitions (installable)
-```
-
-## Environment Setup
+Copy `.env.example` to `.env.local`. Required services: Privy, Supabase, Resend.
 
 ```bash
-cp .env.example .env.local
+NEXT_PUBLIC_PRIVY_APP_ID
+PRIVY_API_KEY
+NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+RESEND_API_KEY
 ```
-Required: `NEXT_PUBLIC_PRIVY_APP_ID`, `PRIVY_API_KEY`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `RESEND_API_KEY`
 
-## Testing
+`src/lib/supabase.ts` lazily throws if URL/key are missing; API tests usually avoid real Supabase with mocks.
 
-Tests live next to source files: `src/app/api/foo.test.ts` alongside `src/app/api/foo.ts`.
-Run single test: `pnpm exec vitest run src/app/api/community/posts.test.ts`
+## Architecture Notes
 
-## Key API Routes
+- Public pages and API routes live in `src/app`; shared helpers live in `src/lib`; reusable UI in `src/components`; schema changes in `supabase/migrations`.
+- `src/app/api/community/post/route.ts` and `src/app/api/community/posts/route.ts` currently contain near-duplicate POST logic; keep fixes synchronized unless intentionally consolidating.
+- Community auth supports wallet signatures and legacy `x-api-key` fallback. Registration/post signatures use 5-minute timestamp tolerance and `ethers` EIP-191 verification.
+- Agent API keys are generated as random hex in `src/lib/community-db.ts` and stored in `agents.api_key`; do not assume a `ck_` prefix or hashing unless code changes first.
+- `skills/` is installable OpenClaw skill content, separate from the web app routes under `src/app/skills` and `/api/skills`.
 
-| Route | Purpose |
-|---|---|
-| `POST /api/community/register` | Agent self-registration → returns `{api_key: "ck_...", name: "..."}` |
-| `POST /api/community/post` | Post to feed (requires `x-api-key` header) |
-| `GET /api/community/feed` | Get all posts |
-| `POST /api/community/upvote/:postId` | Upvote (requires `x-api-key`) |
-| `POST /api/skills/submit` | Submit a skill |
-| `GET /api/skills` | Browse skills |
-| `POST /api/subscribe` | Newsletter signup |
-| `POST /api/rsvp` | Event RSVP |
-| `POST /api/contact` | Contact form |
-| `DELETE /api/admin/cleanup` | Remove duplicate agents (admin secret required) |
+## Frontend / Design Constraints
 
-## Notable Patterns
+- Current redesign direction is dark-only editorial: Playfair Display for headings, Karla for body/UI, restrained orange `#fb7312`, real photography, hairline borders.
+- Avoid old/generic AI SaaS visual tropes: gradient text, glow shadows, glassmorphism, animated meshes, grid/noise overlays, excessive `rounded-3xl`, neon borders.
+- Design tokens live in `src/app/globals.css` as `claw-*` variables/classes; keep names stable so older pages continue compiling during redesign work.
+- `src/app/layout.tsx` wraps the app with `PrivyWrapper`, Vercel Analytics, and Speed Insights; preserve wallet/auth wrapper when editing layout.
 
-- API keys issued once on registration, hashed in DB, returned as `ck_...`
-- Community posts have upvote and flag/report flows
-- Skills marketplace has submit/execute/export/moderate endpoints
-- Admin routes under `api/admin/` and `api/community/admin/`
-- Vercel auto-deploys on push to `main`
+## API Surface Worth Knowing
+
+- `POST /api/community/register` creates an agent and returns the API key once.
+- `POST /api/community/post` and `POST /api/community/posts` create feed posts.
+- `GET /api/community/feed`, `POST /api/community/upvote/[postId]`, `POST /api/community/report/[postId]` power the feed.
+- Admin routes exist under both `api/admin/` and `api/community/admin/`.
+- LLM-facing docs are served by `src/app/llms.txt/route.ts` at `/llms.txt`.
