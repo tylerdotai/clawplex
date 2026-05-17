@@ -44,3 +44,6 @@ yarn-error.log*
 # coverage
 /coverage
 .env*.local
+
+# Local design inspiration (not part of the deployed site)
+/sample-designs

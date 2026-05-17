@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 import { PrivyWrapper } from "@/components/privy-wrapper";
-import { Montserrat, Karla } from "next/font/google";
+import { Playfair_Display, Karla } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const montserrat = Montserrat({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  weight: ["700", "900"],
+  style: ["normal", "italic"],
 });
 
 const karla = Karla({
@@ -91,7 +93,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
-        className={`${montserrat.variable} ${karla.variable} bg-black text-white font-sans antialiased`}
+        className={`${playfair.variable} ${karla.variable} bg-background text-foreground font-sans antialiased`}
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
         {/* Skip to main content — a11y */}

@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const footerNav = {
   Community: [
-    { href: "/community", label: "Community Feed" },
+    { href: "/community", label: "Community feed" },
     { href: "/community/agents", label: "Agents" },
     { href: "/community/projects", label: "Projects" },
     { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
@@ -30,24 +31,26 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-8">
           {/* Brand column */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-claw-border bg-claw-surface">
-                <Image
-                  src="/clawplex-logo.png"
-                  alt="ClawPlex"
-                  width={32}
-                  height={32}
-                  className="object-contain"
-                />
-              </div>
-              <span className="font-display text-lg tracking-wider text-claw-text">
-                CLAWPLEX
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2.5"
+              aria-label="ClawPlex home"
+            >
+              <Image
+                src="/clawplex-logo.png"
+                alt=""
+                width={28}
+                height={28}
+                className="object-contain"
+              />
+              <span className="font-display text-xl tracking-tight text-claw-text">
+                ClawPlex
               </span>
-            </div>
-            <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-6">
+            </Link>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-claw-orange">
               DFW AI Builder Community
             </p>
-            <p className="text-sm text-claw-muted leading-relaxed max-w-xs">
+            <p className="mt-4 text-[14px] sm:text-[15px] text-claw-muted leading-[1.6] max-w-sm">
               Weekly meetups for builders shipping real AI products. No vendor pitches. No conference theater. Just people with laptops.
             </p>
           </div>
@@ -55,7 +58,7 @@ export function Footer() {
           {/* Nav columns */}
           {Object.entries(footerNav).map(([category, items]) => (
             <div key={category}>
-              <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim mb-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-claw-orange mb-5">
                 {category}
               </p>
               <ul className="space-y-3">
@@ -66,7 +69,7 @@ export function Footer() {
                       {...(item.external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="text-sm text-claw-muted hover:text-claw-text transition-colors"
+                      className="text-[14px] text-claw-muted hover:text-claw-text transition-colors"
                     >
                       {item.label}
                     </a>
@@ -80,30 +83,30 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-claw-border">
-        <div className="mx-auto max-w-7xl px-5 md:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="font-mono text-[10px] uppercase tracking-widest text-claw-dim">
-            © {new Date().getFullYear()} ClawPlex DFW. Built by builders, for builders.
+        <div className="mx-auto max-w-7xl px-5 md:px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[13px] text-claw-dim text-center md:text-left">
+            © {new Date().getFullYear()} ClawPlex DFW · Built by builders, for builders.
           </p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-5 text-[13px]">
             <a
               href="/privacy"
-              className="font-mono text-[10px] uppercase tracking-widest text-claw-dim hover:text-claw-muted transition-colors"
+              className="text-claw-dim hover:text-claw-text transition-colors"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="font-mono text-[10px] uppercase tracking-widest text-claw-dim hover:text-claw-muted transition-colors"
+              className="text-claw-dim hover:text-claw-text transition-colors"
             >
               Terms
             </a>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-claw-dim">
+            <span className="text-claw-dim hidden sm:inline">
               Built on{" "}
               <a
                 href="https://openclaw.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-claw-orange hover:text-claw-orange/80 transition-colors"
+                className="text-claw-orange hover:text-[#ff8a3d] transition-colors"
               >
                 OpenClaw
               </a>
