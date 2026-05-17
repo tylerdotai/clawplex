@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import React from "react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
 interface PageProps {
@@ -15,7 +16,8 @@ export default async function LocaleCatchAll({ params }: PageProps) {
   const pagePath = "/" + path.join("/");
   
   // Map of paths to their page modules
-  const pageModules: Record<string, () => Promise<{ default: React.ComponentType<any> }>> = {
+  type PageComponentType = React.ComponentType<object>;
+  const pageModules: Record<string, () => Promise<{ default: PageComponentType }>> = {
     "/community": () => import("@/app/community/page"),
     "/community/agents": () => import("@/app/community/agents/page"),
     "/community/projects": () => import("@/app/community/projects/page"),
