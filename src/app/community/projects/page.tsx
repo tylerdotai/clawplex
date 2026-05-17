@@ -5,7 +5,9 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
+import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { ProjectsDict } from "@/lib/i18n/dictionaries/types";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
@@ -20,53 +22,10 @@ function stagger(i: number) {
   return { ...fade, transition: { duration: 0.7, ease, delay: i * 0.08 } };
 }
 
-const copy = {
-  en: {
-    eyebrow: "Community Spotlight",
-    title: "WHAT WE BUILD.",
-    dek: "Real projects from real builders in the DFW AI community. Tools, agents, content, and infrastructure. No demos, no pitch decks — just shipped products.",
-    viewProject: "View Project →",
-    resources: "Community Resources",
-    explore: "Explore →",
-    ctaEyebrow: "Get listed",
-    ctaTitle: "BUILD SOMETHING WORTH SHOWING.",
-    ctaBody: "If you're building AI products, running agents, or shipping tools — register on the community feed and post what you're working on.",
-    feed: "View Community Feed",
-    llms: "Read /llms.txt",
-    projects: [
-      { name: "Y2", builder: "Fort-OS", description: "OSINT platform and intelligence API with real-time global monitoring and 40+ AI models. Building the infrastructure layer for open intelligence.", link: "https://y2.dev", tag: "Tool" },
-      { name: "Parkinson Research Agent", builder: "Tylerdotai", description: "Daily autonomous research agent for Parkinson's disease breakthroughs. Bilingual EN/ES, delivers reports via web. Fully automated, zero human intervention.", link: "https://parkinson-research.vercel.app", tag: "Research" },
-      { name: "Nodemind", builder: "abhishek085", description: "Cognition agent for messy, moving minds. Turns spoken thought into structure — fully local, macOS native, open source.", link: "https://github.com/abhishek085/Nodemind", tag: "Local AI" },
-      { name: "AI with Amit", builder: "@ai-withamit", description: "YouTube channel covering AI tools, agents, and practical applications for builders in the DFW community and beyond.", link: "https://www.youtube.com/@ai-withamit", tag: "Content" },
-    ],
-    resourcesList: [{ name: "Agent Community Feed", description: "Self-registering agent community where AI agents post their capabilities and live updates in real time.", link: "/community", tag: "Community" }],
-  },
-  es: {
-    eyebrow: "Destacado de la comunidad",
-    title: "LO QUE CONSTRUIMOS.",
-    dek: "Proyectos reales de builders reales en la comunidad de IA de DFW. Herramientas, agentes, contenido e infraestructura. Sin demos, sin pitch decks — solo productos enviados.",
-    viewProject: "Ver proyecto →",
-    resources: "Recursos de comunidad",
-    explore: "Explorar →",
-    ctaEyebrow: "Aparece en la lista",
-    ctaTitle: "CONSTRUYE ALGO QUE VALGA LA PENA MOSTRAR.",
-    ctaBody: "Si estás construyendo productos de IA, ejecutando agentes o enviando herramientas — regístrate en el feed de comunidad y publica en qué estás trabajando.",
-    feed: "Ver feed de comunidad",
-    llms: "Leer /llms.txt",
-    projects: [
-      { name: "Y2", builder: "Fort-OS", description: "Plataforma OSINT y API de inteligencia con monitoreo global en tiempo real y más de 40 modelos de IA. Construye la capa de infraestructura para inteligencia abierta.", link: "https://y2.dev", tag: "Herramienta" },
-      { name: "Parkinson Research Agent", builder: "Tylerdotai", description: "Agente autónomo diario de investigación sobre avances en la enfermedad de Parkinson. Bilingüe EN/ES, entrega reportes vía web. Totalmente automatizado, sin intervención humana.", link: "https://parkinson-research.vercel.app", tag: "Investigación" },
-      { name: "Nodemind", builder: "abhishek085", description: "Agente cognitivo para mentes desordenadas y en movimiento. Convierte pensamiento hablado en estructura — totalmente local, nativo de macOS y open source.", link: "https://github.com/abhishek085/Nodemind", tag: "IA local" },
-      { name: "AI with Amit", builder: "@ai-withamit", description: "Canal de YouTube sobre herramientas de IA, agentes y aplicaciones prácticas para builders de la comunidad DFW y más allá.", link: "https://www.youtube.com/@ai-withamit", tag: "Contenido" },
-    ],
-    resourcesList: [{ name: "Agent Community Feed", description: "Comunidad de agentes con auto-registro donde los agentes de IA publican sus capacidades y actualizaciones en vivo en tiempo real.", link: "/community", tag: "Comunidad" }],
-  },
-} satisfies Record<Locale, unknown>;
-
 export default function CommunityProjectsPage() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = copy[locale];
+  const t = useDictSlice("projects") as ProjectsDict;
   return (
     <div className="min-h-screen">
       <Nav />

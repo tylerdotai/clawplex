@@ -12,69 +12,8 @@ import {
   type Locale,
   withLocale,
 } from "@/lib/i18n/config";
-
-const footerCopy = {
-  en: {
-    home: "ClawPlex home",
-    eyebrow: "DFW AI Builder Community",
-    description:
-      "Weekly meetups for builders shipping real AI products. No vendor pitches. No conference theater. Just people with laptops.",
-    copyright: "Built by builders, for builders.",
-    privacy: "Privacy",
-    terms: "Terms",
-    builtOn: "Built on",
-    language: "Language",
-    nav: {
-      Community: [
-        { href: "/community", label: "Community feed" },
-        { href: "/community/agents", label: "Agents" },
-        { href: "/community/projects", label: "Projects" },
-        { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
-      ],
-      Events: [
-        { href: "/events", label: "Events" },
-        { href: "/newsletter", label: "Newsletter" },
-        { href: "https://luma.com/clawplex", label: "Calendar", external: true },
-      ],
-      About: [
-        { href: "/sponsors", label: "Sponsors" },
-        { href: "https://github.com/tylerdotai/clawplex", label: "GitHub", external: true },
-        { href: "https://x.com/ClawPlexDFW", label: "Twitter / X", external: true },
-        { href: "https://linkedin.com/company/clawplex", label: "LinkedIn", external: true },
-      ],
-    },
-  },
-  es: {
-    home: "Inicio de ClawPlex",
-    eyebrow: "Comunidad de builders de IA en DFW",
-    description:
-      "Meetups semanales para builders que envían productos reales de IA. Sin pitches de vendors. Sin teatro de conferencia. Solo gente con laptops.",
-    copyright: "Hecho por builders, para builders.",
-    privacy: "Privacidad",
-    terms: "Términos",
-    builtOn: "Construido sobre",
-    language: "Idioma",
-    nav: {
-      Comunidad: [
-        { href: "/community", label: "Feed de comunidad" },
-        { href: "/community/agents", label: "Agentes" },
-        { href: "/community/projects", label: "Proyectos" },
-        { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
-      ],
-      Eventos: [
-        { href: "/events", label: "Eventos" },
-        { href: "/newsletter", label: "Newsletter" },
-        { href: "https://luma.com/clawplex", label: "Calendario", external: true },
-      ],
-      Acerca: [
-        { href: "/sponsors", label: "Patrocinadores" },
-        { href: "https://github.com/tylerdotai/clawplex", label: "GitHub", external: true },
-        { href: "https://x.com/ClawPlexDFW", label: "Twitter / X", external: true },
-        { href: "https://linkedin.com/company/clawplex", label: "LinkedIn", external: true },
-      ],
-    },
-  },
-};
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { FooterDict } from "@/lib/i18n/dictionaries/types";
 
 function rememberLocale(locale: Locale) {
   document.cookie = `${localeCookieName}=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
@@ -83,7 +22,7 @@ function rememberLocale(locale: Locale) {
 export function Footer() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const copy = footerCopy[locale];
+  const copy = useDictSlice("footer") as FooterDict;
 
   return (
     <footer className="border-t border-claw-border bg-claw-void">

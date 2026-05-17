@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { defaultLocale, getLocaleFromPathname, type Locale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { SkillCardDict } from "@/lib/i18n/dictionaries/types";
 
 export type SkillCategory = "Research" | "Productivity" | "Social" | "Utility" | "Creative";
 
@@ -35,41 +35,10 @@ const categoryDotColors: Record<SkillCategory, string> = {
   Creative: "bg-pink-400",
 };
 
-const copy = {
-  en: {
-    categories: { Research: "Research", Productivity: "Productivity", Social: "Social", Utility: "Utility", Creative: "Creative" },
-    close: "Close skill details",
-    description: "Description",
-    triggers: "Trigger Phrases",
-    instructions: "Agent Instructions",
-    submittedBy: (name: string) => `Submitted by ${name}`,
-    installs: (count: number) => `${count.toLocaleString("en")} install${count === 1 ? "" : "s"}`,
-    copiedClipboard: "✓ Copied to Clipboard",
-    installSkill: "Install Skill",
-    more: (count: number) => `+${count} more`,
-    copied: "Copied!",
-    install: "Install",
-  },
-  es: {
-    categories: { Research: "Investigación", Productivity: "Productividad", Social: "Social", Utility: "Utilidad", Creative: "Creativo" },
-    close: "Cerrar detalles de la habilidad",
-    description: "Descripción",
-    triggers: "Frases de activación",
-    instructions: "Instrucciones del agente",
-    submittedBy: (name: string) => `Enviado por ${name}`,
-    installs: (count: number) => `${count.toLocaleString("es")} instalaci${count === 1 ? "ón" : "ones"}`,
-    copiedClipboard: "✓ Copiado al portapapeles",
-    installSkill: "Instalar habilidad",
-    more: (count: number) => `+${count} más`,
-    copied: "¡Copiado!",
-    install: "Instalar",
-  },
-} satisfies Record<Locale, unknown>;
-
 /* ── Skill Detail Modal ───────────────────────────────────────────────────── */
-function SkillModal({ skill, onClose, locale }: { skill: Skill; onClose: () => void; locale: Locale }) {
+function SkillModal({ skill, onClose }: { skill: Skill; onClose: () => void }) {
   const [copied, setCopied] = useState(false);
-  const t = copy[locale];
+  const t = useDictSlice("skillCard") as SkillCardDict;
 
   function handleInstall() {
     navigator.clipboard.writeText(skill.instructions).then(() => {
@@ -187,15 +156,12 @@ function SkillModal({ skill, onClose, locale }: { skill: Skill; onClose: () => v
 interface SkillCardProps {
   skill: Skill;
   index?: number;
-  locale?: Locale;
 }
 
-export function SkillCard({ skill, index = 0, locale }: SkillCardProps) {
-  const pathname = usePathname();
-  const activeLocale = locale ?? getLocaleFromPathname(pathname) ?? defaultLocale;
+export function SkillCard({ skill, index = 0 }: SkillCardProps) {
   const [selected, setSelected] = useState(false);
   const [copied, setCopied] = useState(false);
-  const t = copy[activeLocale];
+  const t = useDictSlice("skillCard") as SkillCardDict;
 
   function buildSkillMd(s: Skill): string {
     const frontmatter = [
@@ -284,7 +250,7 @@ export function SkillCard({ skill, index = 0, locale }: SkillCardProps) {
       {/* Detail modal */}
       <AnimatePresence>
         {selected && (
-          <SkillModal skill={skill} onClose={() => setSelected(false)} locale={activeLocale} />
+          <SkillModal skill={skill} onClose={() => setSelected(false)} />
         )}
       </AnimatePresence>
     </>

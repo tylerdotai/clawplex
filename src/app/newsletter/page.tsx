@@ -3,25 +3,11 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { getLatestIssue, getAllIssues } from "@/lib/newsletter";
 import { NewsletterClient } from "@/components/newsletter/newsletter-client";
-import { getRequestLocale } from "@/lib/i18n/server";
-import type { Locale } from "@/lib/i18n/config";
-
-const newsletterPageCopy = {
-  en: {
-    title: "The Drop — ClawPlex Newsletter",
-    description: "Monthly dispatches from the DFW AI builder community",
-    heading: "THE DROP.",
-  },
-  es: {
-    title: "The Drop — Newsletter de ClawPlex",
-    description: "Despachos mensuales de la comunidad de builders de IA en DFW",
-    heading: "THE DROP.",
-  },
-} satisfies Record<Locale, { title: string; description: string; heading: string }>;
+import { getDictSlice } from "@/lib/i18n/dictionaries/server";
+import type { NewsletterPageDict } from "@/lib/i18n/dictionaries/types";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = await getRequestLocale();
-  const copy = newsletterPageCopy[locale];
+  const copy = await getDictSlice("newsletterPage") as NewsletterPageDict;
   return {
     title: copy.title,
     description: copy.description,
@@ -34,8 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function NewsletterPage() {
-  const locale = await getRequestLocale();
-  const copy = newsletterPageCopy[locale];
+  const copy = await getDictSlice("newsletterPage") as NewsletterPageDict;
   const latest = getLatestIssue();
   const allIssues = getAllIssues();
   const pastIssues = allIssues.slice(1).map((i) => ({

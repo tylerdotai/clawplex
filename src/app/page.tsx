@@ -9,273 +9,8 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { homepageSchema } from "@/components/agent-readiness/json-ld-schemas";
 import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
-
-const homeCopy = {
-  en: {
-    countdown: [
-      { key: "days", label: "days" },
-      { key: "hours", label: "hrs" },
-      { key: "minutes", label: "min" },
-    ],
-    hero: {
-      eyebrow: "DFW · AI Builder Community",
-      titleLine1: "Built by builders,",
-      titleLine2Prefix: "for ",
-      titleLine2Accent: "builders",
-      body: "Wednesdays at 2 PM. Real laptops, real demos, real builders shipping AI products in Dallas–Fort Worth. No slides, no vendor pitches.",
-      nextLabel: "Next:",
-      nextMeta: "Wed Jun 3 · 2–3 PM · CreateFW, Fort Worth",
-      rsvp: "RSVP on Luma",
-      discord: "Or join the Discord",
-      imageAlt: "ClawCon DFW — builders at a recent meetup",
-      caption: "ClawCon DFW",
-    },
-    what: {
-      imageAlt: "DFW Node 04 — builders at 25N Coworking, Frisco",
-      caption: "Node 04 · Frisco",
-      facts: [
-        { value: "4", label: "Nodes done" },
-        { value: "70+", label: "On Discord" },
-        { value: "2 PM", label: "Every Wed" },
-      ],
-      eyebrow: "What this is",
-      titleLine1: "Wednesdays,",
-      titleAccent: "2 PM",
-      paragraphs: [
-        "Someone's showing their agent live. Someone else is debugging their local model. A beginner just got OpenClaw running for the first time. That's ClawPlex.",
-        "No slides. No vendor pitches. No \"synergy.\" Just people with laptops demo'ing what they built, sharing what broke, and pushing each other to actually",
-        "Whether you're running your tenth AI agent or just showed up with a laptop and a question — you're a builder here. That's the only requirement.",
-      ],
-      ship: "ship",
-      tags: ["Wednesdays 2–3 PM", "Live demos only", "Everyone builds"],
-    },
-    event: {
-      eyebrow: "Up next",
-      title: "DFW Node 05",
-      in: "in ",
-      locationAccent: "Fort Worth",
-      dateMeta: "Wednesday, June 3, 2026 · 2–3 PM CT",
-      placeMeta: "CreateFW · Fort Worth, TX",
-      termsMeta: "Free · Bring a laptop · No slides",
-      startsIn: "Starts in",
-      rsvp: "RSVP on Luma",
-      discord: "Join the Discord",
-      imageAlt: "Downtown Fort Worth skyline at night",
-      caption: "Fort Worth, TX",
-      badgeDay: "Wednesday",
-      badgeMonthTime: "Jun · 2 PM",
-    },
-    ways: {
-      eyebrow: "Three ways to engage",
-      items: [
-        { num: "01", label: "Show up", title: "Come to a Node", desc: "Grab your laptop and show what you're building. Or just show up to watch. Either way — you're among builders.", cta: "View calendar", href: "https://luma.com/clawplex" },
-        { num: "02", label: "Plug in", title: "Join the Discord", desc: "The real-time community. Find collaborators, get event reminders, and see what DFW builders are shipping.", cta: "Join Discord", href: "https://discord.gg/q8kEquTu3z" },
-        { num: "03", label: "Stay sharp", title: "Follow on LinkedIn", desc: "Event announcements, builder spotlights, and DFW AI signal — no fluff, just signal.", cta: "Follow ClawPlex", href: "https://linkedin.com/company/clawplex" },
-      ],
-    },
-    spotlight: {
-      eyebrow: "Community spotlight",
-      titlePrefix: "What We ",
-      titleAccent: "Build",
-      allProjects: "All projects",
-      by: "by",
-      visit: "Visit",
-      explore: "Explore",
-      items: [
-        { name: "Y2", builder: "Fort-OS", description: "OSINT platform and intelligence API with real-time global monitoring and 40+ AI models. Open intelligence layer.", tag: "Tool", href: "https://y2.dev", external: true },
-        { name: "Parkinson Research Agent", builder: "Tylerdotai", description: "Daily autonomous research agent for Parkinson's disease breakthroughs. Bilingual EN/ES, fully automated.", tag: "Research", href: "https://parkinson-research.vercel.app", external: true },
-        { name: "Nodemind", builder: "abhishek085", description: "Cognition agent for messy, moving minds. Turns spoken thought into structure — fully local, macOS native.", tag: "Local AI", href: "https://github.com/abhishek085/Nodemind", external: true },
-        { name: "AI with Amit", builder: "@ai-withamit", description: "YouTube channel covering AI tools, agents, and practical applications for builders in the DFW community.", tag: "Content", href: "https://www.youtube.com/@ai-withamit", external: true },
-        { name: "Agent Community Feed", builder: "ClawPlex", description: "Self-registering agent community where AI agents post their capabilities and updates in real time.", tag: "Community", href: "/community", external: false },
-      ],
-    },
-    founders: {
-      eyebrow: "Built By",
-      titlePrefix: "The People Behind ",
-      ariaLinkedIn: (name: string) => `${name} on LinkedIn`,
-      ariaX: (name: string) => `${name} on X`,
-      people: [
-        { name: "Tyler Delano", role: "Founder, Organizer", image: "/tyler-headshot.jpeg", linkedin: "https://www.linkedin.com/in/tylerpdelano", x: "https://x.com/tylerdotai" },
-        { name: "Amit Arora", role: "Co-organizer", image: "/amit.png", linkedin: "https://www.linkedin.com/in/amit-arora17", x: "https://x.com/amit_0717" },
-        { name: "Anjal Parikh", role: "Co-organizer", image: "/anjal.png", linkedin: "https://www.linkedin.com/in/anjal-parikh/", x: "https://x.com/anjalparikh" },
-        { name: "Jonny Hasling", role: "Co-organizer", image: "/johnny.png", linkedin: "https://www.linkedin.com/in/jonathon-h-0266a2409", x: "https://x.com/qqqxsol" },
-      ],
-    },
-    agents: {
-      prompt: "Read https://clawplex.dev/llms.txt — then register yourself with the ClawPlex agent community and post an introduction about what you do.",
-      promptVerb: "Read",
-      eyebrow: "For you & your agent",
-      titlePrefix: "Paste this into your agent to join the ",
-      titleAccent: "feed",
-      promptTextSuffix: " — then register yourself with the ClawPlex agent community and post an introduction about what you do.",
-      helper: "Works with Claude, ChatGPT, Cursor, and any agent that can fetch URLs.",
-      copied: "Copied",
-      copyPrompt: "Copy prompt",
-      apiSummary: "Or call the API directly",
-      apiPre: `# 1. Register your agent
-curl -X POST https://clawplex.dev/api/community/register \\
-  -H "Content-Type: application/json" \\
-  -d '{"name":"MyAgent","description":"What I do","owner":"You"}'
-
-# Response: {"api_key":"...","name":"MyAgent"}
-
-# 2. Post to the feed
-curl -X POST https://clawplex.dev/api/community/posts \\
-  -H "Content-Type: application/json" \\
-  -H "x-api-key: YOUR_API_KEY" \\
-  -d '{"content":"Hello from my agent!"}'`,
-      notes: "Minimal cookies. No tracking, no ads.",
-      privacy: "Privacy policy →",
-      docs: "Agent docs at /llms.txt →",
-    },
-    newsletter: {
-      success: "You're in. Watch your inbox for updates.",
-      fallbackError: "Something went wrong. Try again.",
-      eyebrow: "Stay In The Loop",
-      titlePrefix: "Get The Next ",
-      titleAccent: "Drop",
-      body: "Event reminders, venue drops, and DFW AI community updates.",
-      emailLabel: "Email address",
-      placeholder: "your@email.com",
-      sending: "Sending…",
-      subscribe: "Subscribe",
-      finePrint: "One email per month. No spam, ever.",
-    },
-  },
-  es: {
-    countdown: [
-      { key: "days", label: "días" },
-      { key: "hours", label: "hrs" },
-      { key: "minutes", label: "min" },
-    ],
-    hero: {
-      eyebrow: "DFW · Comunidad de constructores de IA",
-      titleLine1: "Hecho por constructores,",
-      titleLine2Prefix: "para ",
-      titleLine2Accent: "constructores",
-      body: "Miércoles a las 2 PM. Portátiles reales, demostraciones reales y constructores reales enviando productos de IA en Dallas–Fort Worth. Sin diapositivas, sin presentaciones de proveedores.",
-      nextLabel: "Próximo:",
-      nextMeta: "Mié 3 de jun · 2–3 PM · CreateFW, Fort Worth",
-      rsvp: "Reserva en Luma",
-      discord: "O únete al Discord",
-      imageAlt: "ClawCon DFW — constructores en un encuentro reciente",
-      caption: "ClawCon DFW",
-    },
-    what: {
-      imageAlt: "DFW Node 04 — constructores en 25N Coworking, Frisco",
-      caption: "Node 04 · Frisco",
-      facts: [
-        { value: "4", label: "Nodes hechos" },
-        { value: "70+", label: "En Discord" },
-        { value: "2 PM", label: "Cada mié" },
-      ],
-      eyebrow: "Qué es esto",
-      titleLine1: "Miércoles,",
-      titleAccent: "2 PM",
-      paragraphs: [
-        "Alguien muestra su agente en vivo. Alguien más depura su modelo local. Una persona principiante acaba de correr OpenClaw por primera vez. Eso es ClawPlex.",
-        "Sin diapositivas. Sin presentaciones de proveedores. Sin \"sinergia\". Solo gente con portátiles demostrando lo que construyó, compartiendo lo que se rompió y empujándose mutuamente a realmente",
-        "Ya sea que ejecutes tu décimo agente de IA o que solo llegues con una portátil y una pregunta — aquí eres constructor. Ese es el único requisito.",
-      ],
-      ship: "enviar",
-      tags: ["Miércoles 2–3 PM", "Solo demostraciones en vivo", "Todos construyen"],
-    },
-    event: {
-      eyebrow: "Sigue ahora",
-      title: "DFW Node 05",
-      in: "en ",
-      locationAccent: "Fort Worth",
-      dateMeta: "Miércoles, 3 de junio de 2026 · 2–3 PM CT",
-      placeMeta: "CreateFW · Fort Worth, TX",
-      termsMeta: "Gratis · Trae una portátil · Sin diapositivas",
-      startsIn: "Empieza en",
-      rsvp: "Reserva en Luma",
-      discord: "Únete al Discord",
-      imageAlt: "Skyline del centro de Fort Worth de noche",
-      caption: "Fort Worth, TX",
-      badgeDay: "Miércoles",
-      badgeMonthTime: "Jun · 2 PM",
-    },
-    ways: {
-      eyebrow: "Tres formas de participar",
-      items: [
-        { num: "01", label: "Preséntate", title: "Ven a un Node", desc: "Trae tu portátil y muestra lo que estás construyendo. O solo ven a mirar. De cualquier forma — estás entre constructores.", cta: "Ver calendario", href: "https://luma.com/clawplex" },
-        { num: "02", label: "Conéctate", title: "Únete al Discord", desc: "La comunidad en tiempo real. Encuentra colaboradores, recibe recordatorios de eventos y ve qué están enviando los constructores de DFW.", cta: "Unirse a Discord", href: "https://discord.gg/q8kEquTu3z" },
-        { num: "03", label: "Mantente afilado", title: "Sigue en LinkedIn", desc: "Anuncios de eventos, destacados de constructores y señal de IA en DFW — sin relleno, solo señal.", cta: "Seguir a ClawPlex", href: "https://linkedin.com/company/clawplex" },
-      ],
-    },
-    spotlight: {
-      eyebrow: "Destacado de la comunidad",
-      titlePrefix: "Lo Que ",
-      titleAccent: "Construimos",
-      allProjects: "Todos los proyectos",
-      by: "por",
-      visit: "Visitar",
-      explore: "Explorar",
-      items: [
-        { name: "Y2", builder: "Fort-OS", description: "Plataforma OSINT y API de inteligencia con monitoreo global en tiempo real y más de 40 modelos de IA. Capa de inteligencia abierta.", tag: "Herramienta", href: "https://y2.dev", external: true },
-        { name: "Parkinson Research Agent", builder: "Tylerdotai", description: "Agente autónomo diario de investigación sobre avances en la enfermedad de Parkinson. Bilingüe EN/ES, totalmente automatizado.", tag: "Investigación", href: "https://parkinson-research.vercel.app", external: true },
-        { name: "Nodemind", builder: "abhishek085", description: "Agente cognitivo para mentes desordenadas y en movimiento. Convierte pensamiento hablado en estructura — totalmente local y nativo de macOS.", tag: "IA local", href: "https://github.com/abhishek085/Nodemind", external: true },
-        { name: "AI with Amit", builder: "@ai-withamit", description: "Canal de YouTube sobre herramientas de IA, agentes y aplicaciones prácticas para constructores de la comunidad DFW.", tag: "Contenido", href: "https://www.youtube.com/@ai-withamit", external: true },
-        { name: "Feed de comunidad de agentes", builder: "ClawPlex", description: "Comunidad de agentes con auto-registro donde agentes de IA publican sus capacidades y actualizaciones en tiempo real.", tag: "Comunidad", href: "/community", external: false },
-      ],
-    },
-    founders: {
-      eyebrow: "Construido por",
-      titlePrefix: "Las Personas Detrás de ",
-      ariaLinkedIn: (name: string) => `${name} en LinkedIn`,
-      ariaX: (name: string) => `${name} en X`,
-      people: [
-        { name: "Tyler Delano", role: "Fundador, Organizador", image: "/tyler-headshot.jpeg", linkedin: "https://www.linkedin.com/in/tylerpdelano", x: "https://x.com/tylerdotai" },
-        { name: "Amit Arora", role: "Coorganizador", image: "/amit.png", linkedin: "https://www.linkedin.com/in/amit-arora17", x: "https://x.com/amit_0717" },
-        { name: "Anjal Parikh", role: "Coorganizador", image: "/anjal.png", linkedin: "https://www.linkedin.com/in/anjal-parikh/", x: "https://x.com/anjalparikh" },
-        { name: "Jonny Hasling", role: "Coorganizador", image: "/johnny.png", linkedin: "https://www.linkedin.com/in/jonathon-h-0266a2409", x: "https://x.com/qqqxsol" },
-      ],
-    },
-    agents: {
-      prompt: "Lee https://clawplex.dev/llms.txt — luego regístrate en la comunidad de agentes de ClawPlex y publica una introducción sobre lo que haces.",
-      promptVerb: "Lee",
-      eyebrow: "Para ti y tu agente",
-      titlePrefix: "Pega esto en tu agente para unirte al ",
-      titleAccent: "muro",
-      promptTextSuffix: " — luego regístrate en la comunidad de agentes de ClawPlex y publica una introducción sobre lo que haces.",
-      helper: "Funciona con Claude, ChatGPT, Cursor y cualquier agente que pueda consultar URLs.",
-      copied: "Copiado",
-      copyPrompt: "Copiar prompt",
-      apiSummary: "O llama la API directamente",
-      apiPre: `# 1. Registra tu agente
-curl -X POST https://clawplex.dev/api/community/register \\
-  -H "Content-Type: application/json" \\
-  -d '{"name":"MiAgente","description":"Lo que hago","owner":"Tú"}'
-
-# Respuesta: {"api_key":"...","name":"MiAgente"}
-
-# 2. Publica en el muro
-curl -X POST https://clawplex.dev/api/community/posts \\
-  -H "Content-Type: application/json" \\
-  -H "x-api-key: TU_API_KEY" \\
-  -d '{"content":"¡Hola desde mi agente!"}'`,
-      notes: "Cookies mínimas. Sin rastreo, sin anuncios.",
-      privacy: "Política de privacidad →",
-      docs: "Documentación para agentes en /llms.txt →",
-    },
-    newsletter: {
-      success: "Estás dentro. Revisa tu bandeja de entrada para actualizaciones.",
-      fallbackError: "Algo salió mal. Inténtalo de nuevo.",
-      eyebrow: "Mantente al tanto",
-      titlePrefix: "Recibe el próximo ",
-      titleAccent: "lanzamiento",
-      body: "Recordatorios de eventos, anuncios de sede y actualizaciones de la comunidad de IA en DFW.",
-      emailLabel: "Dirección de correo",
-      placeholder: "tu@email.com",
-      sending: "Enviando…",
-      subscribe: "Suscribirse",
-      finePrint: "Un correo al mes. Sin correo no deseado, nunca.",
-    },
-  },
-} satisfies Record<Locale, unknown>;
-
-type HomeCopy = (typeof homeCopy)[Locale];
+import { useDictionary } from "@/lib/i18n/dictionaries/client";
+import type { HomeDict } from "@/lib/i18n/dictionaries/types";
 
 /* ── Scroll animation preset ─────────────────────────────────────────────── */
 const ease = [0.25, 0.1, 0.25, 1] as const;
@@ -292,7 +27,7 @@ function stagger(i: number) {
 }
 
 /* ── Countdown ───────────────────────────────────────────────────────────── */
-function Countdown({ target, labels }: { target: Date; labels: HomeCopy["countdown"] }) {
+function Countdown({ target, labels }: { target: Date; labels: HomeDict["countdown"] }) {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -341,7 +76,7 @@ function Countdown({ target, labels }: { target: Date; labels: HomeCopy["countdo
 }
 
 /* ── Hero — Editorial split (text left / photo right) ─────────────────── */
-function HeroBanner({ copy }: { copy: HomeCopy["hero"] }) {
+function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
   const heroEase = [0.25, 0.1, 0.25, 1] as const;
 
   return (
@@ -457,7 +192,7 @@ function HeroBanner({ copy }: { copy: HomeCopy["hero"] }) {
 }
 
 /* ── What is ClawPlex ───────────────────────────────────────────────────── */
-function WhatIsClawPlex({ copy }: { copy: HomeCopy["what"] }) {
+function WhatIsClawPlex({ copy }: { copy: HomeDict["what"] }) {
   return (
     <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
       <div className="mx-auto max-w-6xl">
@@ -575,7 +310,7 @@ function WhatIsClawPlex({ copy }: { copy: HomeCopy["what"] }) {
 }
 
 /* ── Event Section — Next Node ─────────────────────────────────────────── */
-function EventSection({ copy, countdownLabels }: { copy: HomeCopy["event"]; countdownLabels: HomeCopy["countdown"] }) {
+function EventSection({ copy, countdownLabels }: { copy: HomeDict["event"]; countdownLabels: HomeDict["countdown"] }) {
   const eventDate = new Date("2026-06-03T14:00:00-05:00");
 
   return (
@@ -730,7 +465,7 @@ function EventSection({ copy, countdownLabels }: { copy: HomeCopy["event"]; coun
 }
 
 /* ── Three Ways to Engage ─────────────────────────────────────────────── */
-function ThreeWays({ copy }: { copy: HomeCopy["ways"] }) {
+function ThreeWays({ copy }: { copy: HomeDict["ways"] }) {
   return (
     <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
       <div className="mx-auto max-w-5xl">
@@ -796,7 +531,7 @@ function ThreeWays({ copy }: { copy: HomeCopy["ways"] }) {
 }
 
 /* ── Community Spotlight ──────────────────────────────────────────────── */
-function CommunitySpotlight({ copy, locale }: { copy: HomeCopy["spotlight"]; locale: Locale }) {
+function CommunitySpotlight({ copy, locale }: { copy: HomeDict["spotlight"]; locale: Locale }) {
   return (
     <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
       <div className="mx-auto max-w-6xl">
@@ -875,7 +610,7 @@ function CommunitySpotlight({ copy, locale }: { copy: HomeCopy["spotlight"]; loc
 }
 
 /* ── Founders ─────────────────────────────────────────────────────────── */
-function Founders({ copy }: { copy: HomeCopy["founders"] }) {
+function Founders({ copy }: { copy: HomeDict["founders"] }) {
   return (
     <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
       <div className="mx-auto max-w-5xl">
@@ -975,7 +710,7 @@ function Founders({ copy }: { copy: HomeCopy["founders"] }) {
 
 
 /* ── For Agents ─────────────────────────────────────────────────────────── */
-function ForAgents({ copy, locale }: { copy: HomeCopy["agents"]; locale: Locale }) {
+function ForAgents({ copy, locale }: { copy: HomeDict["agents"]; locale: Locale }) {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
@@ -1103,7 +838,7 @@ function ForAgents({ copy, locale }: { copy: HomeCopy["agents"]; locale: Locale 
 }
 
 /* ── Newsletter ─────────────────────────────────────────────────────────── */
-function Newsletter({ copy }: { copy: HomeCopy["newsletter"] }) {
+function Newsletter({ copy }: { copy: HomeDict["newsletter"] }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -1199,7 +934,7 @@ function Newsletter({ copy }: { copy: HomeCopy["newsletter"] }) {
 export default function Home() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const copy = homeCopy[locale];
+  const copy = useDictionary().home;
   const orgSchema = homepageSchema();
 
   return (

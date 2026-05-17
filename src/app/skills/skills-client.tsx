@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { SkillCard, type Skill, type SkillCategory } from "@/components/skill-card";
-import { defaultLocale, getLocaleFromPathname, type Locale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { SkillsDict } from "@/lib/i18n/dictionaries/types";
 
 const CATEGORIES: Array<SkillCategory | "All"> = [
   "All",
@@ -15,61 +15,6 @@ const CATEGORIES: Array<SkillCategory | "All"> = [
   "Utility",
   "Creative",
 ];
-
-const copy = {
-  en: {
-    categories: { All: "All", Research: "Research", Productivity: "Productivity", Social: "Social", Utility: "Utility", Creative: "Creative" },
-    required: "Please fill in all required fields.",
-    failed: "Submission failed. Try again.",
-    network: "Network error. Try again.",
-    submitTitle: "Submit a Skill",
-    close: "✕ Close",
-    successTitle: "Submitted for Review",
-    successBody: "Your skill has been submitted. We'll review it and add it to the marketplace soon.",
-    back: "Back to Skills",
-    labels: { name: "Skill Name", description: "Description", category: "Category", triggers: "Trigger Phrases", instructions: "Instructions", yourName: "Your Name", apiKey: "API Key", optionalAgent: "(optional — for agent submissions)" },
-    placeholders: { name: "e.g. GitHub MCP, SEO Optimizer", description: "What does this skill do? (2-3 sentences)", category: "Select a category", triggers: "e.g. \"analyze repo\", \"find bug\"", instructions: "Paste your skill prompt here...", yourName: "Tylerdotai", apiKey: "Agent API key (optional)" },
-    instructionsHelp: "The actual agent prompt or skill definition. This gets copied on install.",
-    add: "+ Add",
-    submitting: "Submitting...",
-    submit: "Submit Skill",
-    loadFailed: "Failed to load skills. Refresh to try again.",
-    heroEyebrow: "ClawPlex Marketplace",
-    heroTitle: "CLAWPLEX SKILLS.",
-    heroDek: "Community-built agents, ready to install.",
-    submitCta: "+ Submit a Skill",
-    retry: "Retry",
-    emptyTitle: "No skills yet.",
-    emptyAll: "Be the first to submit a skill to the marketplace.",
-    emptyCategory: (category: string) => `No ${category} skills yet. Be the first to submit one.`,
-  },
-  es: {
-    categories: { All: "Todos", Research: "Investigación", Productivity: "Productividad", Social: "Social", Utility: "Utilidad", Creative: "Creativo" },
-    required: "Completa todos los campos obligatorios.",
-    failed: "No se pudo enviar. Inténtalo de nuevo.",
-    network: "Error de red. Inténtalo de nuevo.",
-    submitTitle: "Enviar una habilidad",
-    close: "✕ Cerrar",
-    successTitle: "Enviado para revisión",
-    successBody: "Tu habilidad fue enviada. La revisaremos y la agregaremos pronto al marketplace.",
-    back: "Volver a habilidades",
-    labels: { name: "Nombre de la habilidad", description: "Descripción", category: "Categoría", triggers: "Frases de activación", instructions: "Instrucciones", yourName: "Tu nombre", apiKey: "Clave de API", optionalAgent: "(opcional — para envíos de agentes)" },
-    placeholders: { name: "p. ej., GitHub MCP, Optimizador SEO", description: "¿Qué hace esta habilidad? (2-3 oraciones)", category: "Selecciona una categoría", triggers: "p. ej., \"analizar repo\", \"encontrar bug\"", instructions: "Pega aquí el prompt de tu habilidad...", yourName: "Tylerdotai", apiKey: "Clave de API del agente (opcional)" },
-    instructionsHelp: "El prompt real del agente o la definición de la habilidad. Esto se copia al instalar.",
-    add: "+ Agregar",
-    submitting: "Enviando...",
-    submit: "Enviar habilidad",
-    loadFailed: "No se pudieron cargar las habilidades. Actualiza para intentarlo de nuevo.",
-    heroEyebrow: "Marketplace de ClawPlex",
-    heroTitle: "HABILIDADES CLAWPLEX.",
-    heroDek: "Agentes construidos por la comunidad, listos para instalar.",
-    submitCta: "+ Enviar una habilidad",
-    retry: "Reintentar",
-    emptyTitle: "Aún no hay habilidades.",
-    emptyAll: "Sé la primera persona en enviar una habilidad al marketplace.",
-    emptyCategory: (category: string) => `Aún no hay habilidades de ${category}. Sé la primera persona en enviar una.`,
-  },
-} satisfies Record<Locale, unknown>;
 
 /* ── Submission Modal ───────────────────────────────────────────────────── */
 interface FormState {
@@ -92,8 +37,8 @@ const EMPTY_FORM: FormState = {
   api_key: "",
 };
 
-function SubmitModal({ open, onClose, locale }: { open: boolean; onClose: () => void; locale: Locale }) {
-  const t = copy[locale];
+function SubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const t = useDictSlice("skills") as SkillsDict;
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [phrase, setPhrase] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -368,9 +313,7 @@ function SubmitModal({ open, onClose, locale }: { open: boolean; onClose: () => 
 
 /* ── Skills Client ─────────────────────────────────────────────────────────── */
 export function SkillsClient() {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = copy[locale];
+  const t = useDictSlice("skills") as SkillsDict;
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -508,7 +451,7 @@ export function SkillsClient() {
             {!loading && !error && filtered.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filtered.map((skill, i) => (
-                  <SkillCard key={skill.id} skill={skill} index={i} locale={locale} />
+                  <SkillCard key={skill.id} skill={skill} index={i} />
                 ))}
               </div>
             )}
@@ -516,7 +459,7 @@ export function SkillsClient() {
         </section>
       </main>
 
-      <SubmitModal open={showModal} onClose={() => setShowModal(false)} locale={locale} />
+      <SubmitModal open={showModal} onClose={() => setShowModal(false)} />
     </div>
   );
 }

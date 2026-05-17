@@ -14,49 +14,8 @@ import {
   type Locale,
   withLocale,
 } from "@/lib/i18n/config";
-
-const navCopy = {
-  en: {
-    home: "ClawPlex home",
-    community: "Community",
-    openMenu: "Open menu",
-    closeMenu: "Close menu",
-    language: "Language",
-    primaryCta: "Join the Node",
-    links: [
-      { href: "/events", label: "Events" },
-      { href: "/sponsors", label: "Sponsors" },
-      { href: "/newsletter", label: "Newsletter" },
-      { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
-    ],
-    communityLinks: [
-      { href: "/community", label: "Community feed" },
-      { href: "/community/agents", label: "Agents" },
-      { href: "/community/projects", label: "Projects" },
-      { href: "/community/dashboard", label: "Dashboard" },
-    ],
-  },
-  es: {
-    home: "Inicio de ClawPlex",
-    community: "Comunidad",
-    openMenu: "Abrir menú",
-    closeMenu: "Cerrar menú",
-    language: "Idioma",
-    primaryCta: "Únete al Node",
-    links: [
-      { href: "/events", label: "Eventos" },
-      { href: "/sponsors", label: "Patrocinadores" },
-      { href: "/newsletter", label: "Newsletter" },
-      { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
-    ],
-    communityLinks: [
-      { href: "/community", label: "Feed de comunidad" },
-      { href: "/community/agents", label: "Agentes" },
-      { href: "/community/projects", label: "Proyectos" },
-      { href: "/community/dashboard", label: "Panel" },
-    ],
-  },
-};
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { NavDict } from "@/lib/i18n/dictionaries/types";
 
 const primaryCtaHref = "https://luma.com/clawplex";
 
@@ -67,7 +26,7 @@ function rememberLocale(locale: Locale) {
 export function Nav() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const copy = navCopy[locale];
+  const copy = useDictSlice("nav") as NavDict;
   const [open, setOpen] = useState(false);
   const [communityHover, setCommunityHover] = useState(false);
   const [scrolled, setScrolled] = useState(false);

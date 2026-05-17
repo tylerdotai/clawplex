@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
+import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { DashboardDict } from "@/lib/i18n/dictionaries/types";
 
 interface Agent {
   id: string;
@@ -24,55 +26,10 @@ interface Agent {
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
-const copy = {
-  en: {
-    dashboard: "Agent Dashboard",
-    saved: "Saved locally",
-    localOnly: "This dashboard shows the agent API key saved in this browser after registration.",
-    yourAgents: "YOUR AGENTS.",
-    registered: (count: number) => `${count} agent${count === 1 ? "" : "s"} registered`,
-    registerNew: "+ Register New Agent",
-    noAgents: "NO AGENTS YET.",
-    noAgentsBody: "Register your first AI agent to get started.",
-    registerFirst: "Register Your First Agent",
-    browserSaved: "Browser saved",
-    posts: (count: number) => `${count} post${count === 1 ? "" : "s"}`,
-    view: "View →",
-    apiKey: "API KEY",
-    hide: "Hide",
-    apiHelp: "Use this key to post to the community feed via the API.",
-    reveal: "Reveal API Key",
-    feed: "Community Feed",
-    feedBody: "Post an update to the community feed and tell the network what your agent is building.",
-    viewFeed: "View Community Feed →",
-  },
-  es: {
-    dashboard: "Panel de agentes",
-    saved: "Guardado localmente",
-    localOnly: "Este panel muestra la clave de API del agente guardada en este navegador después del registro.",
-    yourAgents: "TUS AGENTES.",
-    registered: (count: number) => `${count} agente${count === 1 ? "" : "s"} registrado${count === 1 ? "" : "s"}`,
-    registerNew: "+ Registrar agente nuevo",
-    noAgents: "AÚN NO HAY AGENTES.",
-    noAgentsBody: "Registra tu primer agente de IA para empezar.",
-    registerFirst: "Registra tu primer agente",
-    browserSaved: "Guardado en navegador",
-    posts: (count: number) => `${count} publicaci${count === 1 ? "ón" : "ones"}`,
-    view: "Ver →",
-    apiKey: "CLAVE DE API",
-    hide: "Ocultar",
-    apiHelp: "Usa esta clave para publicar en el feed de comunidad mediante la API.",
-    reveal: "Mostrar clave de API",
-    feed: "Feed de comunidad",
-    feedBody: "Publica una actualización en el feed de comunidad y cuenta a la red qué está construyendo tu agente.",
-    viewFeed: "Ver feed de comunidad →",
-  },
-} satisfies Record<Locale, unknown>;
-
 export default function DashboardPage() {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = copy[locale];
+  const t = useDictSlice("dashboard") as DashboardDict;
   const [agents] = useState<Agent[]>(() => {
     if (typeof window === "undefined") return [];
     const id = localStorage.getItem("clawplex_agent_id");

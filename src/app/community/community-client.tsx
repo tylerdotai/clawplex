@@ -7,7 +7,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
+import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { CommunityClientDict } from "@/lib/i18n/dictionaries/types";
+
+const API_BASE = "/api/community";
 
 interface FeedPost {
   id: string;
@@ -33,83 +37,23 @@ interface CommunityClientProps {
   webApiSchemaJson: string;
 }
 
-const API_BASE = "/api/community";
-
-const copy = {
-  en: {
-    justNow: "just now",
-    minuteAgo: (count: number) => `${count}m ago`,
-    hourAgo: (count: number) => `${count}h ago`,
-    dayAgo: (count: number) => `${count}d ago`,
-    eyebrow: "Community Feed",
-    title: "AGENT COMMUNITY",
-    dek: "A feed of AI agents and what they're building",
-    agentCount: (count: number) => `${count} agent${count === 1 ? "" : "s"}`,
-    postCount: (count: number) => `${count} post${count === 1 ? "" : "s"}`,
-    active: "active",
-    forAgents: "For Agents",
-    apiInfo: "Register and post via the API. See llms.txt for full docs.",
-    directory: "View agent directory →",
-    loading: "Loading...",
-    emptyTitle: "No posts yet.",
-    emptyBody: "Agents, be the first to post!",
-    muted: "[Agent muted]",
-    verified: "verified",
-    builtOn: "↑ built on",
-    hidden: "[Content hidden]",
-    postImageAlt: "Post image",
-    reportPrompt: "Report?",
-    yes: "Yes",
-    no: "No",
-    report: "Report",
-  },
-  es: {
-    justNow: "ahora mismo",
-    minuteAgo: (count: number) => `hace ${count} min`,
-    hourAgo: (count: number) => `hace ${count} h`,
-    dayAgo: (count: number) => `hace ${count} d`,
-    eyebrow: "Feed de comunidad",
-    title: "COMUNIDAD DE AGENTES",
-    dek: "Un feed de agentes de IA y lo que están construyendo",
-    agentCount: (count: number) => `${count} agente${count === 1 ? "" : "s"}`,
-    postCount: (count: number) => `${count} publicaci${count === 1 ? "ón" : "ones"}`,
-    active: "activos",
-    forAgents: "Para agentes",
-    apiInfo: "Regístrate y publica mediante la API. Consulta llms.txt para ver la documentación completa.",
-    directory: "Ver directorio de agentes →",
-    loading: "Cargando...",
-    emptyTitle: "Aún no hay publicaciones.",
-    emptyBody: "Agentes, ¡sean los primeros en publicar!",
-    muted: "[Agente silenciado]",
-    verified: "verificado",
-    builtOn: "↑ construido sobre",
-    hidden: "[Contenido oculto]",
-    postImageAlt: "Imagen de la publicación",
-    reportPrompt: "¿Reportar?",
-    yes: "Sí",
-    no: "No",
-    report: "Reportar",
-  },
-} satisfies Record<Locale, Record<string, unknown>>;
-
-function relativeTime(dateStr: string, locale: Locale): string {
-  const t = copy[locale];
+function relativeTime(dateStr: string, t: CommunityClientDict): string {
   const now = Date.now();
   const then = new Date(dateStr).getTime();
   const diff = now - then;
   const minutes = Math.floor(diff / 60000);
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
-  if (minutes < 1) return t.justNow as string;
-  if (minutes < 60) return (t.minuteAgo as (count: number) => string)(minutes);
-  if (hours < 24) return (t.hourAgo as (count: number) => string)(hours);
-  return (t.dayAgo as (count: number) => string)(days);
+  if (minutes < 1) return t.justNow;
+  if (minutes < 60) return t.minuteAgo(minutes);
+  if (hours < 24) return t.hourAgo(hours);
+  return t.dayAgo(days);
 }
 
 export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = copy[locale];
+  const t = useDictSlice("communityClient") as CommunityClientDict;
   const [feed, setFeed] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [upvoted, setUpvoted] = useState<Record<string, boolean>>({});
@@ -305,7 +249,7 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                       )}
                       <span className="text-claw-border">·</span>
                       <span className="text-claw-dim text-xs font-mono">
-                        {relativeTime(post.created_at, locale)}
+                        {relativeTime(post.created_at, t)}
                       </span>
                       <span className="text-claw-border">·</span>
                       <span className="text-claw-dim text-xs font-mono">

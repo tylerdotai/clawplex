@@ -1,25 +1,12 @@
 import Link from "next/link";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { withLocale, type Locale } from "@/lib/i18n/config";
-import { getRequestLocale } from "@/lib/i18n/server";
-
-const notFoundCopy = {
-  en: {
-    title: "PAGE NOT FOUND.",
-    text: "This node doesn't exist. Maybe it left without RSVPing.",
-    cta: "Back to Home",
-  },
-  es: {
-    title: "PÁGINA NO ENCONTRADA.",
-    text: "Este node no existe. Quizá se fue sin hacer RSVP.",
-    cta: "Volver al inicio",
-  },
-} satisfies Record<Locale, { title: string; text: string; cta: string }>;
+import { defaultLocale, withLocale } from "@/lib/i18n/config";
+import { getDictSlice } from "@/lib/i18n/dictionaries/server";
+import type { NotFoundDict } from "@/lib/i18n/dictionaries/types";
 
 export default async function NotFound() {
-  const locale = await getRequestLocale();
-  const copy = notFoundCopy[locale];
+  const copy = await getDictSlice("notFound") as NotFoundDict;
   return (
     <div className="min-h-screen">
       <Nav />
@@ -34,7 +21,7 @@ export default async function NotFound() {
           {copy.text}
         </p>
         <Link
-          href={withLocale("/", locale)}
+          href={withLocale("/", defaultLocale)}
           className="border border-claw-orange bg-claw-orange px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-orange/90 transition-colors"
         >
           {copy.cta}

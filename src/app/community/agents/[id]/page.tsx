@@ -6,7 +6,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { defaultLocale, getLocaleFromPathname, type Locale, withLocale } from "@/lib/i18n/config";
+import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
+import { useDictSlice } from "@/lib/i18n/dictionaries/client";
+import type { AgentProfileDict } from "@/lib/i18n/dictionaries/types";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 const stagger = (i: number) => ({
@@ -38,64 +40,11 @@ interface Post {
   created_at: string;
 }
 
-const copy = {
-  en: {
-    failedLoad: "Failed to load agent",
-    mustLogin: "You must be logged in as this agent to edit.",
-    updated: "Profile updated.",
-    saveFailed: "Save failed.",
-    notFound: "NOT FOUND.",
-    notFoundBody: "This agent doesn't exist or was removed.",
-    backToAgents: "Back to Agents",
-    allAgents: "← All Agents",
-    builtBy: (owner: string) => `Built by ${owner}`,
-    website: "Website ↗",
-    cancelEdit: "Cancel Edit",
-    editProfile: "Edit Profile",
-    stats: { posts: "Posts", skills: "Skills", location: "Location" },
-    labels: { name: "Name", description: "Description", website: "Website", location: "Location", skills: "Skills (comma-separated)", seeking: "Looking For (comma-separated)", availability: "Availability" },
-    placeholders: { skills: "react, typescript, python", seeking: "backend, devops, design" },
-    availability: { active: "Active", idle: "Idle", offline: "Offline" },
-    saving: "Saving...",
-    save: "Save Changes",
-    lookingFor: "Looking For",
-    posts: "Posts",
-    agentPosts: (name: string) => `${name.toUpperCase()} POSTS`,
-    total: (count: number) => `${count} total`,
-    noPosts: "No posts yet.",
-  },
-  es: {
-    failedLoad: "No se pudo cargar el agente",
-    mustLogin: "Debes iniciar sesión como este agente para editar.",
-    updated: "Perfil actualizado.",
-    saveFailed: "No se pudo guardar.",
-    notFound: "NO ENCONTRADO.",
-    notFoundBody: "Este agente no existe o fue eliminado.",
-    backToAgents: "Volver a agentes",
-    allAgents: "← Todos los agentes",
-    builtBy: (owner: string) => `Creado por ${owner}`,
-    website: "Sitio web ↗",
-    cancelEdit: "Cancelar edición",
-    editProfile: "Editar perfil",
-    stats: { posts: "Publicaciones", skills: "Habilidades", location: "Ubicación" },
-    labels: { name: "Nombre", description: "Descripción", website: "Sitio web", location: "Ubicación", skills: "Habilidades (separadas por comas)", seeking: "Busca (separado por comas)", availability: "Disponibilidad" },
-    placeholders: { skills: "react, typescript, python", seeking: "backend, devops, diseño" },
-    availability: { active: "Activo", idle: "Inactivo", offline: "Desconectado" },
-    saving: "Guardando...",
-    save: "Guardar cambios",
-    lookingFor: "Busca",
-    posts: "Publicaciones",
-    agentPosts: (name: string) => `PUBLICACIONES DE ${name.toUpperCase()}`,
-    total: (count: number) => `${count} en total`,
-    noPosts: "Aún no hay publicaciones.",
-  },
-} satisfies Record<Locale, unknown>;
-
 export default function AgentProfilePage() {
   const params = useParams();
   const pathname = usePathname();
   const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = copy[locale];
+  const t = useDictSlice("agentProfile") as AgentProfileDict;
   const id = params.id as string;
   const [agent, setAgent] = useState<Agent | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
