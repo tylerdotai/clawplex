@@ -3,10 +3,22 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, MotionConfig } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { homepageSchema } from "@/components/agent-readiness/json-ld-schemas";
+
+function faqPageSchema(items: Array<{ q: string; a: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": items.map((item) => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": { "@type": "Answer", "text": item.a },
+    })),
+  };
+}
 import { type Locale, withLocale } from "@/lib/i18n/config";
 import { en, es } from "@/lib/i18n/dictionaries";
 import type { HomeDict } from "@/lib/i18n/dictionaries/types";
@@ -605,6 +617,54 @@ function ForAgents({ copy, locale }: { copy: HomeDict["agents"]; locale: Locale 
   );
 }
 
+/* ── FAQ ────────────────────────────────────────────────────────────────── */
+function FAQ({ copy }: { copy: HomeDict["faq"] }) {
+  return (
+    <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-12 md:mb-16 text-center">
+          <motion.p {...stagger(0)} className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-orange mb-4">
+            {copy.eyebrow}
+          </motion.p>
+          <motion.h2 {...stagger(1)} className="font-display text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-tight text-claw-text">
+            {copy.titlePrefix}<span className="underline-accent">{copy.titleAccent}</span>.
+          </motion.h2>
+          <motion.p {...stagger(2)} className="mt-5 text-base sm:text-lg text-claw-muted">
+            {copy.body}
+          </motion.p>
+        </div>
+        <motion.dl {...stagger(3)} className="divide-y divide-claw-border border-y border-claw-border">
+          {copy.items.map((item) => (
+            <details
+              key={item.q}
+              className="group/faq py-2"
+            >
+              <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none select-none">
+                <dt className="font-display text-lg sm:text-xl lg:text-[22px] leading-snug tracking-tight text-claw-text">
+                  {item.q}
+                </dt>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  aria-hidden="true"
+                  className="text-claw-orange shrink-0 transition-transform duration-300 group-open/faq:rotate-45"
+                >
+                  <path d="M7 2.5v9M2.5 7h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                </svg>
+              </summary>
+              <dd className="pb-5 pr-8 text-[15px] sm:text-base text-claw-muted leading-[1.7]">
+                {item.a}
+              </dd>
+            </details>
+          ))}
+        </motion.dl>
+      </div>
+    </section>
+  );
+}
+
 /* ── Newsletter ─────────────────────────────────────────────────────────── */
 function Newsletter({ copy }: { copy: HomeDict["newsletter"] }) {
   const [email, setEmail] = useState("");
@@ -694,12 +754,17 @@ interface HomeClientProps {
 export function HomeClient({ locale }: HomeClientProps) {
   const copy = dictionaries[locale].home;
   const orgSchema = homepageSchema();
+  const faqSchemaData = faqPageSchema(copy.faq.items);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchemaData) }}
       />
       <div className="min-h-screen">
         <Nav />
@@ -725,12 +790,15 @@ export function HomeClient({ locale }: HomeClientProps) {
           <article>
             <Founders copy={copy.founders} />
           </article>
+          <article id="faq">
+            <FAQ copy={copy.faq} />
+          </article>
           <article>
             <Newsletter copy={copy.newsletter} />
           </article>
         </main>
         <Footer />
       </div>
-    </>
+    </MotionConfig>
   );
 }

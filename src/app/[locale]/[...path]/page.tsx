@@ -25,6 +25,7 @@ export default async function LocaleCatchAll({ params }: PageProps) {
     "/events": () => import("@/app/events/page"),
     "/newsletter": () => import("@/app/newsletter/page"),
     "/sponsors": () => import("@/app/sponsors/page"),
+    "/work-with-us": () => import("@/app/work-with-us/page"),
     "/skills": () => import("@/app/skills/page"),
     "/privacy": () => import("@/app/privacy/page"),
     "/terms": () => import("@/app/terms/page"),

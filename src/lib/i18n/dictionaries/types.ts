@@ -166,6 +166,13 @@ export interface HomeDict {
     subscribe: string;
     finePrint: string;
   };
+  faq: {
+    eyebrow: string;
+    titlePrefix: string;
+    titleAccent: string;
+    body: string;
+    items: Array<{ q: string; a: string }>;
+  };
 }
 
 // ── Community ─────────────────────────────────────────────────────────────
@@ -495,6 +502,37 @@ export interface NewsletterPageDict {
   heading: string;
 }
 
+// ── Work With Us ──────────────────────────────────────────────────────────
+
+export interface WorkWithUsDict {
+  eyebrow: string;
+  titleLine1: string;
+  titleAccent: string;
+  intro: string;
+  cta: string;
+  discord: string;
+  hire: {
+    eyebrow: string;
+    titlePrefix: string;
+    titleAccent: string;
+    body: string;
+    bodyEmphasis: string;
+    cta: string;
+    capabilities: Array<{ label: string; desc: string }>;
+  };
+  waysEyebrow: string;
+  ways: Array<{ num: string; label: string; title: string; desc: string }>;
+  bottomEyebrow: string;
+  bottomTitlePrefix: string;
+  bottomTitleAccent: string;
+  bottomBody: string;
+  modalEyebrow: string;
+  closeModal: string;
+  formComingSoonEyebrow: string;
+  formComingSoonTitle: string;
+  formComingSoonBody: string;
+}
+
 // ── Full dictionary shape ────────────────────────────────────────────────
 
 export interface Dictionary {
@@ -510,6 +548,7 @@ export interface Dictionary {
   skillCard: SkillCardDict;
   events: EventsDict;
   sponsors: SponsorsDict;
+  workWithUs: WorkWithUsDict;
   privacy: PrivacyDict;
   terms: TermsDict;
   notFound: NotFoundDict;

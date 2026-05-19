@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 import { Playfair_Display, Karla } from "next/font/google";
@@ -19,6 +19,16 @@ const karla = Karla({
   variable: "--font-sans",
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0a0908" },
+    { media: "(prefers-color-scheme: light)", color: "#0a0908" },
+  ],
+  colorScheme: "dark",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
@@ -62,7 +72,8 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       siteName: "ClawPlex",
-      url: "https://clawplex.dev",
+      url: canonical,
+      locale,
       title: "ClawPlex \u2014 DFW AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
@@ -101,7 +112,6 @@ export default async function RootLayout({
     <html lang={locale}>
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body
         className={`${playfair.variable} ${karla.variable} bg-background text-foreground font-sans antialiased`}

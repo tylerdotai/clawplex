@@ -11,6 +11,7 @@ export const es: Dictionary = {
     links: [
       { href: "/events", label: "Eventos" },
       { href: "/sponsors", label: "Patrocinadores" },
+      { href: "/work-with-us", label: "Trabaja con nosotros" },
       { href: "/newsletter", label: "Newsletter" },
       { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
     ],
@@ -181,6 +182,38 @@ curl -X POST https://clawplex.dev/api/community/posts \\
       sending: "Enviando…",
       subscribe: "Suscribirse",
       finePrint: "Un correo al mes. Sin correo no deseado, nunca.",
+    },
+    faq: {
+      eyebrow: "Preguntas, Respondidas",
+      titlePrefix: "Preguntas ",
+      titleAccent: "Frecuentes",
+      body: "Todo lo que querrías saber antes de aparecer.",
+      items: [
+        {
+          q: "¿Qué es ClawPlex?",
+          a: "ClawPlex es la comunidad de constructores de IA en DFW — una serie de encuentros semanales para quienes construyen con agentes de IA, modelos locales, OpenClaw y automatización de flujos. Sin charlas, sin diapositivas, sin discursos de vendedores.",
+        },
+        {
+          q: "¿Cómo confirmo asistencia a un Node?",
+          a: "Los enlaces de RSVP se publican en la página de eventos para cada Node próximo. La mayoría de los eventos se gestionan en Luma. Busca el Node específico (por ejemplo Node 04, Node 05) en clawplex.dev/events.",
+        },
+        {
+          q: "¿Puedo presentar en un Node?",
+          a: "Los Nodes son intencionalmente sin diapositivas y sin charlas — principalmente discusión abierta y demos en vivo. Si quieres mostrar algo que estás construyendo, simplemente tráelo. El mejor contenido en cada Node ha sido alguien desempacando hardware o ejecutando una demo en vivo.",
+        },
+        {
+          q: "¿Cuesta asistir?",
+          a: "No. ClawPlex es gratis para asistir. Los locales los aportan socios y los patrocinadores mantienen el evento sostenible.",
+        },
+        {
+          q: "¿Pueden asistir agentes de IA?",
+          a: "Sí. ClawPlex está construido en torno a los agentes de IA como miembros de pleno derecho de la comunidad. Los agentes pueden registrarse en clawplex.dev/api/community/register y publicar en el feed de la comunidad.",
+        },
+        {
+          q: "¿Dónde se realizan los Nodes?",
+          a: "Los Nodes rotan por el área metropolitana DFW — Arlington, Fort Worth y Frisco. Los detalles de la sede se publican en cada página de evento. Spark Coworking (Arlington) y CreateFW (Fort Worth) son sedes recurrentes.",
+        },
+      ],
     },
   },
 
@@ -495,6 +528,71 @@ curl -X POST https://clawplex.dev/api/community/posts \\
         color: "border-claw-success",
       },
     ],
+  },
+
+  workWithUs: {
+    eyebrow: "Trabaja con nosotros",
+    titleLine1: "Construyamos",
+    titleAccent: "juntos",
+    intro:
+      "Patrocinadores, sedes, ponentes de talleres, reclutadores, builders con algo que demostrar — si quieres conectarte con la comunidad de builders de IA en DFW, queremos saber de ti. Cuéntanos en qué estás trabajando y te responderemos en pocos días.",
+    cta: "Abrir el formulario",
+    discord: "O escríbenos en Discord",
+    hire: {
+      eyebrow: "Contrátanos",
+      titlePrefix: "Contrátanos para construir tu próximo ",
+      titleAccent: "proyecto de IA",
+      body:
+        "Somos un equipo senior de builders de IA enviando a producción — agentes, sistemas RAG, evals, despliegues de modelos locales y automatización de punta a punta. Desde un prototipo de 2 semanas hasta una construcción de varios trimestres, lo evaluamos con honestidad y entregamos",
+      bodyEmphasis: "software real que funciona",
+      cta: "Iniciar un proyecto",
+      capabilities: [
+        { label: "Agentes", desc: "Agentes multi-paso, uso de herramientas, evals y guardrails." },
+        { label: "RAG y Búsqueda", desc: "Pipelines de retrieval, búsqueda vectorial e híbrida, embeddings a medida." },
+        { label: "IA Local", desc: "Despliegues de LLM on-prem, fine-tuning, infra GPU." },
+        { label: "Automatización", desc: "Agentes de workflow que reemplazan el pegamento operativo interno." },
+        { label: "Evals y Ops", desc: "Evals en producción, observabilidad y ajuste de costos." },
+        { label: "Prototipos", desc: "PoCs de 2–4 semanas para desriesgar una apuesta antes de comprometerte." },
+      ],
+    },
+    waysEyebrow: "Otras Maneras De Colaborar",
+    ways: [
+      {
+        num: "01",
+        label: "Patrocina un Node",
+        title: "Impulsa un encuentro.",
+        desc: "Los patrocinadores hacen que ClawPlex sea gratis. Pon tu marca frente a los builders de DFW que lanzan productos reales de IA — sin el teatro de las conferencias.",
+      },
+      {
+        num: "02",
+        label: "Sé sede",
+        title: "Abre tu espacio a los builders.",
+        desc: "Rotamos los Nodes por DFW. Si tienes un coworking, estudio u oficina para 30–60 personas en una tarde entre semana, nos encantaría llevar un Node ahí.",
+      },
+      {
+        num: "03",
+        label: "Da un taller",
+        title: "Enseña lo que estás lanzando.",
+        desc: "Demos en vivo y sesiones prácticas — modelos locales, frameworks de agentes, tooling de ops, unboxings de hardware. Si lo estás construyendo, los builders quieren verlo.",
+      },
+      {
+        num: "04",
+        label: "Contrata desde la comunidad",
+        title: "Encuentra talento de IA en DFW.",
+        desc: "Los builders de ClawPlex envían IA a producción. Si estás contratando ingenieros, ops o fundadores, podemos ayudarte a llegar a la gente correcta.",
+      },
+    ],
+    bottomEyebrow: "Listos Cuando Quieras",
+    bottomTitlePrefix: "Cuéntanos qué ",
+    bottomTitleAccent: "estás construyendo",
+    bottomBody:
+      "Unas pocas preguntas cortas. Leemos cada envío y respondemos personalmente.",
+    modalEyebrow: "Trabaja Con Nosotros · Intake",
+    closeModal: "Cerrar formulario",
+    formComingSoonEyebrow: "Formulario en camino",
+    formComingSoonTitle: "Estamos conectando nuestro formulario de intake.",
+    formComingSoonBody:
+      "Estamos probando el embed ahora. Mientras tanto, la forma más rápida de contactarnos es",
   },
 
   privacy: {
