@@ -511,6 +511,12 @@ export interface WorkWithUsDict {
   intro: string;
   cta: string;
   discord: string;
+  proof: {
+    eyebrow: string;
+    title: string;
+    body: string[];
+    stats: Array<{ value: string; label: string }>;
+  };
   hire: {
     eyebrow: string;
     titlePrefix: string;
@@ -522,6 +528,15 @@ export interface WorkWithUsDict {
   };
   waysEyebrow: string;
   ways: Array<{ num: string; label: string; title: string; desc: string }>;
+  sponsorship: {
+    eyebrow: string;
+    tiers: Tier[];
+  };
+  partners: {
+    partners: string;
+    venues: string;
+    visit: (name: string) => string;
+  };
   bottomEyebrow: string;
   bottomTitlePrefix: string;
   bottomTitleAccent: string;

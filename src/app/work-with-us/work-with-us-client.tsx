@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,6 +17,42 @@ import type { WorkWithUsDict } from "@/lib/i18n/dictionaries/types";
  * inside the modal until the form is ready.
  */
 const EMBED_FORM_URL = "https://form.questionscout.com/6a0cef87e4c49ff8f7974892";
+
+const partners = [
+  {
+    name: "KiloClaw",
+    image: "/kiloclaw-logo.png",
+    url: "https://kilocode.pxf.io/OYnK0N",
+    taglines: { en: "AI Coding Agent", es: "Agente de código con IA" },
+  },
+  {
+    name: "FTW DAO",
+    image: "/ftwdao-logo.png",
+    url: "https://fwtx.city",
+    taglines: { en: "Community Partner", es: "Partner de comunidad" },
+  },
+];
+
+const venuePartners = [
+  {
+    name: "Spark Coworking",
+    image: "/spark-arlington.png",
+    url: "https://sparkcoworking.com/arlington/",
+    location: "Arlington, TX",
+  },
+  {
+    name: "CreateFW",
+    image: "/createfw-fort-worth.png",
+    url: "https://thedec.co/",
+    location: "Fort Worth, TX",
+  },
+  {
+    name: "25N Coworking",
+    image: "/25n-coworking-frisco.png",
+    url: "https://25ncoworking.com/locations/frisco-tx",
+    location: "Frisco, TX",
+  },
+];
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
@@ -105,6 +142,53 @@ export function WorkWithUsClient() {
               <span className="transition-transform group-hover:translate-x-0.5">→</span>
             </a>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Community proof */}
+      <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+            <div className="lg:col-span-5">
+              <motion.p
+                {...stagger(0)}
+                className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-orange mb-5 flex items-center gap-2"
+              >
+                <span className="inline-block h-px w-6 bg-claw-orange/60" />
+                {copy.proof.eyebrow}
+              </motion.p>
+              <motion.h2
+                {...stagger(1)}
+                className="font-display text-4xl sm:text-5xl lg:text-[60px] leading-[1.02] tracking-tight text-claw-text"
+              >
+                {copy.proof.title}
+              </motion.h2>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="space-y-4 text-base sm:text-lg text-claw-muted leading-[1.65]">
+                {copy.proof.body.map((text, i) => (
+                  <motion.p key={text} {...stagger(i + 2)}>
+                    {text}
+                  </motion.p>
+                ))}
+              </div>
+              <motion.dl
+                {...stagger(5)}
+                className="mt-9 grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-lg border border-claw-border bg-claw-border"
+              >
+                {copy.proof.stats.map((stat) => (
+                  <div key={stat.label} className="bg-claw-surface px-4 py-5">
+                    <dt className="font-display text-3xl text-claw-orange leading-none">
+                      {stat.value}
+                    </dt>
+                    <dd className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-claw-muted leading-snug">
+                      {stat.label}
+                    </dd>
+                  </div>
+                ))}
+              </motion.dl>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -213,6 +297,110 @@ export function WorkWithUsClient() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sponsor tiers */}
+      <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl">
+          <motion.p {...stagger(0)} className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-orange mb-10">
+            {copy.sponsorship.eyebrow}
+          </motion.p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px overflow-hidden rounded-lg border border-claw-border bg-claw-border">
+            {copy.sponsorship.tiers.map((tier, i) => (
+              <motion.div
+                key={tier.name}
+                {...stagger(i + 1)}
+                className="bg-claw-surface p-7 sm:p-8 lg:p-9 flex flex-col"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-claw-dim mb-4">
+                  {tier.tagline}
+                </p>
+                <h3 className="font-display text-2xl sm:text-3xl tracking-tight text-claw-text mb-2">
+                  {tier.name}
+                </h3>
+                <p className="font-mono text-[11px] text-claw-orange uppercase tracking-[0.18em] mb-6">
+                  {tier.price}
+                </p>
+                <p className="text-[15px] text-claw-muted leading-[1.6] mb-7 flex-1">
+                  {tier.description}
+                </p>
+                <ul className="space-y-3">
+                  {tier.perks.map((perk) => (
+                    <li key={perk} className="flex items-start gap-3 text-[14px] text-claw-muted leading-snug">
+                      <span className="text-claw-orange mt-0.5 shrink-0">→</span>
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners */}
+      <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
+        <div className="mx-auto max-w-6xl space-y-14">
+          <div>
+            <motion.p {...stagger(0)} className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-dim mb-8">
+              {copy.partners.partners}
+            </motion.p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {partners.map((partner, i) => (
+                <motion.a
+                  key={partner.name}
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...stagger(i + 1)}
+                  className="group relative overflow-hidden rounded-lg border border-claw-border aspect-video hover:border-claw-orange transition-colors"
+                  aria-label={copy.partners.visit(partner.name)}
+                >
+                  <Image
+                    src={partner.image}
+                    alt=""
+                    fill
+                    className="object-cover group-hover:opacity-80 transition-opacity"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-claw-void/90 border-t border-claw-border px-4 py-3 flex items-center justify-between gap-3">
+                    <span className="font-mono text-sm text-claw-text">{partner.name}</span>
+                    <span className="font-mono text-xs text-claw-dim text-right">{partner.taglines[locale]}</span>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <motion.p {...stagger(0)} className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-dim mb-8">
+              {copy.partners.venues}
+            </motion.p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {venuePartners.map((venue, i) => (
+                <motion.a
+                  key={venue.name}
+                  href={venue.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...stagger(i + 1)}
+                  className="group relative overflow-hidden rounded-lg border border-claw-border aspect-video hover:border-claw-orange transition-colors"
+                  aria-label={copy.partners.visit(venue.name)}
+                >
+                  <Image
+                    src={venue.image}
+                    alt=""
+                    fill
+                    className="object-cover group-hover:opacity-80 transition-opacity"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-claw-void/90 border-t border-claw-border px-4 py-3">
+                    <span className="block font-mono text-sm text-claw-text">{venue.name}</span>
+                    <span className="mt-1 block font-mono text-xs text-claw-dim">{venue.location}</span>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
