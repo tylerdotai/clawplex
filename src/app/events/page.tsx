@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const title = locale === "es" ? "Nodes y eventos" : "Nodes & Events";
   const description = locale === "es"
-    ? "Meetups semanales para builders de IA en DFW. Sin charlas. Sin diapositivas. Solo gente con laptops y café."
+    ? "Encuentros semanales para builders de IA en DFW. Sin charlas. Sin diapositivas. Solo gente con laptops y café."
     : "Weekly meetups for DFW AI builders. No talks. No slides. Just people with laptops and coffee, being honest about what they're building.";
   return {
     title,
@@ -31,7 +31,7 @@ export default async function EventsPage() {
     location: "CreateFW, Fort Worth TX",
     description:
       locale === "es"
-        ? "Meetup semanal de ClawPlex DFW en Fort Worth, organizado con FTW DAO en CreateFW. Sin agenda, sin diapositivas — solo builders mostrando en qué están trabajando."
+        ? "Encuentro semanal de ClawPlex DFW en Fort Worth, organizado con FTW DAO en CreateFW. Sin agenda, sin diapositivas — solo builders mostrando en qué están trabajando."
         : "Weekly ClawPlex DFW meetup in Fort Worth, hosted with FTW DAO at CreateFW. No agenda, no slides — just builders showing what they are working on.",
     url: "https://luma.com/7lcfouly",
     status: "confirmed",
