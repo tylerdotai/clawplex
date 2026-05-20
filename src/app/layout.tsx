@@ -4,6 +4,7 @@ import "./globals.css";
 import { Playfair_Display, Karla } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SocialProofPopup } from "@/components/social-proof-popup";
 import { defaultLocale, getLocaleFromPathname, locales } from "@/lib/i18n/config";
 
 const playfair = Playfair_Display({
@@ -116,6 +117,7 @@ export default async function RootLayout({
       <body
         className={`${playfair.variable} ${karla.variable} bg-background text-foreground font-sans antialiased`}
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+        suppressHydrationWarning
       >
         {/* Skip to main content — a11y */}
         <a
@@ -125,6 +127,7 @@ export default async function RootLayout({
           Skip to main content
         </a>
         {children}
+        <SocialProofPopup />
         <Analytics />
         <SpeedInsights />
       </body>
