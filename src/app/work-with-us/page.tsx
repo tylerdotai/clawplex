@@ -8,15 +8,19 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
   const title = locale === "es" ? "Trabaja con nosotros" : "Work With Us";
   const description = locale === "es"
-    ? "¿Quieres colaborar con ClawPlex? Cuéntanos en qué estás trabajando: patrocinios, partnerships, sedes, talleres y colaboraciones de la comunidad DFW de builders de IA."
-    : "Want to partner with ClawPlex? Tell us what you're working on — sponsorships, partnerships, venues, workshops, and collaborations with the DFW AI builder community.";
+    ? "Contrata a ClawPlex o colabora con la comunidad DFW de builders de IA: proyectos de IA, patrocinios, partnerships, sedes, talleres y talento local."
+    : "Hire ClawPlex or partner with the DFW AI builder community: AI projects, sponsorships, venue partnerships, workshops, and local AI talent.";
   return {
     title,
     description,
+    alternates: {
+      canonical: locale === "es" ? "/es/work-with-us" : "/en/work-with-us",
+    },
     openGraph: {
       title: `${title} — ClawPlex DFW`,
       description,
       type: "website",
+      url: locale === "es" ? "/es/work-with-us" : "/en/work-with-us",
     },
   };
 }

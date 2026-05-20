@@ -1,34 +1,30 @@
 import { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { Footer } from "@/components/footer";
-import { SponsorsClient } from "./sponsors-client";
+import { redirect } from "next/navigation";
 import { getRequestLocale } from "@/lib/i18n/server";
+import { withLocale } from "@/lib/i18n/config";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getRequestLocale();
-  const title = locale === "es" ? "Patrocina" : "Sponsor";
+  const title = locale === "es" ? "Trabaja con nosotros" : "Work With Us";
   const description = locale === "es"
-    ? "Patrocina la comunidad de builders de IA en DFW. ClawPlex es una comunidad operada por voluntarios para builders de DFW que lanzan productos de IA."
-    : "Sponsor the DFW AI builder community. ClawPlex is a volunteer-run community for DFW builders shipping AI products. Sponsors make it free to attend and keep the focus on building.";
+    ? "Contrata a ClawPlex o colabora con la comunidad DFW de builders de IA: proyectos de IA, patrocinios, sedes, talleres y talento local."
+    : "Hire ClawPlex or partner with the DFW AI builder community: AI projects, sponsorships, venue partnerships, workshops, and local AI talent.";
   return {
     title,
     description,
+    alternates: {
+      canonical: withLocale("/work-with-us", locale),
+    },
     openGraph: {
       title: `${title} — ClawPlex DFW`,
       description,
       type: "website",
+      url: withLocale("/work-with-us", locale),
     },
   };
 }
 
 export default function SponsorsPage() {
-  return (
-    <div className="min-h-screen">
-      <Nav />
-      <main>
-        <SponsorsClient />
-      </main>
-      <Footer />
-    </div>
-  );
+  redirect("/work-with-us");
+  return null;
 }
