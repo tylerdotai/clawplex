@@ -21,7 +21,15 @@ export function middleware(request: NextRequest) {
 
   // If already has locale prefix, just pass through
   if (pathnameLocale) {
-    return NextResponse.next();
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-claw-locale", pathnameLocale);
+    requestHeaders.set("x-claw-pathname", pathname);
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
   }
 
   // No locale - redirect to preferred locale

@@ -1,9 +1,44 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import type { Metadata } from "next";
 import React from "react";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 
 interface PageProps {
   params: Promise<{ locale: Locale; path: string[] }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, path } = await params;
+
+  if (!isLocale(locale)) {
+    notFound();
+  }
+
+  const pagePath = `/${path.join("/")}`;
+
+  if (pagePath === "/work-with-us" || pagePath === "/sponsors") {
+    const title = locale === "es" ? "Trabaja con nosotros" : "Work With Us";
+    const description = locale === "es"
+      ? "Contrata a ClawPlex o colabora con la comunidad DFW de builders de IA: proyectos de IA, patrocinios, socios, sedes, talleres y talento local."
+      : "Hire ClawPlex or partner with the DFW AI builder community: AI projects, sponsorships, venue partnerships, workshops, and local AI talent.";
+    const canonicalPath = `/${locale}/work-with-us`;
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: canonicalPath,
+      },
+      openGraph: {
+        title: `${title} — ClawPlex DFW`,
+        description,
+        type: "website",
+        url: canonicalPath,
+      },
+    };
+  }
+
+  return {};
 }
 
 export default async function LocaleCatchAll({ params }: PageProps) {
@@ -32,6 +67,10 @@ export default async function LocaleCatchAll({ params }: PageProps) {
   };
   
   // Check for exact matches first
+  if (pagePath === "/sponsors") {
+    redirect(`/${locale}/work-with-us`);
+  }
+
   const exactMatch = pageModules[pagePath];
   if (exactMatch) {
     const mod = await exactMatch();
