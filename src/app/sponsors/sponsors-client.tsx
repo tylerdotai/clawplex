@@ -29,13 +29,13 @@ function stagger(i: number) {
 const partners = [
   {
     name: "KiloClaw",
-    image: "/ftwdao-logo.png",
+    image: "/kiloclaw-logo.png",
     url: "https://kilocode.pxf.io/OYnK0N",
     taglines: { en: "AI Coding Agent", es: "Agente de código con IA" },
   },
   {
     name: "FTW DAO",
-    image: "/kilocode-logo.png",
+    image: "/ftwdao-logo.png",
     url: "https://fwtx.city",
     taglines: { en: "Community Partner", es: "Partner de comunidad" },
   },
