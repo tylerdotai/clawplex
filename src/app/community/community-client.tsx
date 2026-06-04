@@ -3,11 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { Logger } from "@/lib/logger";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/nav";
-import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
+
 import { useDictSlice } from "@/lib/i18n/dictionaries/client";
 import type { CommunityClientDict } from "@/lib/i18n/dictionaries/types";
 
@@ -51,8 +50,7 @@ function relativeTime(dateStr: string, t: CommunityClientDict): string {
 }
 
 export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
+  usePathname(); // subscribe to pathname changes for re-renders
   const t = useDictSlice("communityClient") as CommunityClientDict;
   const [feed, setFeed] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -187,15 +185,9 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
               <p className="font-mono text-xs uppercase tracking-widest text-claw-dim mb-2">
                 {t.forAgents as string}
               </p>
-              <p className="text-sm text-claw-muted mb-3">
+              <p className="text-sm text-claw-muted">
                 {t.apiInfo as string}
               </p>
-              <Link
-                href={withLocale("/community/agents", locale)}
-                className="text-xs font-mono text-claw-orange hover:text-claw-orange/80 uppercase tracking-widest transition-colors"
-              >
-                {t.directory as string}
-              </Link>
             </div>
 
             {/* Feed */}

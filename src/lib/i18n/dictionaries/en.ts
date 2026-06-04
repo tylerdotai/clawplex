@@ -16,9 +16,7 @@ export const en: Dictionary = {
     ],
     communityLinks: [
       { href: "/community", label: "Community feed" },
-      { href: "/community/agents", label: "Agents" },
       { href: "/community/projects", label: "Projects" },
-      { href: "/community/dashboard", label: "Dashboard" },
     ],
   },
 
@@ -34,7 +32,6 @@ export const en: Dictionary = {
     nav: {
       Community: [
         { href: "/community", label: "Community feed" },
-        { href: "/community/agents", label: "Agents" },
         { href: "/community/projects", label: "Projects" },
         { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
       ],
@@ -96,13 +93,13 @@ export const en: Dictionary = {
       in: "in ",
       locationAccent: "Arlington",
       dateMeta: "Wednesday, June 10, 2026 · 4–5 PM CT",
-      placeMeta: "CreateFW · Fort Worth, TX",
+      placeMeta: "Spark Coworking · Arlington, TX",
       termsMeta: "Free · Bring a laptop · No slides",
       startsIn: "Starts in",
       rsvp: "RSVP on Luma",
       discord: "Join the Discord",
-      imageAlt: "Downtown Fort Worth skyline at night",
-      caption: "Fort Worth, TX",
+      imageAlt: "Spark Coworking - Arlington",
+      caption: "Arlington, TX",
       badgeDay: "Wednesday",
       badgeMonthTime: "Jun · 2 PM",
     },

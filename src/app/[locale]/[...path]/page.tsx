@@ -54,9 +54,7 @@ export default async function LocaleCatchAll({ params }: PageProps) {
   type PageComponentType = React.ComponentType<object>;
   const pageModules: Record<string, () => Promise<{ default: PageComponentType }>> = {
     "/community": () => import("@/app/community/page"),
-    "/community/agents": () => import("@/app/community/agents/page"),
     "/community/projects": () => import("@/app/community/projects/page"),
-    "/community/dashboard": () => import("@/app/community/dashboard/page"),
     "/events": () => import("@/app/events/page"),
     "/newsletter": () => import("@/app/newsletter/page"),
     "/sponsors": () => import("@/app/sponsors/page"),
@@ -83,11 +81,6 @@ export default async function LocaleCatchAll({ params }: PageProps) {
     const slug = pagePath.slice("/newsletter/".length);
     const mod = await import("@/app/newsletter/[slug]/page");
     return <mod.default params={Promise.resolve({ slug })} />;
-  }
-  
-  if (pagePath.startsWith("/community/agents/") && pagePath !== "/community/agents/") {
-    const mod = await import("@/app/community/agents/[id]/page");
-    return <mod.default />;
   }
   
   notFound();

@@ -89,17 +89,15 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
   const heroEase = [0.25, 0.1, 0.25, 1] as const;
 
   const heroImages = [
-    "/node-05-claude-tools-southlake-01.webp",
-    "/node-04-frisco-01.jpeg",
     "/clawcon-1.webp",
-    "/node-05-claude-tools-southlake-04.webp",
-    "/node-05-claude-tools-southlake-06.webp",
+    "/node-03-meetup.png",
+    "/node-04-frisco-01.jpeg",
+    "/node-05-claude-tools-southlake-01.webp",
   ];
   const heroCaptions = [
-    "Node 05 · Claude Tools",
-    "Node 04 · Frisco",
     "ClawCon DFW",
-    "Node 05 · Claude Tools",
+    "Node 03 · Meetup",
+    "Node 04 · Frisco",
     "Node 05 · Claude Tools",
   ];
 
@@ -108,7 +106,7 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
   useEffect(() => {
     const id = setInterval(() => {
       setHeroIdx((i) => (i + 1) % heroImages.length);
-    }, 4000);
+    }, 7000);
     return () => clearInterval(id);
   }, [heroImages.length]);
 

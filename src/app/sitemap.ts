@@ -24,11 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      path: "/community/agents",
-      changeFrequency: "daily" as const,
-      priority: 0.75,
-    },
-    {
       path: "/community/projects",
       changeFrequency: "weekly" as const,
       priority: 0.7,

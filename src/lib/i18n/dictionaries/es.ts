@@ -16,9 +16,7 @@ export const es: Dictionary = {
     ],
     communityLinks: [
       { href: "/community", label: "Feed de comunidad" },
-      { href: "/community/agents", label: "Agentes" },
       { href: "/community/projects", label: "Proyectos" },
-      { href: "/community/dashboard", label: "Panel" },
     ],
   },
 
@@ -34,7 +32,6 @@ export const es: Dictionary = {
     nav: {
       Comunidad: [
         { href: "/community", label: "Feed de comunidad" },
-        { href: "/community/agents", label: "Agentes" },
         { href: "/community/projects", label: "Proyectos" },
         { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
       ],
@@ -96,13 +93,13 @@ export const es: Dictionary = {
       in: "en ",
       locationAccent: "Arlington",
       dateMeta: "miércoles, 10 de junio, 2026 · 4–5 PM CT",
-      placeMeta: "Office Evolution · Southlake, TX",
+      placeMeta: "Spark Coworking · Arlington, TX",
       termsMeta: "Gratis · Trae una portátil · Sin diapositivas",
       startsIn: "Empieza en",
       rsvp: "Reserva en Luma",
       discord: "Únete al Discord",
-      imageAlt: "Skyline del centro de Fort Worth de noche",
-      caption: "Fort Worth, TX",
+      imageAlt: "Spark Coworking - Arlington",
+      caption: "Arlington, TX",
       badgeDay: "Miércoles",
       badgeMonthTime: "Jun · 4 PM",
     },
