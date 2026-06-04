@@ -268,7 +268,7 @@ function WhatIsClawPlex({ copy }: { copy: HomeDict["what"] }) {
 
 /* ── Event Section — Next Node ─────────────────────────────────────────── */
 function EventSection({ copy, countdownLabels }: { copy: HomeDict["event"]; countdownLabels: HomeDict["countdown"] }) {
-  const eventDate = new Date("2026-06-03T14:00:00-05:00");
+  const eventDate = new Date("2026-06-10T16:00:00-05:00");
 
   return (
     <section className="relative border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32 overflow-hidden">
@@ -337,7 +337,7 @@ function EventSection({ copy, countdownLabels }: { copy: HomeDict["event"]; coun
           >
             <div className="relative aspect-[5/6] sm:aspect-[4/3] lg:aspect-[5/6] overflow-hidden rounded-lg">
               <Image
-                src="/fort-worth-skyline-night.jpg"
+                src="/hermes-cover.webp"
                 alt={copy.imageAlt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 58vw"

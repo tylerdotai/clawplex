@@ -65,7 +65,7 @@ export const es: Dictionary = {
       titleLine2Accent: "constructores",
       body: "Miércoles a las 2 PM. Portátiles reales, demostraciones reales y constructores reales enviando productos de IA en Dallas–Fort Worth. Sin diapositivas, sin presentaciones de proveedores.",
       nextLabel: "Próximo:",
-      nextMeta: "Mié 3 de jun · 2–3 PM · CreateFW, Fort Worth",
+      nextMeta: "Mié 10 de jun · 4–5 PM · Office Evolution, Arlington",
       rsvp: "Reserva en Luma",
       discord: "O únete al Discord",
       imageAlt: "ClawCon DFW — constructores en un encuentro reciente",
@@ -75,7 +75,7 @@ export const es: Dictionary = {
       imageAlt: "DFW Node 04 — constructores en 25N Coworking, Frisco",
       caption: "Node 04 · Frisco",
       facts: [
-        { value: "4", label: "Nodes hechos" },
+        { value: "5", label: "Nodes hechos" },
         { value: "70+", label: "En Discord" },
         { value: "2 PM", label: "Cada mié" },
       ],
@@ -92,11 +92,11 @@ export const es: Dictionary = {
     },
     event: {
       eyebrow: "Sigue ahora",
-      title: "DFW Node 05",
+      title: "DFW Node 06 — Hermes",
       in: "en ",
-      locationAccent: "Fort Worth",
-      dateMeta: "Miércoles, 3 de junio de 2026 · 2–3 PM CT",
-      placeMeta: "CreateFW · Fort Worth, TX",
+      locationAccent: "Arlington",
+      dateMeta: "miércoles, 10 de junio, 2026 · 4–5 PM CT",
+      placeMeta: "Office Evolution · Southlake, TX",
       termsMeta: "Gratis · Trae una portátil · Sin diapositivas",
       startsIn: "Empieza en",
       rsvp: "Reserva en Luma",
@@ -104,7 +104,7 @@ export const es: Dictionary = {
       imageAlt: "Skyline del centro de Fort Worth de noche",
       caption: "Fort Worth, TX",
       badgeDay: "Miércoles",
-      badgeMonthTime: "Jun · 2 PM",
+      badgeMonthTime: "Jun · 4 PM",
     },
     ways: {
       eyebrow: "Tres formas de participar",
@@ -400,6 +400,19 @@ curl -X POST https://clawplex.dev/api/community/posts \\
     newsletter: "Únete al newsletter",
     discord: "Únete a Discord",
     events: [
+      {
+        slug: "dfw-node-05",
+        status: "past",
+        title: "DFW Node 05 — Claude Tools",
+        date: "3 de junio, 2026",
+        image: "/node-05-claude-tools-southlake-01.webp",
+        description: "60 constructores de DFW se reunió en Office Evolution - Southlake para una conversación honesta sobre las herramientas de IA realmente en sus escritorios — Cursor, Claude Code, OpenCode, OpenAI, Hermes, OpenClaw y más. Sin diapositivas, sin pitches — solo constructores compartiendo qué funciona, qué no, y qué les sigue dando problemas.",
+        stats: [
+          { value: "60", label: "Constructores" },
+          { value: "Herramientas", label: "En El Escritorio" },
+          { value: "Southlake", label: "Office Evolution" },
+        ],
+      },
       {
         slug: "dfw-node-04",
         status: "past",

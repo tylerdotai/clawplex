@@ -25,15 +25,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EventsPage() {
   const locale = await getRequestLocale();
   const nextEventSchema = eventSchema({
-    name: "DFW Node 05 — Fort Worth",
-    startDate: "2026-06-03T14:00:00-05:00",
-    endDate: "2026-06-03T15:00:00-05:00",
-    location: "CreateFW, Fort Worth TX",
+    name: "DFW Node 06 — Hermes",
+    startDate: "2026-06-10T16:00:00-05:00",
+    endDate: "2026-06-10T17:30:00-05:00",
+    location: "Spark Coworking, Arlington TX",
     description:
       locale === "es"
-        ? "Encuentro semanal de ClawPlex DFW en Fort Worth, organizado con FTW DAO en CreateFW. Sin agenda, sin diapositivas — solo builders mostrando en qué están trabajando."
-        : "Weekly ClawPlex DFW meetup in Fort Worth, hosted with FTW DAO at CreateFW. No agenda, no slides — just builders showing what they are working on.",
-    url: "https://luma.com/7lcfouly",
+        ? "Meetup semanal de ClawPlex DFW en Arlington, organizado en Spark Coworking. Tema: Hermes Agent — el agente autónomo de código abierto de Nous Research que se vuelve más inteligente con el uso. Sin agenda, sin diapositivas — solo constructores explorando agentes de IA auto-mejorables."
+        : "Weekly ClawPlex DFW meetup in Arlington, hosted at Spark Coworking. Topic: Hermes Agent — the open-source, self-improving AI agent from Nous Research. No agenda, no slides — just builders exploring self-improving agents in person.",
+    url: "https://luma.com/di2osni7",
     status: "confirmed",
   });
 

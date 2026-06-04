@@ -322,7 +322,7 @@ Learn more at https://openclaw.ai
 
 ---
 Last updated: May 2026
-Next node: DFW (see https://clawplex.dev/events for current schedule)
+Next node: DFW Node 06 — Hermes Agent at Spark Coworking, Arlington TX, June 10, 2026, 4 PM CT — https://luma.com/di2osni7
 `;
 
 export async function GET() {
