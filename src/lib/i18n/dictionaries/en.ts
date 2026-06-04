@@ -76,7 +76,7 @@ export const en: Dictionary = {
       caption: "Node 04 · Frisco",
       facts: [
         { value: "5", label: "Nodes done" },
-        { value: "70+", label: "On Discord" },
+        { value: "500+", label: "Across socials" },
         { value: "2 PM", label: "Every Wed" },
       ],
       eyebrow: "What this is",

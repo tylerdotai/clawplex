@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, MotionConfig } from "framer-motion";
+import { motion, MotionConfig, AnimatePresence } from "framer-motion";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { homepageSchema } from "@/components/agent-readiness/json-ld-schemas";
@@ -87,6 +87,30 @@ function Countdown({ target, labels }: { target: Date; labels: HomeDict["countdo
 /* ── Hero — Editorial split (text left / photo right) ─────────────────── */
 function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
   const heroEase = [0.25, 0.1, 0.25, 1] as const;
+
+  const heroImages = [
+    "/node-05-claude-tools-southlake-01.webp",
+    "/node-04-frisco-01.jpeg",
+    "/clawcon-1.webp",
+    "/node-05-claude-tools-southlake-04.webp",
+    "/node-05-claude-tools-southlake-06.webp",
+  ];
+  const heroCaptions = [
+    "Node 05 · Claude Tools",
+    "Node 04 · Frisco",
+    "ClawCon DFW",
+    "Node 05 · Claude Tools",
+    "Node 05 · Claude Tools",
+  ];
+
+  const [heroIdx, setHeroIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroIdx((i) => (i + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, [heroImages.length]);
 
   return (
     <div className="relative grid lg:grid-cols-12 lg:min-h-[88vh] lg:max-h-[1000px]">
@@ -175,14 +199,25 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
         transition={{ duration: 1, ease: heroEase }}
         className="lg:col-span-7 relative h-[320px] sm:h-[420px] lg:h-auto lg:min-h-[88vh] lg:max-h-[1000px] order-2 overflow-hidden"
       >
-        <Image
-          src="/clawcon-1.webp"
-          alt={copy.imageAlt}
-          fill
-          priority
-          sizes="(max-width: 1024px) 100vw, 58vw"
-          className="object-cover object-center"
-        />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={heroIdx}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: heroEase }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={heroImages[heroIdx]}
+              alt={copy.imageAlt}
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 58vw"
+              className="object-cover object-center"
+            />
+          </motion.div>
+        </AnimatePresence>
         <div
           aria-hidden="true"
           className="absolute inset-0 bg-gradient-to-t from-claw-void/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-claw-void/95 lg:via-claw-void/0 lg:to-transparent"
@@ -190,7 +225,7 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
         <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-6 z-10">
           <span className="inline-flex items-center gap-2 rounded-full bg-claw-void/70 backdrop-blur-sm px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-claw-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-claw-orange" />
-            {copy.caption}
+            {heroCaptions[heroIdx]}
           </span>
         </div>
       </motion.div>
