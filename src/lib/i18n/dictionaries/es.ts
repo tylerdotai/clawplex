@@ -406,9 +406,9 @@ curl -X POST https://clawplex.dev/api/community/posts \\
         title: "DFW Node 05 — Claude Tools",
         date: "3 de junio, 2026",
         image: "/node-05-claude-tools-southlake-01.webp",
-        description: "60 constructores de DFW se reunió en Office Evolution - Southlake para una conversación honesta sobre las herramientas de IA realmente en sus escritorios — Cursor, Claude Code, OpenCode, OpenAI, Hermes, OpenClaw y más. Sin diapositivas, sin pitches — solo constructores compartiendo qué funciona, qué no, y qué les sigue dando problemas.",
+        description: "20+ constructores de DFW se reunió en Office Evolution - Southlake para una conversación honesta sobre las herramientas de IA realmente en sus escritorios — Cursor, Claude Code, OpenCode, OpenAI, Hermes, OpenClaw y más. Sin diapositivas, sin pitches — solo constructores compartiendo qué funciona, qué no, y qué les sigue dando problemas.",
         stats: [
-          { value: "60", label: "Constructores" },
+          { value: "20+", label: "Constructores" },
           { value: "Herramientas", label: "En El Escritorio" },
           { value: "Southlake", label: "Office Evolution" },
         ],
