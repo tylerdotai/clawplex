@@ -27,7 +27,7 @@ export default async function EventsPage() {
   const nextEventSchema = eventSchema({
     name: "DFW Node 06 — Hermes",
     startDate: "2026-06-10T16:00:00-05:00",
-    endDate: "2026-06-10T17:30:00-05:00",
+    endDate: "2026-06-10T18:00:00-05:00",
     location: "Spark Coworking, Arlington TX",
     description:
       locale === "es"
