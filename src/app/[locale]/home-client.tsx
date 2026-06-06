@@ -69,7 +69,7 @@ function Countdown({ target, labels }: { target: Date; labels: HomeDict["countdo
   ];
 
   return (
-    <div className="inline-flex items-stretch overflow-hidden rounded-xl border border-claw-border bg-claw-surface">
+    <div className="inline-flex items-stretch overflow-hidden rounded-xl border border-claw-border bg-claw-surface surface-inset-highlight">
       {items.map(({ val, label }, i) => (
         <div key={label} className={`px-5 py-3.5 sm:px-6 sm:py-4 text-center ${i > 0 ? "border-l border-claw-border" : ""}`}>
           <div className="font-display text-2xl sm:text-3xl text-claw-text leading-none tabular-nums">
@@ -349,7 +349,7 @@ function EventSection({ copy, countdownLabels }: { copy: HomeDict["event"]; coun
               <Countdown target={eventDate} labels={countdownLabels} />
             </motion.div>
             <motion.div {...stagger(4)} className="mt-9 flex flex-wrap items-center gap-4">
-              <a href="https://luma.com/clawplex" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-claw-blue px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-claw-blue-light transition-colors">
+              <a href="https://luma.com/clawplex" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-claw-blue-bright px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-blue-400 transition-colors">
                 {copy.rsvp}
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -393,7 +393,7 @@ function EventSection({ copy, countdownLabels }: { copy: HomeDict["event"]; coun
             >
               <div className="relative rounded-lg bg-claw-red text-claw-void px-5 py-4 sm:px-6 sm:py-5 shadow-2xl shadow-black/40">
                 <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-claw-void/70">{copy.badgeDay}</p>
-                <p className="mt-1 font-display text-[44px] sm:text-[56px] leading-none tabular-nums">03</p>
+                <p className="mt-1 font-display text-[48px] sm:text-[64px] leading-none tabular-nums">03</p>
                 <p className="mt-1 font-mono text-xs uppercase tracking-[0.22em] text-claw-void/80">{copy.badgeMonthTime}</p>
               </div>
             </motion.div>
