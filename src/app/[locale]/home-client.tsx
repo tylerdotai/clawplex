@@ -128,11 +128,11 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: heroEase, delay: 0.05 }}
-          className="font-display text-[44px] sm:text-6xl lg:text-[68px] xl:text-[80px] leading-[0.98] tracking-tight text-claw-text"
+          className="font-display text-[44px] sm:text-6xl lg:text-[76px] xl:text-[96px] leading-[0.98] tracking-tight text-claw-text"
         >
           {copy.titleLine1}
           <br />
-          {copy.titleLine2Prefix}<span className="underline-accent">{copy.titleLine2Accent}</span>.
+          {copy.titleLine2Prefix}<span className="underline-accent anchor-word">{copy.titleLine2Accent}</span>.
         </motion.h1>
 
         <motion.p
@@ -171,7 +171,7 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
             href="https://luma.com/clawplex"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-claw-blue px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-claw-blue-light transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-claw-blue-bright px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-blue-400 transition-colors"
           >
             {copy.rsvp}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -218,7 +218,7 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
         </AnimatePresence>
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-t from-claw-void/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-claw-void/95 lg:via-claw-void/0 lg:to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-claw-void/60 via-transparent to-transparent lg:bg-gradient-to-r lg:from-claw-void/85 lg:via-claw-void/0 lg:to-transparent"
         />
         <div className="absolute bottom-4 right-4 sm:bottom-5 sm:right-6 z-10">
           <span className="inline-flex items-center gap-2 rounded-full bg-claw-void/70 backdrop-blur-sm px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-claw-muted">
