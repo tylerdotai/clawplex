@@ -110,7 +110,7 @@ export function Footer() {
                   aria-current={language === locale ? "true" : undefined}
                   className={`transition-colors ${
                     language === locale
-                      ? "text-claw-blue"
+                      ? "text-claw-blue-bright"
                       : "text-claw-dim hover:text-claw-text"
                   }`}
                 >

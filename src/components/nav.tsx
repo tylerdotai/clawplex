@@ -156,7 +156,7 @@ export function Nav() {
               href={primaryCtaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 lg:ml-3 inline-flex items-center gap-1.5 rounded-full bg-claw-blue px-5 py-2 text-sm font-medium text-claw-void hover:bg-claw-blue-light transition-colors"
+              className="ml-2 lg:ml-3 inline-flex items-center gap-1.5 rounded-full bg-claw-blue-bright px-5 py-2 text-sm font-medium text-claw-void hover:bg-blue-400 transition-colors"
             >
               {copy.primaryCta}
               <svg
@@ -276,7 +276,7 @@ export function Nav() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setOpen(false)}
-                  className="block w-full rounded-full bg-claw-blue py-4 text-center text-base font-medium text-claw-void hover:bg-claw-blue-light transition-colors"
+                  className="block w-full rounded-full bg-claw-blue-bright py-4 text-center text-base font-medium text-claw-void hover:bg-blue-400 transition-colors"
                 >
                   {copy.primaryCta}
                 </a>
