@@ -50,18 +50,23 @@
 
   /* ── ClawPlex v2 — editorial dark ── */
   --color-claw-void: #0a0a0a;
-  --color-claw-surface: #131313;
-  --color-claw-surface-2: #1a1a1a;
-  --color-claw-border: rgba(255, 255, 255, 0.08);
+  --color-claw-surface: #0d0d0d;
+  --color-claw-surface-2: #161616;
+  --color-claw-border: rgba(255, 255, 255, 0.10);
   --color-claw-border-hover: rgba(255, 255, 255, 0.18);
-  --color-claw-text: #fafafa;
-  --color-claw-muted: #b8b8b8;
+  --color-claw-text: #ffffff;
+  --color-claw-ink: #f5f5f0;
+  --color-claw-muted: #d4d4d4;
   --color-claw-dim: #7a7a7a;
+  --color-claw-card: #1a1a1a;
   --color-claw-blue: #1E40AF;
   --color-claw-blue-soft: rgba(30, 64, 175, 0.12);
   --color-claw-blue-light: #3B82F6;
-  --color-claw-red: #DC2626;
-  --color-claw-red-soft: rgba(220, 38, 38, 0.12);
+  --color-claw-blue-bright: #3B82F6;
+  --color-claw-blue-divider: rgba(59, 130, 246, 0.30);
+  --color-claw-white-soft: rgba(255, 255, 255, 0.04);
+  --color-claw-red: #EF4444;
+  --color-claw-red-soft: rgba(239, 68, 68, 0.12);
   --color-claw-success: #22C55E;
   --spacing-128: 32rem;
 }
@@ -69,37 +74,37 @@
 :root {
   /* ClawPlex v2 — editorial dark palette */
   --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #131313;
-  --card-foreground: #fafafa;
-  --popover: #131313;
-  --popover-foreground: #fafafa;
+  --foreground: #ffffff;
+  --card: #0d0d0d;
+  --card-foreground: #ffffff;
+  --popover: #0d0d0d;
+  --popover-foreground: #ffffff;
   --primary: #1E40AF;
   --primary-foreground: #fafafa;
-  --secondary: #1a1a1a;
+  --secondary: #161616;
   --secondary-foreground: #fafafa;
-  --muted: #1a1a1a;
-  --muted-foreground: #b8b8b8;
-  --accent: #1a1a1a;
+  --muted: #161616;
+  --muted-foreground: #d4d4d4;
+  --accent: #161616;
   --accent-foreground: #fafafa;
-  --destructive: #DC2626;
-  --border: rgba(255, 255, 255, 0.08);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: #1E40AF;
+  --destructive: #EF4444;
+  --border: rgba(255, 255, 255, 0.10);
+  --input: rgba(255, 255, 255, 0.10);
+  --ring: #3B82F6;
   --chart-1: #1E40AF;
   --chart-2: #3B82F6;
   --chart-3: #A1A1AA;
   --chart-4: #52525B;
   --chart-5: #27272A;
   --radius: 8px;
-  --sidebar: #131313;
-  --sidebar-foreground: #fafafa;
+  --sidebar: #0d0d0d;
+  --sidebar-foreground: #ffffff;
   --sidebar-primary: #1E40AF;
   --sidebar-primary-foreground: #0a0a0a;
   --sidebar-accent: #1a1a1a;
   --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #1E40AF;
+  --sidebar-border: rgba(255, 255, 255, 0.10);
+  --sidebar-ring: #3B82F6;
 }
 
 @layer base {
@@ -135,7 +140,7 @@
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* ── Underline accent (fading orange, File 2 style) ── */
+/* ── Underline accent (fading blue, editorial style) ── */
 .underline-accent {
   position: relative;
   display: inline-block;
@@ -150,6 +155,33 @@
   background: linear-gradient(90deg, #1E40AF 0%, rgba(220, 38, 38, 0) 100%);
 }
 
+/* ── Anchor word (one H1 word per page in pure white) ── */
+.anchor-word {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* ── Display anchor (§ 01 markers) ── */
+.display-anchor {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #d4d4d4;
+  font-weight: 500;
+}
+
+/* ── Surface inset highlight (premium dark-UI cue) ── */
+.surface-inset-highlight {
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+/* ── Bleed right (photo runs to viewport edge) ── */
+.bleed-right {
+  margin-right: calc(50% - 50vw);
+  max-width: none;
+}
+
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: #0a0a0a; }
@@ -158,13 +190,13 @@
 
 /* ── Selection ── */
 ::selection {
-  background: rgba(30, 64, 175, 0.30);
+  background: rgba(59, 130, 246, 0.30);
   color: #fafafa;
 }
 
 /* ── Focus ring (keyboard nav only) ── */
 :focus-visible {
-  outline: 2px solid #DC2626;
+  outline: 2px solid #EF4444;
   outline-offset: 2px;
 }
 
