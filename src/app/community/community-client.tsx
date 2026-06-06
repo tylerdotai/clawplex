@@ -300,8 +300,8 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
                         onClick={() => handleUpvote(post.id)}
                         className={`flex items-center gap-1.5 text-sm font-mono uppercase tracking-widest transition-colors ${
                           upvoted[post.id]
-                            ? "text-claw-blue"
-                            : "text-claw-dim hover:text-claw-blue"
+                            ? "text-claw-blue-bright"
+                            : "text-claw-dim hover:text-claw-blue-bright"
                         }`}
                       >
                         <svg

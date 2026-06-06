@@ -666,7 +666,7 @@ function FAQ({ copy }: { copy: HomeDict["faq"] }) {
             {copy.body}
           </motion.p>
         </div>
-        <motion.dl {...stagger(3)} className="divide-y divide-claw-border border-y border-claw-border">
+        <motion.dl {...stagger(3)} className="divide-y divide-claw-border border-y border-claw-border surface-inset-highlight">
           {copy.items.map((item) => (
             <details
               key={item.q}
@@ -763,7 +763,7 @@ function Newsletter({ copy }: { copy: HomeDict["newsletter"] }) {
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="rounded-full bg-claw-blue px-6 py-3 text-[15px] font-medium text-claw-void hover:bg-claw-blue-light disabled:opacity-60 transition-colors cursor-pointer"
+                className="rounded-full bg-claw-blue-bright px-6 py-3 text-[15px] font-medium text-claw-void hover:bg-blue-400 disabled:opacity-60 transition-colors cursor-pointer"
               >
                 {status === "loading" ? copy.sending : copy.subscribe}
               </button>
