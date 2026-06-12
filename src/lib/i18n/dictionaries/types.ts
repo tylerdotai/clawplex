@@ -420,6 +420,7 @@ export interface EventItem {
   title: string;
   date: string;
   image: string;
+  gallery?: string[];
   description: string;
   stats: EventStats | null;
 }

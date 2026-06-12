@@ -25,15 +25,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EventsPage() {
   const locale = await getRequestLocale();
   const nextEventSchema = eventSchema({
-    name: "DFW Node 06 — Hermes",
-    startDate: "2026-06-10T16:00:00-05:00",
-    endDate: "2026-06-10T18:00:00-05:00",
-    location: "Spark Coworking, Arlington TX",
+    name: "ClawPlex X FWTX DAO: AI Builders Event",
+    startDate: "2026-07-15T17:00:00-05:00",
+    endDate: "2026-07-15T19:00:00-05:00",
+    location: "The DEC Network @ Fort Worth, 600 Bryan Ave #220, Fort Worth, TX 76104",
     description:
       locale === "es"
-        ? "Meetup semanal de ClawPlex DFW en Arlington, organizado en Spark Coworking. Tema: Hermes Agent — el agente autónomo de código abierto de Nous Research que se vuelve más inteligente con el uso. Sin agenda, sin diapositivas — solo constructores explorando agentes de IA auto-mejorables."
-        : "Weekly ClawPlex DFW meetup in Arlington, hosted at Spark Coworking. Topic: Hermes Agent — the open-source, self-improving AI agent from Nous Research. No agenda, no slides — just builders exploring self-improving agents in person.",
-    url: "https://luma.com/di2osni7",
+        ? "Encuentro casual de ClawPlex DFW en Fort Worth, co-organizado con FWTX DAO. Build-and-chill: trae tu portátil, trabaja en tu proyecto, haz preguntas, muestra un demo si tienes uno. Sin agenda formal, sin diapositivas — solo constructores construyendo en persona."
+        : "Casual ClawPlex DFW meetup in Fort Worth, co-organized with FWTX DAO. Build-and-chill: bring a laptop, work on your project, ask questions, show a demo if you've got one. No formal programming, no slides — just builders shipping in person.",
+    url: "https://luma.com/evimcn31",
     status: "confirmed",
   });
 

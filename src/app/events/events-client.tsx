@@ -114,7 +114,7 @@ export function EventsClient({ eventSchemaJson, faqSchemaJson }: EventClientProp
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 {past.map((event, i) => (
                   <motion.div key={event.slug} {...stagger(i + 1)}>
-                    <div className="relative overflow-hidden border border-claw-border aspect-video mb-8">
+                    <div className="relative overflow-hidden border border-claw-border aspect-video mb-4">
                       <Image
                         src={event.image}
                         alt={event.title}
@@ -125,6 +125,20 @@ export function EventsClient({ eventSchemaJson, faqSchemaJson }: EventClientProp
                         {copy.past}
                       </div>
                     </div>
+                    {event.gallery && event.gallery.length > 1 && (
+                      <div className="grid grid-cols-3 gap-2 mb-8">
+                        {event.gallery.map((src, j) => (
+                          <div key={src + j} className="relative overflow-hidden border border-claw-border aspect-video">
+                            <Image
+                              src={src}
+                              alt={`${event.title} — photo ${j + 1}`}
+                              fill
+                              className="object-cover opacity-70"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <h2 className="font-display text-4xl md:text-5xl tracking-wider text-claw-text mb-2">
                       {event.title}.
                     </h2>
