@@ -2,28 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  defaultLocale,
-  getLocaleFromPathname,
-  localeCookieName,
-  localeNames,
-  locales,
-  type Locale,
-  withLocale,
-} from "@/lib/i18n/config";
-import { useDictSlice } from "@/lib/i18n/dictionaries/client";
-import type { FooterDict } from "@/lib/i18n/dictionaries/types";
-
-function rememberLocale(locale: Locale) {
-  document.cookie = `${localeCookieName}=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-}
+import { footer as copy } from "@/lib/dict";
 
 export function Footer() {
-  const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const copy = useDictSlice("footer") as FooterDict;
-
   return (
     <footer className="border-t border-claw-border bg-claw-void">
       {/* Main footer */}
@@ -31,21 +12,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-8">
           {/* Brand column */}
           <div className="md:col-span-2">
-            <Link
-              href={withLocale("/", locale)}
-              className="inline-flex items-center gap-2.5"
-              aria-label={copy.home}
-            >
-              <Image
-                src="/clawplex-logo.png"
-                alt=""
-                width={28}
-                height={28}
-                className="object-contain"
-              />
-              <span className="font-display text-xl tracking-tight text-claw-text">
-                ClawPlex
-              </span>
+            <Link href="/" className="inline-flex items-center gap-2.5" aria-label={copy.home}>
+              <Image src="/clawplex-logo.png" alt="" width={28} height={28} className="object-contain" />
+              <span className="font-display text-xl tracking-tight text-claw-text">ClawPlex</span>
             </Link>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-claw-blue">
               {copy.eyebrow}
@@ -65,10 +34,8 @@ export function Footer() {
                 {items.map((item) => (
                   <li key={item.href}>
                     <a
-                      href={item.external ? item.href : withLocale(item.href, locale)}
-                      {...(item.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
+                      href={item.external ? item.href : item.href}
+                      {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                       className="text-[14px] text-claw-muted hover:text-claw-text transition-colors"
                     >
                       {item.label}
@@ -88,36 +55,12 @@ export function Footer() {
             © {new Date().getFullYear()} ClawPlex DFW · {copy.copyright}
           </p>
           <div className="flex items-center gap-5 text-[13px]">
-            <a
-              href={withLocale("/privacy", locale)}
-              className="text-claw-dim hover:text-claw-text transition-colors"
-            >
+            <a href="/privacy" className="text-claw-dim hover:text-claw-text transition-colors">
               {copy.privacy}
             </a>
-            <a
-              href={withLocale("/terms", locale)}
-              className="text-claw-dim hover:text-claw-text transition-colors"
-            >
+            <a href="/terms" className="text-claw-dim hover:text-claw-text transition-colors">
               {copy.terms}
             </a>
-            <span className="flex items-center gap-2" aria-label={copy.language}>
-              {locales.map((language) => (
-                <Link
-                  key={language}
-                  href={withLocale(pathname, language)}
-                  onClick={() => rememberLocale(language)}
-                  hrefLang={language}
-                  aria-current={language === locale ? "true" : undefined}
-                  className={`transition-colors ${
-                    language === locale
-                      ? "text-claw-blue"
-                      : "text-claw-dim hover:text-claw-text"
-                  }`}
-                >
-                  {localeNames[language]}
-                </Link>
-              ))}
-            </span>
           </div>
         </div>
       </div>

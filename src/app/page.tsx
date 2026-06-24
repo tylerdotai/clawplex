@@ -1,8 +1,15 @@
-import { redirect } from "next/navigation";
-import { defaultLocale } from "@/lib/i18n/config";
+import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
+import { HomeClient } from "./home-client";
 
-export default function RootPage() {
-  redirect(`/${defaultLocale}`);
+export default function HomePage() {
+  return (
+    <div className="min-h-screen">
+      <Nav />
+      <main>
+        <HomeClient />
+      </main>
+      <Footer />
+    </div>
+  );
 }
-
-export const dynamic = "force-dynamic";

@@ -1,58 +1,74 @@
 import { Metadata } from "next";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
-import { getDictSlice } from "@/lib/i18n/dictionaries/server";
-import type { PrivacyDict } from "@/lib/i18n/dictionaries/types";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const copy = await getDictSlice("privacy") as PrivacyDict;
-  return {
-    title: copy.title,
-    description: copy.description,
-    openGraph: {
-      title: `${copy.title} — ClawPlex DFW`,
-      description: copy.ogDescription,
-      type: "website",
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "ClawPlex DFW privacy policy — how we collect, use, and protect your data.",
+  openGraph: {
+    title: "Privacy Policy — ClawPlex DFW",
+    description: "ClawPlex DFW privacy policy — how we collect, use, and protect your data.",
+    type: "website",
+    url: "/privacy",
+  },
+};
 
-export default async function PrivacyPage() {
-  const copy = await getDictSlice("privacy") as PrivacyDict;
+export default function PrivacyPage() {
   return (
     <div className="min-h-screen">
       <Nav />
-      <main className="pt-16">
-        <section className="border-b border-claw-border px-5 md:px-8 py-16 md:py-24">
-          <div className="mx-auto max-w-3xl">
-            <h1 className="font-display text-4xl md:text-5xl tracking-wider text-claw-text mb-2">
-              {copy.title}
-            </h1>
-            <p className="font-mono text-xs text-claw-dim uppercase tracking-widest">
-              {copy.effective}
-            </p>
-          </div>
-        </section>
-
-        <section className="px-5 md:px-8 py-16 md:py-20">
-          <div className="mx-auto max-w-3xl space-y-8 text-sm text-claw-muted leading-relaxed">
-            {copy.sections.map((section) => (
-              <div key={section.heading}>
-                <h2 className="font-display text-xl text-claw-text mb-3">{section.heading}</h2>
-                <p>{section.body}</p>
-              </div>
-            ))}
-            <div>
-              <h2 className="font-display text-xl text-claw-text mb-3">{copy.contactHeading}</h2>
-              <p>
-                {copy.contactIntro}{" "}
-                <a href="https://discord.gg/q8kEquTu3z" className="text-claw-blue hover:underline">
-                  discord.gg/q8kEquTu3z
-                </a>
-              </p>
-            </div>
-          </div>
-        </section>
+      <main className="mx-auto max-w-3xl px-5 md:px-8 py-32 md:py-40">
+        <h1 className="font-display text-5xl md:text-6xl tracking-tight text-claw-text mb-8">
+          Privacy Policy
+        </h1>
+        <div className="prose prose-invert prose-claw max-w-none space-y-6 text-claw-muted">
+          <p>Last updated: June 2026.</p>
+          <p>
+            ClawPlex DFW is an informal community collective. We do not sell your data,
+            run targeted ads, or share personal information with third parties for commercial
+            purposes.
+          </p>
+          <h2>What we collect</h2>
+          <p>
+            When you RSVP to events or join our Discord, you may provide a name and email
+            address. This information is used solely for event coordination and community
+            communications.
+          </p>
+          <h2>Event RSVPs</h2>
+          <p>
+            RSVP data is stored with our processor (Luma) and is accessible only to organizers.
+            You can request deletion at any time by contacting us.
+          </p>
+          <h2>Discord</h2>
+          <p>
+            Our Discord server is governed by its own{" "}
+            <a href="https://discord.com/terms" className="text-claw-blue hover:underline">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="https://discord.com/privacy" className="text-claw-blue hover:underline">
+              Privacy Policy
+            </a>
+            .
+          </p>
+          <h2>Cookies</h2>
+          <p>
+            This site does not use tracking cookies. We use only essential session cookies
+            required for the site to function.
+          </p>
+          <h2>Contact</h2>
+          <p>
+            Questions? Reach us on{" "}
+            <a href="https://discord.gg/q8kEquTu3z" className="text-claw-blue hover:underline">
+              Discord
+            </a>{" "}
+            or open an issue on{" "}
+            <a href="https://github.com/ClawPlexDFW" className="text-claw-blue hover:underline">
+              GitHub
+            </a>
+            .
+          </p>
+        </div>
       </main>
       <Footer />
     </div>

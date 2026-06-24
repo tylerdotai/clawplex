@@ -5,9 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Nav } from "@/components/nav";
 import { SkillCard, type Skill, type SkillCategory } from "@/components/skill-card";
-import { useDictSlice } from "@/lib/i18n/dictionaries/client";
-import type { SkillsDict } from "@/lib/i18n/dictionaries/types";
-import { withLocale, getLocaleFromPathname, defaultLocale } from "@/lib/i18n/config";
+import { skills } from "@/lib/dict";
 import { usePathname } from "next/navigation";
 
 const CATEGORIES: Array<SkillCategory | "All"> = [
@@ -41,7 +39,7 @@ const EMPTY_FORM: FormState = {
 };
 
 function SubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const t = useDictSlice("skills") as SkillsDict;
+  const t = skills;
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [phrase, setPhrase] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -316,10 +314,9 @@ function SubmitModal({ open, onClose }: { open: boolean; onClose: () => void }) 
 
 /* ── Skills Client ─────────────────────────────────────────────────────────── */
 export function SkillsClient() {
-  const t = useDictSlice("skills") as SkillsDict;
+  const t = skills;
   const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname ?? "") ?? defaultLocale;
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skillList, setSkillList] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeCategory, setActiveCategory] = useState<SkillCategory | "All">("All");
@@ -332,7 +329,7 @@ export function SkillsClient() {
       const res = await fetch("/api/skills");
       if (!res.ok) throw new Error("Failed to load skills");
       const data = await res.json();
-      setSkills(data.skills ?? []);
+      setSkillList(data.skills ?? []);
     } catch {
       setError(t.loadFailed);
     } finally {
@@ -345,8 +342,8 @@ export function SkillsClient() {
   }, [fetchSkills]);
 
   const filtered = activeCategory === "All"
-    ? skills
-    : skills.filter((s) => s.category === activeCategory);
+    ? skillList
+    : skillList.filter((s) => s.category === activeCategory);
 
   return (
     <div className="min-h-screen">
@@ -377,13 +374,13 @@ export function SkillsClient() {
                   {t.submitCta}
                 </button>
                 <Link
-                  href={withLocale("/community", locale)}
+                  href="/community"
                   className="border border-claw-border px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-muted hover:border-claw-blue hover:text-claw-blue transition-colors text-center"
                 >
                   {t.feedCta}
                 </Link>
                 <Link
-                  href={withLocale("/community/projects", locale)}
+                  href="/community/projects"
                   className="border border-claw-border px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-muted hover:border-claw-blue hover:text-claw-blue transition-colors text-center"
                 >
                   {t.projectsCta}
@@ -470,7 +467,7 @@ export function SkillsClient() {
             {!loading && !error && filtered.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filtered.map((skill, i) => (
-                  <SkillCard key={skill.id} skill={skill} index={i} />
+                  <SkillCard key={skill.id} skill={skill} />
                 ))}
               </div>
             )}

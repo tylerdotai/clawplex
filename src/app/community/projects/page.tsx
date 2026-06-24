@@ -5,9 +5,6 @@ import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { defaultLocale, getLocaleFromPathname, withLocale } from "@/lib/i18n/config";
-import { useDictSlice } from "@/lib/i18n/dictionaries/client";
-import type { ProjectsDict } from "@/lib/i18n/dictionaries/types";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
@@ -24,8 +21,7 @@ function stagger(i: number) {
 
 export default function CommunityProjectsPage() {
   const pathname = usePathname();
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const t = useDictSlice("projects") as ProjectsDict;
+  const t = { eyebrow: "Community Projects", title: "Built by DFW Builders", dek: "Real projects from real builders — tools, agents, demos, and everything in between.", projects: [{ name: "Hermes Agent", tag: "AI Framework", builder: "ClawPlex", description: "The agent platform powering ClawPlex — async tool calls, long-horizon memory, multi-channel delivery.", link: "https://clawplex.com" }, { name: "clawplay", tag: "CLI Tooling", builder: "ClawPlex", description: "iMessage client for Apple Silicon Macs. MIT licensed, extensible.", link: "https://github.com/tylerai/clawplay" }, { name: "hermes-imessage-adapter", tag: "Chat Adapter", builder: "ClawPlex", description: "Bridge between Hermes Agent and macOS iMessage via private API.", link: "https://github.com/ClawPlexDFW/hermes-imessage-adapter" }], viewProject: "View Project →", resources: "Resources", resourcesList: [{ name: "ClawPlex Skills", tag: "Skills Marketplace", description: "Reusable agent instructions from the community.", link: "/skills" }, { name: "Community Feed", tag: "Live Feed", description: "What builders are shipping right now.", link: "/community" }], ctaEyebrow: "Get Involved", ctaTitle: "Ship something.", ctaBody: "Build in public. Get feedback from DFW builders. Grow fast.", explore: "Explore →", feed: "Feed", skills: "Skills", llms: "LLMs.txt" };
   return (
     <div className="min-h-screen">
       <Nav />
@@ -98,7 +94,7 @@ export default function CommunityProjectsPage() {
               {t.resourcesList.map((resource, i) => (
                 <motion.a
                   key={resource.name}
-                  href={withLocale(resource.link, locale)}
+                  href={resource.link}
                   {...stagger(i + 1)}
                   className="border-claw-border border-b border-r p-8 hover:border-claw-blue/40 transition-colors group"
                 >
@@ -134,13 +130,13 @@ export default function CommunityProjectsPage() {
             </motion.p>
             <motion.div {...stagger(3)} className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
-                href={withLocale("/community", locale)}
+                href="/community"
                 className="border border-claw-blue bg-claw-blue px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-void hover:bg-claw-blue/90 transition-colors text-center"
               >
                 {t.feed}
               </Link>
               <Link
-                href={withLocale("/skills", locale)}
+                href="/skills"
                 className="border border-claw-border px-8 py-4 font-mono text-sm uppercase tracking-widest text-claw-muted hover:border-claw-blue hover:text-claw-blue transition-colors text-center"
               >
                 {t.skills}

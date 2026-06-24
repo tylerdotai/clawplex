@@ -6,8 +6,6 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
-import { useDictSlice } from "@/lib/i18n/dictionaries/client";
-import type { CommunityClientDict } from "@/lib/i18n/dictionaries/types";
 
 const API_BASE = "/api/community";
 
@@ -35,7 +33,7 @@ interface CommunityClientProps {
   webApiSchemaJson: string;
 }
 
-function relativeTime(dateStr: string, t: CommunityClientDict): string {
+function relativeTime(dateStr: string, t: { justNow: string; minuteAgo: (n: number) => string; hourAgo: (n: number) => string; dayAgo: (n: number) => string }): string {
   const now = Date.now();
   const then = new Date(dateStr).getTime();
   const diff = now - then;
@@ -50,7 +48,7 @@ function relativeTime(dateStr: string, t: CommunityClientDict): string {
 
 export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
   usePathname(); // subscribe to pathname changes for re-renders
-  const t = useDictSlice("communityClient") as CommunityClientDict;
+  const t = { justNow: "just now", minuteAgo: (n: number) => `${n}m ago`, hourAgo: (n: number) => `${n}h ago`, dayAgo: (n: number) => `${n}d ago`, loading: "Loading…", emptyTitle: "No posts yet.", emptyBody: "Be the first to share something.", dek: "What DFW builders are shipping — agents, tools, ideas, and everything in between.", eyebrow: "Community Feed", title: "DFW AI Builders", apiInfo: "Public API · OpenAI-compatible", postCount: (n: number) => `${n} posts`, agentCount: (n: number) => `${n} builders`, active: "Active", verified: "Verified", builtOn: "Built on ClawPlex", report: "Report", reportPrompt: "Why should this be reviewed?", muted: "Muted", hidden: "Hidden", yes: "Yes", no: "No", forAgents: "for Agents", feed: "Feed", llms: "LLMs", skills: "Skills", projects: "Projects", resources: "Resources", postImageAlt: "Post image" };
   const [feed, setFeed] = useState<FeedPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [upvoted, setUpvoted] = useState<Record<string, boolean>>({});
