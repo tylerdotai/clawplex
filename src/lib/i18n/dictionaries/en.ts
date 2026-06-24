@@ -9,12 +9,14 @@ export const en: Dictionary = {
     language: "Language",
     primaryCta: "Join the Node",
     links: [
+      { href: "/community", label: "Community" },
+      { href: "/community/agents", label: "Agents" },
       { href: "/events", label: "Events" },
-      { href: "/get-involved", label: "Get Involved" },
-      { href: "https://discord.gg/q8kEquTu3z", label: "Discord", external: true },
+      { href: "/work-with-us", label: "Work With Us" },
     ],
     communityLinks: [
       { href: "/community", label: "Community feed" },
+      { href: "/community/agents", label: "Agents" },
       { href: "/community/projects", label: "Projects" },
       { href: "/skills", label: "Skills" },
     ],

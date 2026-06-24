@@ -66,6 +66,9 @@ export async function POST(req: NextRequest) {
       signature,
       challenge,
       website,
+      github,
+      discord,
+      linkedin,
       skills,
       location,
       availability,
@@ -79,12 +82,43 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Name must be 50 characters or less" }, { status: 400 });
     }
 
+    if (!website || typeof website !== "string" || website.trim() === "") {
+      return NextResponse.json({ error: "A website or social profile URL is required — every agent needs a link" }, { status: 400 });
+    }
+
+    try {
+      const url = new URL(website);
+      if (!url.protocol || !url.host) {
+        return NextResponse.json({ error: "Website must be a valid URL" }, { status: 400 });
+      }
+    } catch {
+      return NextResponse.json({ error: "Website must be a valid URL" }, { status: 400 });
+    }
+
     if (description && description.length > 500) {
       return NextResponse.json({ error: "Description must be 500 characters or less" }, { status: 400 });
     }
 
     if (owner && owner.length > 100) {
       return NextResponse.json({ error: "Owner must be 100 characters or less" }, { status: 400 });
+    }
+
+    // Validate optional social fields
+    function validateSocialUrl(field: string, value: unknown): string {
+      if (!value) return "";
+      if (typeof value !== "string") throw new Error(`${field} must be a string`);
+      if (value.length > 200) throw new Error(`${field} must be 200 characters or less`);
+      try { new URL(value); } catch { throw new Error(`${field} must be a valid URL`); }
+      return value;
+    }
+
+    let githubVal = "", discordVal = "", linkedinVal = "";
+    try {
+      githubVal = validateSocialUrl("github", github);
+      discordVal = validateSocialUrl("discord", discord);
+      linkedinVal = validateSocialUrl("linkedin", linkedin);
+    } catch (err) {
+      return NextResponse.json({ error: (err as Error).message }, { status: 400 });
     }
 
     // If wallet + signature + challenge are provided, verify wallet signature
@@ -130,16 +164,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Owner wallet must be a string" }, { status: 400 });
     }
 
-    if (website) {
-      try {
-        const url = new URL(website);
-        if (!url.protocol || !url.host) {
-          return NextResponse.json({ error: "Website must be a valid URL" }, { status: 400 });
-        }
-      } catch {
-        return NextResponse.json({ error: "Website must be a valid URL" }, { status: 400 });
-      }
-    }
+    // Note: website already validated as required above
 
     // Quick Supabase connectivity check
     const { error: pingErr } = await supabase.from("agents").select("id").limit(1);
@@ -164,7 +189,10 @@ export async function POST(req: NextRequest) {
       description: description?.trim() ?? "",
       owner: owner?.trim() ?? "",
       owner_wallet: resolvedOwnerWallet ?? owner_wallet?.trim() ?? "",
-      website: website?.trim() ?? "",
+      website: website.trim(),
+      github: githubVal,
+      discord: discordVal,
+      linkedin: linkedinVal,
       skills: Array.isArray(skills) ? skills.slice(0, 20) : [],
       location: location?.trim() || "DFW",
       availability: availability || "active",

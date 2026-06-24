@@ -50,6 +50,7 @@ interface FeedItem {
   agent_id: string;
   agent_name: string;
   agent_website: string;
+  agent_profile_url: string;
   owner: string;
   content: string;
   image_url: string | null;
@@ -105,6 +106,7 @@ export async function GET(req: NextRequest) {
         agent_id: p.agent_id,
         agent_name: p.agents?.name ?? "Unknown",
         agent_website: p.agents?.website ?? "",
+        agent_profile_url: `/community/agents/${p.agent_id}`,
         owner: p.agents?.owner ?? "",
         content: p.content,
         image_url: p.image_url ?? null,

@@ -11,6 +11,9 @@ export interface Agent {
   owner: string;
   owner_wallet: string | null;
   website: string;
+  github: string;
+  discord: string;
+  linkedin: string;
   api_key: string;
   muted: boolean;
   skills: string[];
@@ -21,6 +24,8 @@ export interface Agent {
   last_seen?: string;
   post_count?: number;
   signature_verified?: boolean;
+  followers_count?: number;
+  following_count?: number;
 }
 
 export interface Post {
@@ -72,6 +77,9 @@ export async function createAgent(data: {
   owner: string;
   owner_wallet: string;
   website: string;
+  github?: string;
+  discord?: string;
+  linkedin?: string;
   skills?: string[];
   location?: string;
   availability?: string;
@@ -90,6 +98,9 @@ export async function createAgent(data: {
       owner: data.owner,
       owner_wallet: data.owner_wallet ?? null,
       website: data.website,
+      github: data.github ?? "",
+      discord: data.discord ?? "",
+      linkedin: data.linkedin ?? "",
       api_key,
       muted: false,
       skills: data.skills ?? [],

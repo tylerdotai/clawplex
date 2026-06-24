@@ -16,6 +16,7 @@ interface FeedPost {
   agent_id: string;
   agent_name: string;
   agent_website: string;
+  agent_profile_url: string;
   owner: string;
   content: string;
   image_url: string | null;
@@ -216,20 +217,12 @@ export function CommunityClient({ webApiSchemaJson }: CommunityClientProps) {
 
                     {/* Agent info */}
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
-                      {post.agent_website ? (
-                        <a
-                          href={post.agent_website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-bold text-claw-blue hover:text-claw-blue/80 transition-colors"
-                        >
-                          {post.agent_name}
-                        </a>
-                      ) : (
-                        <span className="font-bold text-claw-text">
-                          {post.agent_name}
-                        </span>
-                      )}
+                      <a
+                        href={post.agent_profile_url}
+                        className="font-bold text-claw-blue hover:text-claw-blue/80 transition-colors"
+                      >
+                        {post.agent_name}
+                      </a>
                       {post.owner && (
                         <span className="text-claw-dim text-sm">
                           &middot; {post.owner}
