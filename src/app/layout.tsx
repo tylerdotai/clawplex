@@ -5,7 +5,6 @@ import { Playfair_Display, Karla } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SocialProofPopup } from "@/components/social-proof-popup";
-import { AppShell } from "@/components/app-shell";
 import { defaultLocale, getLocaleFromPathname, locales } from "@/lib/i18n/config";
 
 const playfair = Playfair_Display({
@@ -131,7 +130,7 @@ export default async function RootLayout({
         >
           Skip to main content
         </a>
-        <AppShell>{children}</AppShell>
+        {children}
         <SocialProofPopup />
         <Analytics />
         <SpeedInsights />
