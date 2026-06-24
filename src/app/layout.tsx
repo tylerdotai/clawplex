@@ -85,7 +85,7 @@ export async function generateMetadata(): Promise<Metadata> {
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
       images: [
         {
-          url: "/clawplex-banner-new.jpg",
+          url: "/og-image.jpg",
           width: 1200,
           height: 630,
           alt: "ClawPlex — DFW AI Builder Community",
@@ -97,7 +97,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "ClawPlex — DFW AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
-      images: ["/clawplex-banner-new.jpg"],
+      images: ["/og-image.jpg"],
     },
     other: {
       "geo.region": "US-TX",
