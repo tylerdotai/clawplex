@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { home as copy } from "@/lib/dict";
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
@@ -50,44 +50,7 @@ function Countdown() {
   );
 }
 
-function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("loading");
-    try {
-      const res = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
-  }
-  if (status === "success") {
-    return <p className="text-claw-blue font-mono text-sm">{copy.newsletter.success}</p>;
-  }
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 w-full max-w-md">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={copy.newsletter.placeholder}
-        className="flex-1 border border-claw-border bg-claw-void px-4 py-3 font-mono text-sm text-claw-text placeholder:text-claw-dim focus:border-claw-blue focus:outline-none transition-colors"
-        aria-label={copy.newsletter.emailLabel}
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="shrink-0 rounded-full bg-claw-blue px-6 py-3 font-mono text-sm font-medium text-claw-void hover:bg-claw-blue-light transition-colors disabled:opacity-60 cursor-pointer"
-      >
-        {status === "loading" ? copy.newsletter.sending : copy.newsletter.subscribe}
-      </button>
-    </form>
-  );
-}
-
+function NewsletterForm(_p: unknown) { return null; } // stub kept for compat
 export function HomeClient() {
   return (
     <div>
@@ -130,31 +93,6 @@ export function HomeClient() {
         </div>
       </section>
 
-      {/* ── Next Event Banner ─────────────────────────────────────────── */}
-      <section className="border-b border-claw-border bg-claw-surface px-5 md:px-8 py-10 md:py-12">
-        <div className="mx-auto max-w-5xl flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
-          <div className="flex-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-claw-blue mb-2">{copy.event.eyebrow}</p>
-            <h2 className="font-display text-3xl sm:text-4xl tracking-tight text-claw-text">
-              {copy.event.title}
-            </h2>
-            <p className="mt-1 font-mono text-sm text-claw-muted">{copy.event.in} {copy.event.locationAccent}</p>
-          </div>
-          <div className="shrink-0 flex flex-col items-start md:items-end gap-4">
-            <Countdown />
-            <div className="flex flex-wrap gap-2">
-              <Link href="/events" className="inline-flex items-center gap-2 rounded-full border border-claw-border px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-claw-muted hover:border-claw-blue hover:text-claw-blue transition-colors">
-                {copy.hero.rsvp}
-              </Link>
-              <a href="https://discord.gg/q8kEquTu3z" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-claw-border px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-claw-muted hover:border-claw-blue hover:text-claw-blue transition-colors">
-                {copy.hero.discord}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── What We Do ───────────────────────────────────────────────── */}
       <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
         <div className="mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -184,21 +122,17 @@ export function HomeClient() {
               </Link>
             </motion.div>
           </div>
-          <div className="space-y-6">
-            <motion.div {...stagger(0)} className="relative aspect-[4/3] overflow-hidden rounded-lg border border-claw-border">
-              <Image src="/what.jpg" alt={copy.what.imageAlt} fill className="object-cover" />
+          <div>
+            <motion.div {...stagger(0)} className="space-y-6">
+              <dl className="grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-lg border border-claw-border bg-claw-border">
+                {copy.what.facts.map((fact) => (
+                  <div key={fact.label} className="bg-claw-surface px-4 py-5 text-center">
+                    <dt className="font-display text-3xl text-claw-blue leading-none">{fact.value}</dt>
+                    <dd className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-claw-muted">{fact.label}</dd>
+                  </div>
+                ))}
+              </dl>
             </motion.div>
-            <motion.p className="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-claw-dim text-right">
-              {copy.what.caption}
-            </motion.p>
-            <dl className="grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-lg border border-claw-border bg-claw-border">
-              {copy.what.facts.map((fact) => (
-                <div key={fact.label} className="bg-claw-surface px-4 py-5 text-center">
-                  <dt className="font-display text-3xl text-claw-blue leading-none">{fact.value}</dt>
-                  <dd className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-claw-muted">{fact.label}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
       </section>
@@ -310,28 +244,6 @@ export function HomeClient() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Newsletter ──────────────────────────────────────────────── */}
-      <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
-        <div className="mx-auto max-w-2xl text-center">
-          <motion.p {...stagger(0)} className="font-mono text-[10px] uppercase tracking-[0.22em] text-claw-blue mb-4">
-            {copy.newsletter.eyebrow}
-          </motion.p>
-          <motion.h2 {...stagger(1)} className="font-display text-3xl sm:text-4xl lg:text-[44px] leading-[1.05] tracking-tight text-claw-text mb-4">
-            {copy.newsletter.titlePrefix}{" "}
-            <span className="underline-accent">{copy.newsletter.titleAccent}</span>
-          </motion.h2>
-          <motion.p {...stagger(2)} className="text-base text-claw-muted leading-relaxed mb-9">
-            {copy.newsletter.body}
-          </motion.p>
-          <motion.div {...stagger(3)} className="flex justify-center">
-            <NewsletterForm />
-          </motion.div>
-          <motion.p {...stagger(4)} className="mt-4 font-mono text-[10px] uppercase tracking-widest text-claw-dim">
-            {copy.newsletter.finePrint}
-          </motion.p>
         </div>
       </section>
 

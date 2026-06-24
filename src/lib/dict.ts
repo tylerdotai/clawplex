@@ -62,18 +62,18 @@ export const home = {
     { key: "seconds", label: "Secs" },
   ],
   hero: {
-    eyebrow: "ClawPlex DFW · Irving, TX · Oct 2025",
-    titleLine1: "DFW's Premier",
-    titleLine2Prefix: "AI",
-    titleLine2Accent: "Hackathon",
+    eyebrow: "DFW · AI Builder Community",
+    titleLine1: "Built by builders,",
+    titleLine2Prefix: "for",
+    titleLine2Accent: "builders.",
     body:
-      "24 hours. 6 tracks. Unlimited coffee. Build something the world hasn't seen yet — then ship it live on stage.",
+      "A DFW-wide collective of AI builders who come together to chat, build, and network. Beginners to experts — everyone's learning.",
     nextLabel: "Next Event",
-    nextMeta: "Oct 2025 · Irving, TX",
-    rsvp: "Get Tickets",
+    nextMeta: "",
+    rsvp: "RSVP",
     discord: "Join Discord",
     imageAlt: "Crowd at a ClawPlex hackathon event",
-    caption: "ClawPlex · DFW AI Hackathon",
+    caption: "ClawPlex · DFW AI Builder Community",
   },
   what: {
     imageAlt: "Builder working at laptop in a coworking space",
@@ -88,10 +88,10 @@ export const home = {
     titleLine1: "We build.",
     titleAccent: "Together.",
     paragraphs: [
-      "ClawPlex is a DFW-wide collective of developers, designers, and founders who show up, ship projects, and have a real good time doing it.",
-      "Our hackathons are high-signal, low-bullshit. No pitch decks, no panels — just a weekend of intense building and an afterparty worth showing up for.",
+      "ClawPlex is a DFW-wide collective of developers, designers, and founders who come together to chat, build, and network around AI tools and agents.",
+      "No talks. No vendor pitches. Just real builders working on real projects — from beginners to experts, everyone's learning.",
     ],
-    ship: "Ship a project",
+    ship: "Join the community",
     tags: ["AI Agents", "RAG", "Code Gen", "Infrastructure", "Robotics"],
   },
   event: {
@@ -269,22 +269,6 @@ export const partner = {
       { value: "3",    label: "Venue Partners" },
     ],
   },
-  hire: {
-    eyebrow: "Hire Us",
-    titlePrefix: "Need a",
-    titleAccent: "Build Partner?",
-    cta: "Work With Us",
-    body: "We take on a limited number of",
-    bodyEmphasis: "bespoke AI integration and agentic workflow projects per quarter.",
-    capabilities: [
-      { label: "AI Agents",       desc: "Autonomous multi-step agents" },
-      { label: "RAG Pipelines",   desc: "Enterprise knowledge retrieval" },
-      { label: "LLM APIs",        desc: "OpenAI, Anthropic, open-source" },
-      { label: "Workflow Design", desc: "Human-in-the-loop systems" },
-      { label: "Evaluation",      desc: "Benchmarks, red-teaming, evals" },
-      { label: "Production",      desc: "Monitoring, latency, reliability" },
-    ],
-  },
   waysEyebrow: "Ways to Work Together",
   ways: [
     {
@@ -298,12 +282,6 @@ export const partner = {
       label: "Sponsor",
       title: "Sponsor a hackathon or the community",
       desc: "From logo placement to judge selection — we'll build a sponsorship package that actually makes sense for your goals.",
-    },
-    {
-      num: "03",
-      label: "Custom Build",
-      title: "Commission a bespoke AI project",
-      desc: "Need a private hackathon, a team workshop, or a shipped product — reach out and let's scope it.",
     },
   ],
   sponsorship: {

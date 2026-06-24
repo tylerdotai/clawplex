@@ -133,44 +133,6 @@ export function PartnerClient() {
         </div>
       </section>
 
-      {/* Hire Us — featured */}
-      <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-            <div className="lg:col-span-5">
-              <motion.p {...stagger(0)} className="font-mono text-[11px] uppercase tracking-[0.22em] text-claw-blue mb-5 flex items-center gap-2">
-                <span className="inline-block h-px w-6 bg-claw-blue/60" />
-                {copy.hire.eyebrow}
-              </motion.p>
-              <motion.h2 {...stagger(1)} className="font-display text-4xl sm:text-5xl lg:text-[60px] leading-[1.02] tracking-tight text-claw-text">
-                {copy.hire.titlePrefix}<span className="underline-accent">{copy.hire.titleAccent}</span>.
-              </motion.h2>
-              <motion.div {...stagger(2)} className="mt-7">
-                <button type="button" onClick={() => setModalOpen(true)} className="inline-flex items-center gap-2 rounded-full bg-claw-blue px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-claw-blue-light transition-colors cursor-pointer">
-                  {copy.hire.cta}
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                    <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-              </motion.div>
-            </div>
-            <div className="lg:col-span-7">
-              <motion.p {...stagger(2)} className="text-lg sm:text-[19px] text-claw-muted leading-[1.65]">
-                {copy.hire.body} <strong className="text-claw-text font-semibold">{copy.hire.bodyEmphasis}</strong>.
-              </motion.p>
-              <motion.dl {...stagger(3)} className="mt-9 grid grid-cols-2 sm:grid-cols-3 gap-px overflow-hidden rounded-lg border border-claw-border bg-claw-border">
-                {copy.hire.capabilities.map((cap) => (
-                  <div key={cap.label} className="bg-claw-surface px-4 py-5">
-                    <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-claw-blue">{cap.label}</dt>
-                    <dd className="mt-2 text-[14px] text-claw-text leading-snug">{cap.desc}</dd>
-                  </div>
-                ))}
-              </motion.dl>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Ways to work with us */}
       <section className="border-b border-claw-border px-5 md:px-8 py-20 md:py-28">
         <div className="mx-auto max-w-5xl">
