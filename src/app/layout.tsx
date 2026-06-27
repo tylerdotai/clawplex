@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://clawplex.dev";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://agentbuildersclub.dev";
 
   return {
     metadataBase: new URL(base),
@@ -37,8 +37,8 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: base,
     },
     title: {
-      default: "ClawPlex — DFW AI Builder Community",
-      template: "%s — ClawPlex",
+      default: "Agent Builders Club — DFW AI Builder Community",
+      template: "%s — Agent Builders Club",
     },
     description:
       "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
@@ -57,27 +57,27 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     openGraph: {
       type: "website",
-      siteName: "ClawPlex",
+      siteName: "Agent Builders Club",
       url: base,
       locale: "en",
-      title: "ClawPlex — DFW AI Builder Community",
+      title: "Agent Builders Club — DFW AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
       images: [
         {
-          url: "/clawplex-banner.jpg",
+          url: "/agent-builders-club-logo.jpg",
           width: 1200,
           height: 630,
-          alt: "ClawPlex — DFW AI Builder Community",
+          alt: "Agent Builders Club — DFW AI Builder Community",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "ClawPlex — DFW AI Builder Community",
+      title: "Agent Builders Club — DFW AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
-      images: ["/clawplex-banner.jpg"],
+      images: ["/agent-builders-club-logo.jpg"],
     },
     other: {
       "geo.region": "US-TX",

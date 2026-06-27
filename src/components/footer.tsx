@@ -37,14 +37,14 @@ export function Footer() {
               aria-label={copy.home}
             >
               <Image
-                src="/clawplex-logo.png"
-                alt=""
+                src="/agent-builders-club-logo.jpg"
+                alt="Agent Builders Club"
                 width={28}
                 height={28}
                 className="object-contain"
               />
               <span className="font-display text-xl tracking-tight text-claw-text">
-                ClawPlex
+                Agent Builders Club
               </span>
             </Link>
             <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-claw-blue">
@@ -85,7 +85,7 @@ export function Footer() {
       <div className="border-t border-claw-border">
         <div className="mx-auto max-w-7xl px-5 md:px-8 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-[13px] text-claw-dim text-center md:text-left">
-            © {new Date().getFullYear()} ClawPlex DFW · {copy.copyright}
+            © {new Date().getFullYear()} Agent Builders Club DFW · {copy.copyright}
           </p>
           <div className="flex items-center gap-5 text-[13px]">
             <a

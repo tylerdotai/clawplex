@@ -21,7 +21,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: "/",
       },
     ],
-    sitemap: "https://clawplex.dev/sitemap.xml",
+    sitemap: "https://agentbuildersclub.dev/sitemap.xml",
     // Content-Signal directive: ai-train=no, search=yes, ai-input=yes
     // This signals to AI crawlers how to treat our content:
     // - ai-train=no: Do not use content for model training
