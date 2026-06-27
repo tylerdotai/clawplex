@@ -11,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: copy.title,
     description: copy.description,
     openGraph: {
-      title: `${copy.title} — ClawPlex DFW`,
+      title: `${copy.title} — Agent Builders Club DFW`,
       description: copy.ogDescription,
       type: "website",
     },

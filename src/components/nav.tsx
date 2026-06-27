@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useDictSlice } from "@/lib/i18n/dictionaries/client";
 import type { NavDict } from "@/lib/i18n/dictionaries/types";
 
-const primaryCtaHref = "https://lu.ma/clawplex";
+const primaryCtaHref = "https://lu.ma/agentbuildersclub";
 
 export function Nav() {
   const copy = useDictSlice("nav") as NavDict;
@@ -41,16 +41,14 @@ export function Nav() {
             aria-label={copy.home}
           >
             <Image
-              src="/clawplex-logo.png"
+              src="/agent-builders-club-logo.jpg"
               alt=""
               width={28}
               height={28}
               className="object-contain"
               priority
             />
-            <span className="font-display text-xl md:text-[22px] tracking-tight text-claw-text">
-              ClawPlex
-            </span>
+            <span className="font-bold tracking-tight">Agent Builders Club</span>
           </Link>
 
           {/* Desktop links */}

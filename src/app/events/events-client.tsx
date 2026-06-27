@@ -50,7 +50,7 @@ export function EventsClient({ eventSchemaJson, faqSchemaJson }: EventClientProp
               {...stagger(0)}
               className="font-mono text-xs uppercase tracking-[0.2em] text-claw-blue mb-4"
             >
-              ClawPlex DFW
+              Agent Builders Club DFW
             </motion.p>
             <motion.h1
               {...stagger(1)}

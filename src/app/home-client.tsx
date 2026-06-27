@@ -106,7 +106,7 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
           className="mt-8 flex flex-wrap items-center gap-4"
         >
           <a
-            href="https://luma.com/clawplex"
+            href="https://luma.com/agentbuildersclub"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-claw-blue px-6 py-3.5 text-sm sm:text-base font-medium text-claw-void hover:bg-claw-blue-light transition-colors"
@@ -169,8 +169,8 @@ function HeroBanner({ copy }: { copy: HomeDict["hero"] }) {
   );
 }
 
-/* ── What is ClawPlex ───────────────────────────────────────────────────── */
-function WhatIsClawPlex({ copy }: { copy: HomeDict["what"] }) {
+/* ── What is Agent Builders Club ───────────────────────────────────────────────────── */
+function WhatIsAgentBuildersClub({ copy }: { copy: HomeDict["what"] }) {
   return (
     <section className="border-t border-claw-border px-5 md:px-8 py-20 md:py-28 lg:py-32">
       <div className="mx-auto max-w-6xl">
@@ -209,8 +209,8 @@ function WhatIsClawPlex({ copy }: { copy: HomeDict["what"] }) {
           {/* Mascot image — desktop only */}
           <div className="hidden lg:block lg:col-span-5 relative h-[420px] xl:h-[520px] rounded-2xl overflow-hidden border border-claw-border">
             <Image
-              src="/clawplex-mascot.jpg"
-              alt="ClawPlex mascot"
+              src="/agent-builders-club-logo.jpg"
+              alt="Agent Builders Club"
               fill
               sizes="(max-width: 1024px) 0vw, 42vw"
               className="object-cover object-center"
@@ -336,7 +336,7 @@ function Founders({ copy }: { copy: HomeDict["founders"] }) {
             {copy.eyebrow}
           </motion.p>
           <motion.h2 {...stagger(1)} className="font-display text-4xl sm:text-5xl lg:text-[56px] leading-[1.05] tracking-tight text-claw-text">
-            {copy.titlePrefix}<span className="underline-accent">ClawPlex</span>.
+            {copy.titlePrefix}<span className="underline-accent">Agent Builders Club</span>.
           </motion.h2>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
@@ -411,7 +411,7 @@ function ForAgents({ copy }: { copy: HomeDict["agents"] }) {
               <p className="text-[15px] sm:text-base leading-[1.65] text-claw-text">
                 {copy.promptVerb}{" "}
                 <code className="font-mono text-[0.88em] text-claw-muted bg-claw-surface-2 px-1.5 py-0.5 rounded">
-                  https://clawplex.dev/llms.txt
+                  https://agentbuildersclub.dev/llms.txt
                 </code>
                 {copy.promptTextSuffix}
               </p>
@@ -540,7 +540,7 @@ export function HomeClient() {
             <HeroBanner copy={copy.hero} />
           </header>
           <article>
-            <WhatIsClawPlex copy={copy.what} />
+            <WhatIsAgentBuildersClub copy={copy.what} />
           </article>
           <article>
             <WaysToEngage copy={copy.ways} />

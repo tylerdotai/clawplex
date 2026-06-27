@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const baseUrl = "https://clawplex.dev";
+const baseUrl = "https://agentbuildersclub.dev";
 
 const today = new Date().toISOString().slice(0, 10);
 
