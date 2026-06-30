@@ -2,7 +2,7 @@
  * Flume standard logger — replaces all console.* calls.
  * Errors always print; info/debug silenced in production.
  */
-const PREFIX = "[clawplex]";
+const PREFIX = "[abc]";
 
 function fmt(level: string, label: string, msg: string, data?: unknown): string {
   const ts = new Date().toISOString().slice(11, 23);

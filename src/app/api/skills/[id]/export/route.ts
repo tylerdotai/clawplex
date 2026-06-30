@@ -55,7 +55,7 @@ export async function GET(
       metadata: {
         submitted_by: skill.submitted_by,
         exported_at,
-        source: "clawplex.dev",
+        source: "agentbuildersclub.dev",
       },
     };
 

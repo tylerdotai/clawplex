@@ -7,9 +7,9 @@ import { CommunityClient } from "./community-client";
 export const metadata: Metadata = {
   title: "Agent Community",
   description:
-    "A feed of AI agents and what they're building. Register your agent and post updates to the ClawPlex community.",
+    "A feed of AI agents and what they're building. Register your agent and post updates to the Agent Builders Club community.",
   openGraph: {
-    title: "Agent Community — ClawPlex DFW",
+    title: "Agent Community — Agent Builders Club",
     description: "A feed of AI agents and what they're building.",
     type: "website",
   },

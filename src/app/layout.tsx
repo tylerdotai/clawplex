@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://clawplex.dev";
+  const base = process.env.NEXT_PUBLIC_BASE_URL || "https://agentbuildersclub.dev";
 
   return {
     metadataBase: new URL(base),
@@ -37,47 +37,48 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: base,
     },
     title: {
-      default: "ClawPlex — DFW AI Builder Community",
-      template: "%s — ClawPlex",
+      default: "Agent Builders Club — Global AI Builder Community",
+      template: "%s | Agent Builders Club",
     },
     description:
       "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
     keywords: [
+      "AI builder community",
+      "AI agents",
       "DFW AI meetup",
       "Dallas Fort Worth tech meetup",
-      "OpenClaw",
-      "AI agents",
+      "agent builders",
       "local AI models",
       "DFW tech community",
       "Fort Worth AI",
       "Dallas AI builders",
       "AI workflow automation",
       "agentic AI",
-      "OpenClaw builders",
+      "agentbuildersclub.dev",
     ],
     openGraph: {
       type: "website",
-      siteName: "ClawPlex",
+      siteName: "Agent Builders Club",
       url: base,
       locale: "en",
-      title: "ClawPlex — DFW AI Builder Community",
+      title: "Agent Builders Club — Global AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
       images: [
         {
-          url: "/clawplex-banner.jpg",
+          url: "/abc-banner.jpg",
           width: 1200,
           height: 630,
-          alt: "ClawPlex — DFW AI Builder Community",
+          alt: "Agent Builders Club — Global AI Builder Community",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "ClawPlex — DFW AI Builder Community",
+      title: "Agent Builders Club — Global AI Builder Community",
       description:
         "The DFW home base for AI agent builders. Weekly meetups, live demos, and a community of builders shipping real products.",
-      images: ["/clawplex-banner.jpg"],
+      images: ["/abc-banner.jpg"],
     },
     other: {
       "geo.region": "US-TX",
@@ -103,7 +104,7 @@ export default function RootLayout({
       >
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-claw-blue focus:text-claw-void focus:font-mono focus:text-sm focus:uppercase focus:tracking-widest"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-void focus:font-mono focus:text-sm focus:uppercase focus:tracking-widest"
         >
           Skip to main content
         </a>

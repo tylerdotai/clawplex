@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/work-with-us",
     },
     openGraph: {
-      title: `${title} — ClawPlex DFW`,
+      title: `${title} — Agent Builders Club`,
       description,
       type: "website",
       url: "/work-with-us",

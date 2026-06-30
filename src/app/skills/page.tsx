@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Community-built AI agent skills, ready to install. Browse skills for research, productivity, social, utility, and creative tasks.",
   openGraph: {
-    title: "Skills Marketplace — ClawPlex DFW",
+    title: "Skills Marketplace — Agent Builders Club",
     description:
       "Community-built AI agent skills, ready to install.",
     type: "website",

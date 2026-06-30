@@ -2,18 +2,8 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  defaultLocale,
-  getLocaleFromPathname,
-  withLocale,
-} from "@/lib/i18n/config";
 
-/**
- * Real RSVP names from past events (first name only).
- * Source: Luma exports — see /Users/Amit/Claude Projects/meetups
- */
 const HERMES_NAMES = [
   "Tonia", "Dre", "Amit", "Anjal", "Ashok", "Balaje", "Benjamin", "Cece",
   "Chen", "Doug", "Gautam", "Hemal", "Jake", "Jasper", "Jonathon", "Jrb",
@@ -37,7 +27,6 @@ function buildShuffledEntries(): Entry[] {
     ...HERMES_NAMES.map((name) => ({ name, event: "hermes" as const })),
     ...CLAUDE_NAMES.map((name) => ({ name, event: "claude" as const })),
   ];
-  // Fisher–Yates shuffle (stable across renders via useMemo seed below)
   for (let i = all.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [all[i], all[j]] = [all[j], all[i]];
@@ -45,7 +34,7 @@ function buildShuffledEntries(): Entry[] {
   return all;
 }
 
-const STORAGE_KEY = "clawplex:social-proof-dismissed";
+const STORAGE_KEY = "abc:social-proof-dismissed";
 const DISMISS_HOURS = 6;
 const INITIAL_DELAY_MS = 3500;
 const VISIBLE_MS = 5500;
@@ -66,17 +55,12 @@ function isDismissedRecently(): boolean {
 }
 
 export function SocialProofPopup() {
-  const pathname = usePathname() ?? "/";
-  const locale = getLocaleFromPathname(pathname) ?? defaultLocale;
-  const eventsHref = withLocale("/events", locale);
-
   const entries = useMemo(() => buildShuffledEntries(), []);
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [manuallyDismissed, setManuallyDismissed] = useState(false);
   const [shown, setShown] = useState(0);
 
-  // SSR-safe dismissal check (avoids setState-in-effect).
   const persistedDismissed = useSyncExternalStore(
     () => () => {},
     () => isDismissedRecently(),
@@ -92,7 +76,6 @@ export function SocialProofPopup() {
     claude: "Claude, OpenAI & the Tools",
   }), []);
 
-  // Cycle scheduler.
   useEffect(() => {
     if (dismissed) return;
     if (shown >= MAX_NOTIFICATIONS) return;
@@ -120,7 +103,7 @@ export function SocialProofPopup() {
     try {
       window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
     } catch {
-      // ignore — non-fatal
+      // ignore
     }
     setManuallyDismissed(true);
     setVisible(false);
@@ -148,23 +131,23 @@ export function SocialProofPopup() {
             className="pointer-events-auto"
           >
             <Link
-              href={eventsHref}
-              className="group flex items-center gap-2 max-w-[230px] sm:max-w-[300px] rounded-full border border-claw-border bg-claw-surface/95 backdrop-blur-md shadow-lg shadow-black/40 px-3 py-2 sm:px-3.5 sm:py-2.5 hover:bg-claw-surface-2 transition-colors"
+              href="/events"
+              className="group flex items-center gap-2 max-w-[230px] sm:max-w-[300px] rounded-full border border-border bg-surface/95 backdrop-blur-md shadow-lg shadow-black/40 px-3 py-2 sm:px-3.5 sm:py-2.5 hover:bg-surface-2 transition-colors"
             >
               <span
                 aria-hidden="true"
                 className="relative flex h-1.5 w-1.5 shrink-0"
               >
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-claw-red opacity-60 motion-reduce:hidden" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-claw-red" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red opacity-60 motion-reduce:hidden" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red" />
               </span>
               <span className="flex flex-col leading-tight min-w-0">
-                <span className="text-[10.5px] sm:text-[11.5px] text-claw-text truncate">
+                <span className="text-[10.5px] sm:text-[11.5px] text-text truncate">
                   <span className="font-semibold">{current.name}</span>{" "}
-                  <span className="text-claw-muted">{eventCopy.action}</span>{" "}
-                  <span className="text-claw-blue">{eventTitle}</span>
+                  <span className="text-muted">{eventCopy.action}</span>{" "}
+                  <span className="text-accent">{eventTitle}</span>
                 </span>
-                <span className="text-[9.5px] sm:text-[10px] font-mono uppercase tracking-[0.16em] text-claw-dim">
+                <span className="text-[9.5px] sm:text-[10px] font-mono uppercase tracking-[0.16em] text-dim">
                   {eventCopy.ago}
                 </span>
               </span>
@@ -172,21 +155,10 @@ export function SocialProofPopup() {
                 type="button"
                 onClick={handleDismiss}
                 aria-label={eventCopy.close}
-                className="ml-0.5 shrink-0 rounded-full p-1 text-claw-dim hover:text-claw-text hover:bg-claw-surface transition-colors cursor-pointer"
+                className="ml-0.5 shrink-0 rounded-full p-1 text-dim hover:text-text hover:bg-surface transition-colors cursor-pointer"
               >
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M2.5 2.5l5 5m0-5l-5 5"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                  />
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <path d="M2.5 2.5l5 5m0-5l-5 5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
               </button>
             </Link>

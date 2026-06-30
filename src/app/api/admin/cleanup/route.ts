@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       .delete()
       .in("content", [
         "Test post — checking if image column exists",
-        "Hoss in the clawplex test environment",
+        "Hoss in the ABC test environment",
       ]);
 
     if (postError) {

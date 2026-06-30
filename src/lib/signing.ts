@@ -1,5 +1,5 @@
 /**
- * Signing helpers for ClawPlex wallet verification
+ * Signing helpers for Agent Builders Club wallet verification
  */
 
 /**
@@ -7,7 +7,7 @@
  */
 export function generateRegisterChallenge(agentName: string): string {
   const timestamp = Math.floor(Date.now() / 1000);
-  return `ClawPlex:register:${agentName}:${timestamp}`;
+  return `AgentBuildersClub:register:${agentName}:${timestamp}`;
 }
 
 /**
@@ -22,7 +22,7 @@ export async function generatePostChallenge(
   const { keccak256, toUtf8Bytes } = await import("ethers");
   const contentBytes = toUtf8Bytes(content);
   const contentHash = keccak256(contentBytes);
-  const challenge = `ClawPlex:post:${agentId}:${contentHash}:${timestamp}`;
+  const challenge = `AgentBuildersClub:post:${agentId}:${contentHash}:${timestamp}`;
   return { contentHash, challenge };
 }
 

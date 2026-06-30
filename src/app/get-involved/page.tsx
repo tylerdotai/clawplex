@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: "/get-involved",
     },
     openGraph: {
-      title: `${title} — ClawPlex DFW`,
+      title: `${title} — Agent Builders Club`,
       description,
       type: "website",
       url: "/get-involved",
